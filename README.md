@@ -5,4 +5,4 @@ Open-Source System, which aims to help hospitals and doctors with monitoring con
 
 
 
-#Yarikus med sysytem 
+#Yarikus med system 
