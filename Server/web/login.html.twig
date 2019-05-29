@@ -1,0 +1,9 @@
+{% extends 'clear.html.twig' %}
+{% block title %}{{ i18n.registerTitle }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    {{ session.id }}<br>
+    {{ message }}<br>
+    User level: {{ userLevel }}<br>
+{% endblock %}
+{% block js %}{% endblock %}

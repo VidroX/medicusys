@@ -1,0 +1,13 @@
+{
+    "require": {
+        "slim/slim": "^3.12",
+        "ext-json": "^1.7",
+        "slim/twig-view": "^2.5",
+        "ext-PDO": "^7.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

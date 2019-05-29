@@ -1,0 +1,37 @@
+html, body {
+    background-color: #c1c1c1;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.navbar-toggler {
+    border: none!important;
+    margin-right: 1rem!important;
+}
+
+.navbar {
+    justify-content: normal!important;
+}
+
+.navbar-nav {
+    padding: .25rem .75rem!important;
+}
+
+.m-nav-container {
+    justify-content: normal!important;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+    .navbar-toggler {
+        padding: 0!important;
+    }
+    .navbar-nav {
+        padding: 0!important;
+    }
+}
