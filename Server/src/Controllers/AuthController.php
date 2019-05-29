@@ -20,7 +20,7 @@ class AuthController {
 
     public function login(Request $request, Response $response, $args = []){
         $user = new User();
-        $user = $user->auth("test4@example.com", "123321");
+        $user = $user->auth("test2@example.com", "123321");
         $message = "user not found";
         $curUser = null;
         if($user instanceof User) {

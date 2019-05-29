@@ -1,4 +1,5 @@
 <?php
+
 use \App\Utils\i18n;
 
 require_once(__DIR__."/vendor/autoload.php");
