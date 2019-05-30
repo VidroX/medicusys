@@ -245,3 +245,9 @@ button .spinner.sp-inline {
         padding: 0!important;
     }
 }
+.nav-link.active{
+    color: #007bff !important;
+}
+.btn-outline-info.changed{
+
+}

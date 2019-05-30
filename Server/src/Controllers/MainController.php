@@ -6,6 +6,10 @@ use App\Utils\i18n;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+/**
+ * Class MainController
+ * @package App\Controllers
+ */
 class MainController {
 
     private $view;
@@ -33,6 +37,34 @@ class MainController {
             "languageCode"=>$this->i18n->getLanguageCode(),
             "appName"=>$this->config['main']['appName'],
             "page"=>"about",
+            "i18n"=>$this->i18n->getTranslations(),
+            "urlPrefix"=>empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl()
+        ]);
+    }
+
+    public function staff(Request $request, Response $response, $args = []){
+        return $this->view->render($response, 'staff.html.twig', [
+            "languageCode"=>$this->i18n->getLanguageCode(),
+            "appName"=>$this->config['main']['appName'],
+            "page"=>"staff",
+            "i18n"=>$this->i18n->getTranslations(),
+            "urlPrefix"=>empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl()
+        ]);
+    }
+    public function contacts(Request $request, Response $response, $args = []){
+        return $this->view->render($response, 'contacts.html.twig', [
+            "languageCode"=>$this->i18n->getLanguageCode(),
+            "appName"=>$this->config['main']['appName'],
+            "page"=>"contacts",
+            "i18n"=>$this->i18n->getTranslations(),
+            "urlPrefix"=>empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl()
+        ]);
+    }
+    public function news(Request $request, Response $response, $args = []){
+        return $this->view->render($response, 'news.html.twig', [
+            "languageCode"=>$this->i18n->getLanguageCode(),
+            "appName"=>$this->config['main']['appName'],
+            "page"=>"news",
             "i18n"=>$this->i18n->getTranslations(),
             "urlPrefix"=>empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl()
         ]);
