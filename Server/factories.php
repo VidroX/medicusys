@@ -24,3 +24,26 @@ $container['App\Controllers\AuthController'] = function($container) {
     $i18n = $container->get("locale");
     return new \App\Controllers\AuthController($view, $i18n);
 };
+
+$container['App\Controllers\DoctorController'] = function($container) {
+    $view = $container->get("view");
+    $i18n = $container->get("locale");
+    return new \App\Controllers\DoctorController($view, $i18n);
+};
+
+$container['App\Controllers\PatientController'] = function($container) {
+    $view = $container->get("view");
+    $i18n = $container->get("locale");
+    return new \App\Controllers\PatientController($view, $i18n);
+};
+
+$container['App\Controllers\RecorderController'] = function($container) {
+    $view = $container->get("view");
+    $i18n = $container->get("locale");
+    return new \App\Controllers\RecorderController($view, $i18n);
+};
+
+$container['App\Controllers\ApiController'] = function($container) {
+    $i18n = $container->get("locale");
+    return new \App\Controllers\ApiController($i18n);
+};

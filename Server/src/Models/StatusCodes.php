@@ -24,6 +24,7 @@ interface StatusCodes {
         17 => 'User is already logged in',
         18 => 'Login successful',
         19 => 'Recorder registered successfully',
-        20 => 'Unexpected error. Please contact server administrator.'
+        20 => 'Unexpected error. Please contact server administrator.',
+        21 => 'Please provide login and password.'
     ];
 }

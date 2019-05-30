@@ -143,10 +143,11 @@ class User {
      *
      * @param string $login User's E-Mail or mobile phone
      * @param string $pass User's password
+     * @param bool $api if function is being used in the API
      *
      * @return mixed
      */
-    public function auth($login, $pass) {
+    public function auth($login, $pass, $api = false) {
         if($login == null || $pass == null) return null;
 
         $db = new Database();
@@ -223,7 +224,9 @@ class User {
                     $this->setUserLevel(self::USER_UNSPECIFIED);
                 }
 
-                $_SESSION['USER'] = $this;
+                if(!$api) {
+                    $_SESSION['USER'] = $this;
+                }
 
                 return $this;
             }else{
@@ -891,6 +894,26 @@ class User {
         if($this->isUserLoggedIn()){
             unset($_SESSION['USER']);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return [
+            "id" => $this->getId(),
+            "firstName" => $this->getFirstName(),
+            "lastName" => $this->getLastName(),
+            "patronymic" => $this->getPatronymic(),
+            "birthDate" => $this->getBirthDate(),
+            "mobilePhone" => $this->getMobilePhone(),
+            "email" => $this->getEmail(),
+            "homeAddress" => $this->getHomeAddress(),
+            "activated" => $this->isActivated(),
+            "userLevel" => $this->getUserLevel()
+
+        ];
     }
 
     /**

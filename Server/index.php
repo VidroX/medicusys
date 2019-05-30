@@ -42,9 +42,6 @@ if($config['csrfProtection']['enabled']) {
     $container['csrf'] = function ($c) use ($config) {
         return new \Slim\Csrf\Guard();
     };
-    $csrf = $container->get('csrf');
-    $app->add(new \App\Middleware\CSRFTokenMiddleware($csrf));
-    $app->add($csrf);
 }
 
 include_once(__DIR__."/factories.php");

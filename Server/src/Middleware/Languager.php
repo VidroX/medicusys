@@ -35,6 +35,9 @@ class Languager
 
             if(count($chunks) > 1) {
                 $language = $chunks[1];
+                if(strcmp('api', $language) == 0){
+                    return $next($request, $response);
+                }
                 if (!empty($language) && $this->i18n->isLanguageCodeAllowed($language)){
                     $this->i18n->setLanguageCode($language);
                     $tempPath = "/" . implode("/", $chunks);

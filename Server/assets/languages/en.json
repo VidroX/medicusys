@@ -14,5 +14,8 @@
   "password": "Password",
   "invalidEmailPass": "Invalid E-Mail or password",
   "invalidPass": "Invalid password",
-  "unexpectedError": "Unexpected error. Please contact server administrator."
+  "unexpectedError": "Unexpected error. Please contact server administrator.",
+  "doctorPanel": "Doctor panel",
+  "patientPanel": "Patient panel",
+  "recorderPanel": "Recorder panel"
 }
