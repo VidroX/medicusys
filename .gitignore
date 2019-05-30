@@ -1,0 +1,16 @@
+.DS_Store
+/*.env
+/.idea
+/Medicus System/*.iml
+/Medicus System/.gradle
+/Medicus System/local.properties
+/Medicus System/.idea/caches
+/Medicus System/.idea/libraries
+/Medicus System/.idea/modules.xml
+/Medicus System/.idea/workspace.xml
+/Medicus System/.idea/navEditor.xml
+/Medicus System/.idea/assetWizardSettings.xml
+/Medicus System/.DS_Store
+/Medicus System/build
+/Medicus System/captures
+/Medicus System/.externalNativeBuild

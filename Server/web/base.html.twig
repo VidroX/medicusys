@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="{{ languageCode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no, user-scalable=0">
+
+    <title>{{ appName }} - {% block title %}{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap&subset=cyrillic-ext" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container m-nav-container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="javascript:void(0);">{{ appName }}</a>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="mr-auto"></div>
+                <ul class="navbar-nav">
+                    {% if page == 'home' %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ urlPrefix }}/">{{ i18n.home }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ urlPrefix }}/">{{ i18n.home }}</a>
+                        </li>
+                    {% endif %}
+                    {% if page == 'about' %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ urlPrefix }}/about/">{{ i18n.about }} <span class="sr-only">(current)</span></a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ urlPrefix }}/about/">{{ i18n.about }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+{% block body %}{% endblock %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/jquery.min.js"><\/script>');</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script>if(typeof(Popper) === 'undefined') {document.write('<script src="/assets/js/popper.min.js"><\/script>')}</script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script src="/assets/js/base.js"></script>
+{% block js %}{% endblock %}
+</body>
+</html>

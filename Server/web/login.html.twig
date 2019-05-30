@@ -1,0 +1,140 @@
+{% extends 'auth.html.twig' %}
+{% block title %}{{ i18n.loginTitle }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="auth-container">
+        <div class="auth-row">
+            <h4 class="text-center auth-logo">{{ i18n.medicusSystem }}</h4>
+        </div>
+        <div class="auth-row auth-row-container">
+            <h5 class="text-center auth-title">{{ i18n.loginTitle }}</h5>
+            <form method="post" class="flex-column">
+                <input type="hidden" name="csrf_name" value="{{csrf.csrf_name}}">
+                <input type="hidden" name="csrf_value" value="{{csrf.csrf_value}}">
+                <div class="form-group">
+                    <label for="emailInput">{{ i18n.emailAddress }}:</label>
+                    <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="email@example.com" required>
+                    <div id="emailHelp" class="invalid-feedback" style="display: none"></div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">{{ i18n.password }}:</label>
+                    <input type="password" name="password" class="form-control" id="passwordInput" aria-describedby="passwordHelp" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" required>
+                    <div id="passwordHelp" class="invalid-feedback" style="display: none"></div>
+                </div>
+                <button type="submit" name="submit" id="submit" class="btn btn-medicus flex-center flex-button">
+                    {{ i18n.login }}
+                    <div id="loadingSpinner" class="spinner sp-inline sp-small" style="display: none">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" async>
+        $( document ).ready(function() {
+            let form = $("form");
+            let loginInput = $("#emailInput");
+            let loginInputError = $("#emailHelp");
+            let passwordInput = $("#passwordInput");
+            let passwordInputError = $("#passwordHelp");
+            form.submit(function (e) {
+                e.preventDefault();
+
+                loginInput.removeClass("is-invalid is-valid");
+                passwordInput.removeClass("is-invalid is-valid");
+                loginInputError.hide(150);
+                passwordInputError.hide(150);
+
+                let fd = new FormData();
+                fd.append('csrf_name', form.find('input[name="csrf_name"]').val());
+                fd.append('csrf_value', form.find('input[name="csrf_value"]').val());
+                fd.append('login', loginInput.val());
+                fd.append('password', passwordInput.val());
+
+                $.ajax({
+                    url: '/{{ languageCode }}/login',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: function(data){
+                        switch (data.status) {
+                            case 18:
+                                switch (data.data.userLevel) {
+                                    case 1:
+                                    {% if urlPrefix is empty %}
+                                        window.location.href = window.location.origin+"/patient";
+                                    {% else %}
+                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/patient";
+                                    {% endif %}
+                                        break;
+                                    case 2:
+                                    {% if urlPrefix is empty %}
+                                        window.location.href = window.location.origin+"/doctor";
+                                    {% else %}
+                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/doctor";
+                                    {% endif %}
+                                        break;
+                                    case 3:
+                                    {% if urlPrefix is empty %}
+                                        window.location.href = window.location.origin+"/recorder";
+                                    {% else %}
+                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/recorder";
+                                    {% endif %}
+                                        break;
+                                    default:
+                                    {% if urlPrefix is empty %}
+                                        window.location.href = window.location.origin+"/";
+                                    {% else %}
+                                        window.location.href = window.location.origin+"/{{ urlPrefix }}";
+                                    {% endif %}
+                                        break;
+                                }
+                                break;
+                            case 1:
+                                loginInput.addClass("is-invalid");
+                                passwordInput.addClass("is-invalid");
+                                loginInputError.html(data.message).show(150);
+                                passwordInputError.html(data.message).show(150);
+                                break;
+                            case 2:
+                                loginInput.addClass("is-valid");
+                                passwordInput.addClass("is-invalid");
+                                passwordInputError.html(data.message).show(150);
+                                break;
+                            case 20:
+                                loginInput.addClass("is-invalid");
+                                passwordInput.addClass("is-invalid");
+                                loginInputError.html(data.message).show(150);
+                                passwordInputError.html(data.message).show(150);
+                                break;
+                            default:
+                                window.location.href = window.location.origin+"/{{ urlPrefix }}";
+                                break;
+                        }
+                    },
+                    error: function(data){
+                        console.log(data);
+                    },
+                    complete: function (jqXHR) {
+                        let csrf = jqXHR.getResponseHeader('X-CSRF-Token');
+
+                        if (csrf) {
+                            try {
+                                csrf = $.parseJSON(csrf);
+
+                                form.find('input[name="csrf_name"]').val(csrf.csrf_name);
+                                form.find('input[name="csrf_value"]').val(csrf.csrf_value);
+                            } catch (e) {
+                                console.log(e);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
