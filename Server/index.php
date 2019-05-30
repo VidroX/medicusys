@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use \App\Utils\i18n;
 
