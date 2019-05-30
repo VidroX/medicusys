@@ -56,12 +56,15 @@ class i18n {
     /**
      * Get app's default language code
      *
+     * @param bool $formatted Should the locale be formatted?
+     *
      * @author VidroX
      * @return string App's default language code
      */
-    public function getDefaultLanguageCode()
+    public static function getDefaultLanguageCode($formatted = true)
     {
-        return $this->config['languages']['defaultLanguage'];
+        $config = include(__DIR__."/../../config/i18n.php");
+        return $formatted ? substr($config['languages']['defaultLanguage'], 0, 2) : $config['languages']['defaultLanguage'];
     }
 
     /**
@@ -78,15 +81,18 @@ class i18n {
     /**
      * Get language code determined by web browser
      *
-     * @author VidroX
-     *
      * @param bool $formatted Should the locale be formatted?
      *
+     * @author VidroX
      * @return string Language code determined by web browser
      */
     public static function getBrowserLocale($formatted = true)
     {
-        return $formatted ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && !empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
+            return $formatted ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        }else{
+            return i18n::getDefaultLanguageCode($formatted);
+        }
     }
 
     /**
@@ -113,7 +119,7 @@ class i18n {
     public function getLanguageCodeForUrl()
     {
         if(in_array($this->languageCode, $this->config['languages']['availableLanguages'])) {
-            if($this->languageCode == $this->config['languages']['defaultLanguage']){
+            if($this->languageCode == $this->getBrowserLocale()){
                 return $this->isDefaultLanguageCodeHidden() ? "" : $this->languageCode;
             }else{
                 return $this->languageCode;

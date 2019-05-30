@@ -1,4 +1,5 @@
 {
+  "medicusSystem": "Medicus System",
   "languageEN": "English",
   "languageUK": "Українська",
   "languageRU": "Русский",
@@ -7,5 +8,11 @@
   "about": "About",
   "registerTitle": "Register",
   "loginTitle": "Login",
-  "login": "Log in"
+  "login": "Log in",
+  "emailAddress": "E-Mail address",
+  "email": "E-Mail",
+  "password": "Password",
+  "invalidEmailPass": "Invalid E-Mail or password",
+  "invalidPass": "Invalid password",
+  "unexpectedError": "Unexpected error. Please contact server administrator."
 }

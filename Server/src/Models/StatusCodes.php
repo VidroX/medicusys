@@ -19,6 +19,11 @@ interface StatusCodes {
         12 => 'Doctor registered successfully',
         13 => 'This E-Mail already exists',
         14 => 'This mobile phone already exists',
-        15 => 'Password should be minimum 6 characters long.'
+        15 => 'Password should be minimum 6 characters long.',
+        16 => 'Invalid specialty',
+        17 => 'User is already logged in',
+        18 => 'Login successful',
+        19 => 'Recorder registered successfully',
+        20 => 'Unexpected error. Please contact server administrator.'
     ];
 }

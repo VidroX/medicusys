@@ -41,7 +41,7 @@ class Languager
                     $url = $request->getUri()->withPath($tempPath);
                     $request = $request->withUri($url);
                 } else {
-                    $this->i18n->setLanguageCode($this->i18n->getDefaultLanguageCode());
+                    $this->i18n->setLanguageCode(i18n::getBrowserLocale());
                     $tempPath = "/" . $this->i18n->getLanguageCode() . implode("/", $chunks);
                     $url = $request->getUri()->withPath($tempPath);
                     if($this->i18n->isDefaultLanguageCodeHidden()) {

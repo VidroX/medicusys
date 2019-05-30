@@ -1,4 +1,5 @@
 {
+  "medicusSystem": "Medicus System",
   "languageEN": "English",
   "languageUK": "Українська",
   "languageRU": "Русский",
@@ -7,5 +8,11 @@
   "about": "Про нас",
   "registerTitle": "Реєстрація",
   "loginTitle": "Вхід",
-  "login": "Увійти"
+  "login": "Увійти",
+  "emailAddress": "Адреса електронної пошти",
+  "email": "E-Mail",
+  "password": "Пароль",
+  "invalidEmailPass": "Неправильний E-Mail або пароль",
+  "invalidPass": "Неправильный пароль",
+  "unexpectedError": "Несподівана помилка. Будь ласка, зв'яжіться з адміністратором сервера."
 }

@@ -36,10 +36,18 @@ $container['notAllowedHandler'] = function ($container) {
     return new \App\Handlers\RouterNotAllowedHandler();
 };
 
-include_once(__DIR__."/factories.php");
-
 $app->add(new \App\Middleware\Languager($i18n));
 
+if($config['csrfProtection']['enabled']) {
+    $container['csrf'] = function ($c) use ($config) {
+        return new \Slim\Csrf\Guard();
+    };
+    $csrf = $container->get('csrf');
+    $app->add(new \App\Middleware\CSRFTokenMiddleware($csrf));
+    $app->add($csrf);
+}
+
+include_once(__DIR__."/factories.php");
 include_once(__DIR__."/routes.php");
 
 try{
