@@ -40,6 +40,7 @@
             let loginInputError = $("#emailHelp");
             let passwordInput = $("#passwordInput");
             let passwordInputError = $("#passwordHelp");
+            let spinner = $("#loadingSpinner");
             form.submit(function (e) {
                 e.preventDefault();
 
@@ -60,6 +61,9 @@
                     processData: false,
                     contentType: false,
                     type: 'POST',
+                    beforeSend: function(data) {
+                        spinner.show(150);
+                    },
                     success: function(data){
                         switch (data.status) {
                             case 18:
@@ -68,28 +72,28 @@
                                     {% if urlPrefix is empty %}
                                         window.location.href = window.location.origin+"/patient";
                                     {% else %}
-                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/patient";
+                                        window.location.href = window.location.origin+"{{ urlPrefix }}/patient";
                                     {% endif %}
                                         break;
                                     case 2:
                                     {% if urlPrefix is empty %}
                                         window.location.href = window.location.origin+"/doctor";
                                     {% else %}
-                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/doctor";
+                                        window.location.href = window.location.origin+"{{ urlPrefix }}/doctor";
                                     {% endif %}
                                         break;
                                     case 3:
                                     {% if urlPrefix is empty %}
                                         window.location.href = window.location.origin+"/recorder";
                                     {% else %}
-                                        window.location.href = window.location.origin+"/{{ urlPrefix }}/recorder";
+                                        window.location.href = window.location.origin+"{{ urlPrefix }}/recorder";
                                     {% endif %}
                                         break;
                                     default:
                                     {% if urlPrefix is empty %}
                                         window.location.href = window.location.origin+"/";
                                     {% else %}
-                                        window.location.href = window.location.origin+"/{{ urlPrefix }}";
+                                        window.location.href = window.location.origin+"{{ urlPrefix }}";
                                     {% endif %}
                                         break;
                                 }
@@ -112,14 +116,13 @@
                                 passwordInputError.html(data.message).show(150);
                                 break;
                             default:
-                                window.location.href = window.location.origin+"/{{ urlPrefix }}";
+                                window.location.href = window.location.origin+"{{ urlPrefix }}";
                                 break;
                         }
                     },
-                    error: function(data){
-                        console.log(data);
-                    },
+                    error: function(data){},
                     complete: function (jqXHR) {
+                        spinner.hide(150);
                         let csrf = jqXHR.getResponseHeader('X-CSRF-Token');
 
                         if (csrf) {

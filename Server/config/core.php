@@ -13,5 +13,9 @@ return array(
     ),
     "csrfProtection"=>array(
         "enabled"=>true
+    ),
+    "api"=>array(
+        "enabled"=>true,
+        "versionCode"=>1
     )
 );
