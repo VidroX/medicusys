@@ -3,6 +3,9 @@ package me.medicusys.medicussystem;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -45,7 +48,6 @@ class Network extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             out = new BufferedOutputStream(urlConnection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
             writer.write(requestData);
@@ -58,7 +60,8 @@ class Network extends AsyncTask<String, Void, String> {
             while (scanner.hasNextLine()) {
                 stringBuilder.append(scanner.nextLine());
             }
-            response = stringBuilder.toString();
+            response = new JSONObject(stringBuilder.toString()).toString();
+
         } catch (MalformedURLException e) {
             System.out.println("Bad URL: " + urlName);
         } catch (UnsupportedEncodingException e) {
@@ -66,9 +69,9 @@ class Network extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             System.out.println("Bad internet connection: " + e.getMessage());
             e.printStackTrace();
-        }
-
-        finally {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
