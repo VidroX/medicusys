@@ -4,7 +4,8 @@
         "ext-json": "^1.7",
         "slim/twig-view": "^2.5",
         "ext-PDO": "^7.3",
-        "slim/csrf": "^0.8.3"
+        "slim/csrf": "^0.8.3",
+        "ext-openssl": "^7.3"
     },
     "autoload": {
         "psr-4": {
