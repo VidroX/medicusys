@@ -25,6 +25,8 @@ interface StatusCodes {
         18 => 'Login successful',
         19 => 'Recorder registered successfully',
         20 => 'Unexpected error. Please contact server administrator.',
-        21 => 'Please provide login and password.'
+        21 => 'Please provide login and password.',
+        22 => 'Invalid token',
+        23 => 'Invalid user token'
     ];
 }

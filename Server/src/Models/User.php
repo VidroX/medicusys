@@ -18,6 +18,7 @@ class User {
     private $mobilePhone;
     private $email;
     private $homeAddress;
+    private $userToken;
     private $activated;
     private $userLevel;
 
@@ -80,6 +81,7 @@ class User {
             $this->setMobilePhone($row['mobilephone']);
             $this->setEmail($row['email']);
             $this->setHomeAddress($row['home_address']);
+            $this->setUserToken(null);
             $this->setActivated($row['activated'] == 1);
 
             if($row['user_recorder'] != -1){
@@ -213,6 +215,7 @@ class User {
                 $this->setEmail($row['email']);
                 $this->setHomeAddress($row['home_address']);
                 $this->setActivated($row['activated'] == 1);
+                $this->setUserToken($row['token']);
 
                 if($row['user_recorder'] != -1){
                     $this->setUserLevel(self::USER_RECORDER);
@@ -470,7 +473,7 @@ class User {
                 ]);
             }
         }
-        if($mobilePhone == null || ($mobilePhone != null && preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
+        if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
                 "status"=>8,
                 "message"=>StatusCodes::STATUS[8]
@@ -513,9 +516,9 @@ class User {
         $query1 = $dbh->prepare(
         "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -530,6 +533,9 @@ class User {
 
         if(in_array($doctorId, $doctorIds)) {
             try {
+                $secureKey = bin2hex(openssl_random_pseudo_bytes(256));
+                $userToken = hash_hmac('sha3-256', $mobilePhone, $secureKey);
+
                 $dbh->beginTransaction();
 
                 $query1->execute([
@@ -542,6 +548,7 @@ class User {
                     ":mobilePhone" => $mobilePhone,
                     ":homeAddress" => $homeAddress,
                     ":activated" => $activated,
+                    ":token" => $userToken
                 ]);
 
                 $insertId = $dbh->lastInsertId();
@@ -638,7 +645,7 @@ class User {
                 ]);
             }
         }
-        if($mobilePhone == null || ($mobilePhone != null && preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
+        if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
                 "status"=>8,
                 "message"=>StatusCodes::STATUS[8]
@@ -682,9 +689,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -697,6 +704,9 @@ class User {
         $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
         try {
+            $secureKey = bin2hex(openssl_random_pseudo_bytes(256));
+            $userToken = hash_hmac('sha3-256', $mobilePhone, $secureKey);
+
             $dbh->beginTransaction();
 
             $query1->execute([
@@ -709,6 +719,7 @@ class User {
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
+                ":token" => $userToken
             ]);
 
             $insertId = $dbh->lastInsertId();
@@ -798,7 +809,7 @@ class User {
                 ]);
             }
         }
-        if($mobilePhone == null || ($mobilePhone != null && preg_match('^[0-9]{10}$|^[0-9]{12}$', $mobilePhone))){
+        if($mobilePhone == null || ($mobilePhone != null && !preg_match('^[0-9]{10}$|^[0-9]{12}$', $mobilePhone))){
             return json_encode([
                 "status"=>8,
                 "message"=>StatusCodes::STATUS[8]
@@ -835,9 +846,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -850,6 +861,9 @@ class User {
         $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
 
         try {
+            $secureKey = bin2hex(openssl_random_pseudo_bytes(256));
+            $userToken = hash_hmac('sha3-256', $mobilePhone, $secureKey);
+
             $dbh->beginTransaction();
 
             $query1->execute([
@@ -862,6 +876,7 @@ class User {
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
+                ":token" => $userToken
             ]);
 
             $insertId = $dbh->lastInsertId();
@@ -911,8 +926,8 @@ class User {
             "email" => $this->getEmail(),
             "homeAddress" => $this->getHomeAddress(),
             "activated" => $this->isActivated(),
-            "userLevel" => $this->getUserLevel()
-
+            "userLevel" => $this->getUserLevel(),
+            "userToken" => $this->getUserToken()
         ];
     }
 
@@ -1074,5 +1089,21 @@ class User {
     public function setUserLevel($userLevel)
     {
         $this->userLevel = $userLevel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserToken()
+    {
+        return $this->userToken;
+    }
+
+    /**
+     * @param string $userToken
+     */
+    public function setUserToken($userToken)
+    {
+        $this->userToken = $userToken;
     }
 }

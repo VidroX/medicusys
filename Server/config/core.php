@@ -16,6 +16,7 @@ return array(
     ),
     "api"=>array(
         "enabled"=>true,
-        "versionCode"=>1
+        "versionCode"=>1,
+        "token"=>"PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV"
     )
 );
