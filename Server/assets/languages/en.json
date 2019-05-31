@@ -19,5 +19,8 @@
   "staff" : "Staff",
   "news": "News",
   "phone": "Phone",
-  "search": "Search"
+  "search": "Search",
+  "doctorPanel": "Doctor panel",
+  "patientPanel": "Patient panel",
+  "recorderPanel": "Recorder panel"
 }

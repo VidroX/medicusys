@@ -19,5 +19,8 @@
   "staff" : "Персонал",
   "news": "Новости",
   "phone": "Телефон",
-  "search": "Поиск"
+  "search": "Поиск",
+  "doctorPanel": "Панель врача",
+  "patientPanel": "Панель пациента",
+  "recorderPanel": "Панель регистратора"
 }

@@ -13,5 +13,10 @@ return array(
     ),
     "csrfProtection"=>array(
         "enabled"=>true
+    ),
+    "api"=>array(
+        "enabled"=>true,
+        "versionCode"=>1,
+        "token"=>"PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV"
     )
 );
