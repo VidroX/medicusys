@@ -11,4 +11,5 @@ $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     $app->get("/staff[/]",'App\Controllers\MainController:staff');
     $app->get("/contacts[/]",'App\Controllers\MainController:contacts');
     $app->get("/news[/]",'App\Controllers\MainController:news');
+    $app->get("/home[/]",'App\Controllers\MainController:home');
 });

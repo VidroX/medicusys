@@ -17,5 +17,7 @@
   "unexpectedError": "Unexpected error. Please contact server administrator.",
   "contacts": "Contacts",
   "staff" : "Staff",
-  "news": "News"
+  "news": "News",
+  "phone": "Phone",
+  "search": "Search"
 }
