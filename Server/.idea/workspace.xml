@@ -2,21 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="baede99b-ae8e-4793-8e5c-d5730b28237d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/champis/MainStyle.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/main_page/base.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/main_page/home.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/core.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controllers/DoctorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controllers/DoctorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/languages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/languages/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/ru.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/languages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/uk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/champis/MainStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/champis/MainStyle.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controllers/MainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controllers/MainController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controllers/PatientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controllers/PatientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controllers/RecorderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controllers/RecorderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/contacts.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/contacts.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/news.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/news.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/staff.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/staff.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/main_page/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/main_page/contacts.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/contacts.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/main_page/home.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/home.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/main_page/news.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/news.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/main_page/staff.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/staff.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +41,108 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Controllers/MainController.php">
+        <entry file="file://$PROJECT_DIR$/web/main_page/staff.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="28" column="69" lean-forward="true" selection-start-line="28" selection-start-column="69" selection-end-line="28" selection-end-column="69" />
+            <state relative-caret-position="432">
+              <caret line="271" column="67" selection-start-line="271" selection-start-column="67" selection-end-line="271" selection-end-column="67" />
+              <folding>
+                <element signature="e#12#36#0#Twig" expanded="true" />
+                <element signature="e#148#9408#0#HTML" />
+                <element signature="e#182#1006#0#HTML" />
+                <element signature="e#9413#13822#0#Twig" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/main_page/contacts.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="255" column="72" lean-forward="true" selection-start-line="255" selection-start-column="54" selection-end-line="255" selection-end-column="72" />
+              <folding>
+                <element signature="e#12#36#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/main_page/news.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+              <folding>
+                <element signature="e#12#36#0#Twig" expanded="true" />
+                <element signature="e#239#288#0#HTML" expanded="true" />
+                <element signature="e#1610#1618#1#HTML" expanded="true" />
+                <element signature="e#1657#1665#1#HTML" expanded="true" />
+                <element signature="e#2486#2494#1#HTML" expanded="true" />
+                <element signature="e#2533#2541#1#HTML" expanded="true" />
+                <element signature="e#3362#3370#1#HTML" expanded="true" />
+                <element signature="e#3409#3417#1#HTML" expanded="true" />
+                <element signature="e#4248#4256#1#HTML" expanded="true" />
+                <element signature="e#4295#4303#1#HTML" expanded="true" />
+                <element signature="e#5134#5142#1#HTML" expanded="true" />
+                <element signature="e#5181#5189#1#HTML" expanded="true" />
+                <element signature="e#6010#6018#1#HTML" expanded="true" />
+                <element signature="e#6057#6065#1#HTML" expanded="true" />
+                <element signature="e#8507#12338#0#Twig" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/champis/MainStyle.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="18" column="69" lean-forward="true" selection-start-line="18" selection-start-column="69" selection-end-line="18" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/main_page/base.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1313">
+              <caret line="89" column="100" selection-start-line="89" selection-start-column="100" selection-end-line="89" selection-end-column="100" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/languages/en.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="474">
+              <caret line="62" column="17" lean-forward="true" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/languages/ru.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="55" column="16" lean-forward="true" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="353">
+              <caret line="56" column="23" lean-forward="true" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -64,6 +159,9 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>nav-li</find>
+      <find>images</find>
+      <find>sen</find>
+      <find>cit</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,17 +178,22 @@
         <option value="$PROJECT_DIR$/web/contacts.html.twig" />
         <option value="$PROJECT_DIR$/assets/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/assets/css/main.css" />
-        <option value="$PROJECT_DIR$/assets/languages/en.json" />
-        <option value="$PROJECT_DIR$/assets/languages/ru.json" />
-        <option value="$PROJECT_DIR$/assets/languages/uk.json" />
         <option value="$PROJECT_DIR$/web/index.html.twig" />
-        <option value="$PROJECT_DIR$/web/base.html.twig" />
-        <option value="$PROJECT_DIR$/web/home.html.twig" />
         <option value="$PROJECT_DIR$/config/core.php" />
-        <option value="$PROJECT_DIR$/web/main_page/base.html.twig" />
         <option value="$PROJECT_DIR$/web/main_page/index.html.twig" />
         <option value="$PROJECT_DIR$/routes.php" />
+        <option value="$PROJECT_DIR$/web/main_page/home.html.twig" />
         <option value="$PROJECT_DIR$/src/Controllers/MainController.php" />
+        <option value="$PROJECT_DIR$/web/base.html.twig" />
+        <option value="$PROJECT_DIR$/web/home.html.twig" />
+        <option value="$PROJECT_DIR$/web/main_page/news.html.twig" />
+        <option value="$PROJECT_DIR$/web/main_page/base.html.twig" />
+        <option value="$PROJECT_DIR$/champis/MainStyle.css" />
+        <option value="$PROJECT_DIR$/assets/languages/ru.json" />
+        <option value="$PROJECT_DIR$/assets/languages/uk.json" />
+        <option value="$PROJECT_DIR$/web/main_page/contacts.html.twig" />
+        <option value="$PROJECT_DIR$/assets/languages/en.json" />
+        <option value="$PROJECT_DIR$/web/main_page/staff.html.twig" />
       </list>
     </option>
   </component>
@@ -136,58 +239,28 @@
             <path>
               <item name="Server" type="b2602c69:ProjectViewProjectNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Server" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="languages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Server" type="462c0819:PsiDirectoryNode" />
+              <item name="champis" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Server" type="b2602c69:ProjectViewProjectNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Handlers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Middleware" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Server" type="b2602c69:ProjectViewProjectNode" />
               <item name="Server" type="462c0819:PsiDirectoryNode" />
               <item name="web" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Server" type="462c0819:PsiDirectoryNode" />
-              <item name="web" type="462c0819:PsiDirectoryNode" />
-              <item name="doctor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Server" type="b2602c69:ProjectViewProjectNode" />
@@ -245,12 +318,12 @@
       <updated>1559234439034</updated>
       <workItem from="1559234440653" duration="4493000" />
       <workItem from="1559241769741" duration="1794000" />
-      <workItem from="1559243657968" duration="19561000" />
+      <workItem from="1559243657968" duration="33351000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25848000" />
+    <option name="totallyTimeSpent" value="39638000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -283,13 +356,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/assets/css/brands.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="77" selection-start-line="4" selection-start-column="77" selection-end-line="4" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/style.css" />
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor" />
@@ -315,27 +381,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/main_page/staff.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="22" lean-forward="true" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/main_page/contacts.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/main_page/news.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/bootstrap.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -354,48 +399,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="474">
           <caret line="275" selection-start-line="275" selection-end-line="275" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/languages/ru.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/languages/en.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="2" selection-start-line="21" selection-start-column="2" selection-end-line="21" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/home.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#138#1014#0#HTML" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/base.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-          <folding>
-            <element signature="n#form#0;n#div#0;n#div#0;n#nav#1;n#body#0;n#html#0;n#!!top" />
-            <element signature="e#3401#3429#0#Twig" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -455,50 +458,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-217">
           <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/champis/MainStyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/main_page/base.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="80" column="67" lean-forward="true" selection-start-line="80" selection-start-column="67" selection-end-line="80" selection-end-column="67" />
-          <folding>
-            <element signature="e#101#107#0#HTML" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/main_page/home.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2601">
-          <caret line="21" column="80" selection-start-line="21" selection-start-column="80" selection-end-line="21" selection-end-column="80" />
-          <folding>
-            <element signature="e#12#29#0#Twig" expanded="true" />
-            <element signature="e#215#268#0#HTML" expanded="true" />
-            <element signature="e#6396#6404#1#HTML" expanded="true" />
-            <element signature="e#6443#6451#1#HTML" expanded="true" />
-            <element signature="e#7220#7228#1#HTML" expanded="true" />
-            <element signature="e#7267#7275#1#HTML" expanded="true" />
-            <element signature="e#8053#8061#1#HTML" expanded="true" />
-            <element signature="e#8100#8108#1#HTML" expanded="true" />
-            <element signature="e#11563#11569#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="61" lean-forward="true" selection-start-line="2" selection-start-column="61" selection-end-line="2" selection-end-column="61" />
         </state>
       </provider>
     </entry>
@@ -613,10 +572,137 @@
     <entry file="file://$PROJECT_DIR$/vendor/autoload.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="56" lean-forward="true" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/champis/images/telegram.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/main_page/home.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="36" lean-forward="true" selection-start-column="12" selection-end-column="36" />
+          <folding>
+            <element signature="e#12#36#0#Twig" expanded="true" />
+            <element signature="e#222#285#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controllers/MainController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="28" column="69" lean-forward="true" selection-start-line="28" selection-start-column="69" selection-end-line="28" selection-end-column="69" />
+        <state relative-caret-position="143">
+          <caret line="72" column="62" selection-start-line="72" selection-start-column="62" selection-end-line="72" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/home.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="16" lean-forward="true" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/main_page/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1313">
+          <caret line="89" column="100" selection-start-line="89" selection-start-column="100" selection-end-line="89" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/champis/MainStyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="69" lean-forward="true" selection-start-line="18" selection-start-column="69" selection-end-line="18" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="99" column="18" lean-forward="true" selection-start-line="99" selection-start-column="18" selection-end-line="99" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/main_page/news.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+          <folding>
+            <element signature="e#12#36#0#Twig" expanded="true" />
+            <element signature="e#239#288#0#HTML" expanded="true" />
+            <element signature="e#1610#1618#1#HTML" expanded="true" />
+            <element signature="e#1657#1665#1#HTML" expanded="true" />
+            <element signature="e#2486#2494#1#HTML" expanded="true" />
+            <element signature="e#2533#2541#1#HTML" expanded="true" />
+            <element signature="e#3362#3370#1#HTML" expanded="true" />
+            <element signature="e#3409#3417#1#HTML" expanded="true" />
+            <element signature="e#4248#4256#1#HTML" expanded="true" />
+            <element signature="e#4295#4303#1#HTML" expanded="true" />
+            <element signature="e#5134#5142#1#HTML" expanded="true" />
+            <element signature="e#5181#5189#1#HTML" expanded="true" />
+            <element signature="e#6010#6018#1#HTML" expanded="true" />
+            <element signature="e#6057#6065#1#HTML" expanded="true" />
+            <element signature="e#8507#12338#0#Twig" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/main_page/contacts.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="255" column="72" lean-forward="true" selection-start-line="255" selection-start-column="54" selection-end-line="255" selection-end-column="72" />
+          <folding>
+            <element signature="e#12#36#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/languages/ru.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="55" column="16" lean-forward="true" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="56" column="23" lean-forward="true" selection-start-line="56" selection-start-column="23" selection-end-line="56" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/languages/en.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="62" column="17" lean-forward="true" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/main_page/staff.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="271" column="67" selection-start-line="271" selection-start-column="67" selection-end-line="271" selection-end-column="67" />
+          <folding>
+            <element signature="e#12#36#0#Twig" expanded="true" />
+            <element signature="e#148#9408#0#HTML" />
+            <element signature="e#182#1006#0#HTML" />
+            <element signature="e#9413#13822#0#Twig" />
+          </folding>
         </state>
       </provider>
     </entry>
