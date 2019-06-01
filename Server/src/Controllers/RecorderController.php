@@ -49,7 +49,7 @@ class RecorderController {
         }
 
         $csrf = json_decode($response->getHeader('X-CSRF-Token')[0], true);
-        return $this->view->render($response, 'recorder/index.html.twig', [
+        return $this->view->render($response, 'recorder/home.html.twig', [
             "languageCode"=>$this->i18n->getLanguageCode(),
             "appName"=>$this->config['main']['appName'],
             "page"=>"recorder_index",

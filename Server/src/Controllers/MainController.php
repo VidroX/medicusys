@@ -26,7 +26,7 @@ class MainController
 
     public function index(Request $request, Response $response, $args = [])
     {
-        return $this->view->render($response, 'index.html.twig', [
+        return $this->view->render($response, 'main_page\home.html.twig', [
             "languageCode" => $this->i18n->getLanguageCode(),
             "appName" => $this->config['main']['appName'],
             "page" => "index",
@@ -37,7 +37,7 @@ class MainController
 
     public function home(Request $request, Response $response, $args = [])
     {
-        return $this->view->render($response, 'home.html.twig', [
+        return $this->view->render($response, 'main_page\base.html.twig', [
             "languageCode" => $this->i18n->getLanguageCode(),
             "appName" => $this->config['main']['appName'],
             "page" => "home",
@@ -59,7 +59,7 @@ class MainController
 
     public function staff(Request $request, Response $response, $args = [])
     {
-        return $this->view->render($response, 'staff.html.twig', [
+        return $this->view->render($response, '/main_page/staff.html.twig', [
             "languageCode" => $this->i18n->getLanguageCode(),
             "appName" => $this->config['main']['appName'],
             "page" => "staff",
@@ -70,7 +70,7 @@ class MainController
 
     public function contacts(Request $request, Response $response, $args = [])
     {
-        return $this->view->render($response, 'contacts.html.twig', [
+        return $this->view->render($response, '/main_page/contacts.html.twig', [
             "languageCode" => $this->i18n->getLanguageCode(),
             "appName" => $this->config['main']['appName'],
             "page" => "contacts",
@@ -81,7 +81,7 @@ class MainController
 
     public function news(Request $request, Response $response, $args = [])
     {
-        return $this->view->render($response, 'news.html.twig', [
+        return $this->view->render($response, '/main_page/news.html.twig', [
             "languageCode" => $this->i18n->getLanguageCode(),
             "appName" => $this->config['main']['appName'],
             "page" => "news",
