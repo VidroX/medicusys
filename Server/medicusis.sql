@@ -2,10 +2,10 @@
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 29, 2019 at 03:00 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Хост: 127.0.0.1
+-- Время создания: Июн 01 2019 г., 22:46
+-- Версия сервера: 10.1.40-MariaDB
+-- Версия PHP: 7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `medicusys`
+-- База данных: `medicusis`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `doctors`
+-- Структура таблицы `doctors`
 --
 
 CREATE TABLE `doctors` (
@@ -34,7 +34,7 @@ CREATE TABLE `doctors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `doctors`
+-- Дамп данных таблицы `doctors`
 --
 
 INSERT INTO `doctors` (`id`, `user_id`) VALUES
@@ -43,7 +43,34 @@ INSERT INTO `doctors` (`id`, `user_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patients`
+-- Структура таблицы `news`
+--
+
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `version` varchar(120) COLLATE utf8mb4_bin DEFAULT NULL,
+  `headline` text COLLATE utf8mb4_bin NOT NULL,
+  `maintext` text COLLATE utf8mb4_bin NOT NULL,
+  `image` text COLLATE utf8mb4_bin COMMENT 'pathToImage'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Дамп данных таблицы `news`
+--
+
+INSERT INTO `news` (`id`, `date`, `version`, `headline`, `maintext`, `image`) VALUES
+(1, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg'),
+(2, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg'),
+(3, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg'),
+(4, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg'),
+(5, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg'),
+(6, '2019-06-01', NULL, 'Updated telegram bot', 'sfdfajdfhlkjasdhflkjsdhflkasjfdhlkajdsfljsdflask', 'no_image.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `patients`
 --
 
 CREATE TABLE `patients` (
@@ -53,7 +80,7 @@ CREATE TABLE `patients` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `patients`
+-- Дамп данных таблицы `patients`
 --
 
 INSERT INTO `patients` (`id`, `user_id`, `doctor_id`) VALUES
@@ -63,7 +90,7 @@ INSERT INTO `patients` (`id`, `user_id`, `doctor_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Структура таблицы `users`
 --
 
 CREATE TABLE `users` (
@@ -80,7 +107,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `patronymic`, `birthdate`, `mobilephone`, `email`, `pass`, `home_address`, `activated`) VALUES
@@ -90,18 +117,24 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `patronymic`, `birthdate`,
 (4, 'Сергей2', 'Степаненко2', 'Артемович2', '1926-08-11', '3802222222', 'test4@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', 'ул. Сумская, 4', 0);
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `doctors`
+-- Индексы таблицы `doctors`
 --
 ALTER TABLE `doctors`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `patients`
+-- Индексы таблицы `news`
+--
+ALTER TABLE `news`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `patients`
 --
 ALTER TABLE `patients`
   ADD PRIMARY KEY (`id`),
@@ -109,7 +142,7 @@ ALTER TABLE `patients`
   ADD KEY `doctor_id` (`doctor_id`);
 
 --
--- Indexes for table `users`
+-- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -117,39 +150,45 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `mobilephone` (`mobilephone`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `doctors`
+-- AUTO_INCREMENT для таблицы `doctors`
 --
 ALTER TABLE `doctors`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `patients`
+-- AUTO_INCREMENT для таблицы `news`
+--
+ALTER TABLE `news`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT для таблицы `patients`
 --
 ALTER TABLE `patients`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- Constraints for dumped tables
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `doctors`
+-- Ограничения внешнего ключа таблицы `doctors`
 --
 ALTER TABLE `doctors`
   ADD CONSTRAINT `doctors_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
--- Constraints for table `patients`
+-- Ограничения внешнего ключа таблицы `patients`
 --
 ALTER TABLE `patients`
   ADD CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
@@ -159,5 +198,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
