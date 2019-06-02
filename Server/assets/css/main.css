@@ -58,6 +58,14 @@ button:focus {
     align-self: center;
 }
 
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-patient-info {
+    flex-direction: row;
+}
+
 .auth-title {
     color: #000;
     margin-bottom: 20px;
@@ -256,12 +264,35 @@ button .spinner.sp-inline {
 }
 
 .admin-table{
-    min-height: 309px;
+    min-height: 440px;
 }
 
 table.admin-table{
     min-width: 509px;
-    min-height: 309px;
+}
+
+table.admin-table > thead > tr > th {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+table.admin-table > thead > tr > th:last-child, table.admin-table > thead > tr > th:first-child {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+table.admin-table > tbody > tr {
+    height: 50px;
 }
 
 .admin-search {
@@ -294,6 +325,35 @@ input.admin-search-input {
     align-items: center;
 }
 
+.flex-items-center-horizontal {
+    justify-content: center;
+}
+
+.flex-items-center-vertical {
+    align-items: center;
+}
+
+.flex-left {
+    flex-basis: 25%;
+    margin-right: 10px;
+}
+
+.flex-right {
+    flex-grow: 1;
+}
+
+.big-icon {
+    font-size: 24px;
+}
+
+.medicus-title {
+    margin: 0;
+}
+
+.margin-right-default {
+    margin-right: 10px;
+}
+
 @media (max-height: 420px) {
     .auth {
         height: auto;
@@ -306,6 +366,25 @@ input.admin-search-input {
     }
     input.admin-search-input {
         width: 100%;
+    }
+    .flex-left, .flex-right {
+        display: block;
+    }
+
+    .flex-left {
+        margin: 0;
+    }
+
+    .flex-right {
+        margin-top: 10px;
+    }
+
+    .flex-patient-info {
+        display: block!important;
+    }
+
+    .admin-top {
+        margin-bottom: 10px;
     }
 }
 

@@ -422,10 +422,13 @@ class User {
      * Check if doctor has more patients (for table)
      *
      * @param int $page
+     * @param bool $searchVal
+     * @param string $from
+     * @param string $to
      *
      * @return bool
      */
-    public function doctorHasMorePatients($page) {
+    public function doctorHasMorePatients($page, $searchVal = null, $from = null, $to = null) {
         if($this->isUserLoggedIn()) {
             if($this->getUserLevel() == self::USER_DOCTOR) {
                 $id = $this->getUserInternalId($this->getId())['id'];
@@ -449,8 +452,14 @@ class User {
                 $db = new Database();
                 $dbh = $db->getDatabase();
 
-                $query = $dbh->prepare(
-                    "
+                $filterStr = "";
+                if($from != null && $to != null){
+                    $filterStr = "AND v1.visit_date >= :date1 AND v1.visit_date <= :date2";
+                }
+
+                if($searchVal == null) {
+                    $query = $dbh->prepare(
+                        "
                         SELECT p.id FROM patients p
                         LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
@@ -458,16 +467,86 @@ class User {
                         LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
                         )
-                        WHERE p.doctor_id = :id
+                        WHERE p.doctor_id = :id {$filterStr}
                         LIMIT :start, :end
                     "
-                );
+                    );
 
-                $query->execute([
-                    ":id" => $id,
-                    ":start" => $start,
-                    ":end" => $limit
-                ]);
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }
+                }else{
+                    $query = $db->getDatabase()->prepare(
+                        "
+                        SELECT u.id, u.first_name, u.last_name, u.patronymic, v1.visit_date, v2.visit_date FROM patients p
+                        INNER JOIN users u on p.user_id = u.id
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE 
+                              p.doctor_id = :id AND 
+                              (
+                                u.id = :sval1 
+                                 OR CONCAT(u.last_name, ' ', u.first_name, ' ', u.patronymic) LIKE :sval2
+                                 OR v1.visit_date LIKE :sval3
+                                 OR v2.visit_date LIKE :sval4
+                              )
+                              {$filterStr}
+                        LIMIT :start, :end
+                    "
+                    );
+
+                    $searchVal = '%'.$searchVal.'%';
+
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }
+                }
 
                 return $query->rowCount() > 0;
             }
@@ -477,15 +556,18 @@ class User {
     }
 
     /**
-     * Get all patients for logged in doctor
+     * Get all patients for logged in doctor (with search and filter)
      *
      * @param int $page
      * @param bool $arrayVariant
      * @param bool $formattedDate
+     * @param string $searchVal
+     * @param string $from
+     * @param string $to
      *
      * @return array
      */
-    public function getDoctorPatients($page = 1, $arrayVariant = false, $formattedDate = false) {
+    public function getDoctorPatients($page = 1, $arrayVariant = false, $formattedDate = false, $searchVal = null, $from = null, $to = null) {
         if($page < 1) {
             return null;
         }
@@ -497,7 +579,6 @@ class User {
                 }
 
                 $db = new Database();
-                $dbh = $db->getDatabase();
 
                 $limit = 5;
                 if($page == 1){
@@ -506,8 +587,14 @@ class User {
                     $start = ($page * $limit) - $limit;
                 }
 
-                $query = $dbh->prepare(
-                    "
+                $filterStr = "";
+                if($from != null && $to != null){
+                    $filterStr = "AND v1.visit_date >= :date1 AND v1.visit_date <= :date2";
+                }
+
+                if($searchVal == null) {
+                    $query = $db->getDatabase()->prepare(
+                        "
                         SELECT u.*, p.id AS internal_id, v1.visit_date AS latest_date, v2.visit_date AS upcoming_date FROM patients p
                         INNER JOIN users u ON p.user_id = u.id
                         LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
@@ -516,20 +603,92 @@ class User {
                         LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
                         )
-                        WHERE p.doctor_id = :id
+                        WHERE 
+                              p.doctor_id = :id
+                              {$filterStr}
                         ORDER BY upcoming_date DESC
                         LIMIT :start, :limit
                     "
-                );
+                    );
 
-                $query->execute([
-                    ":id" => $id,
-                    ":start" => $start,
-                    ":limit" => $limit
-                ]);
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }
+                }else{
+                    $query = $db->getDatabase()->prepare(
+                        "
+                        SELECT u.*, p.id AS internal_id, v1.visit_date AS latest_date, v2.visit_date AS upcoming_date FROM patients p
+                        INNER JOIN users u ON p.user_id = u.id
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE 
+                              p.doctor_id = :id AND 
+                              (
+                                u.id = :sval1 
+                                 OR CONCAT(u.last_name, ' ', u.first_name, ' ', u.patronymic) LIKE :sval2
+                                 OR v1.visit_date LIKE :sval3
+                                 OR v2.visit_date LIKE :sval4
+                              )
+                              {$filterStr}
+                        ORDER BY upcoming_date DESC
+                        LIMIT :start, :limit
+                      "
+                    );
+
+                    $searchVal = '%'.$searchVal.'%';
+
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }
+                }
 
                 $patients = [];
-
                 while ($row = $query->fetch()) {
                     $user = new User(
                         $row['id'],

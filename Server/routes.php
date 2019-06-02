@@ -23,6 +23,7 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     //DoctorController
     $app->group('/doctor', function () use ($app) {
         $app->get("[/]", 'App\Controllers\DoctorController:index');
+        $app->get("/report/{id}[/]", 'App\Controllers\DoctorController:report');
         $app->group('/table', function () use ($app) {
             $app->post("/get[/]", 'App\Controllers\DoctorController:tableGet');
         });

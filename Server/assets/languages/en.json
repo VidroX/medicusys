@@ -76,5 +76,17 @@
   "about2": "About",
   "Name": "Name",
 
-  "Specialization": "Specialization"
+  "Specialization": "Specialization",
+
+  "nothingFound": "Nothing found...",
+  "apply": "Apply",
+  "noPatientData": "No patient data available...",
+  "diagnosis": "Diagnosis",
+  "detectionDate": "Detection date",
+  "symptoms": "Symptoms",
+  "treatment": "Treatment",
+  "action": "Action",
+  "viewInfo": "View information",
+  "back": "Go back",
+  "medicalInformation": "Medical information"
 }

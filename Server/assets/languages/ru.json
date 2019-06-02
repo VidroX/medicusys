@@ -76,5 +76,17 @@
   "City": "Город",
   "about2": "О себе",
 
-  "Specialization": "Специализация"
+  "Specialization": "Специализация",
+
+  "nothingFound": "Ничего не найдено...",
+  "apply": "Применить",
+  "noPatientData": "Нет доступных данных о пациенте...",
+  "diagnosis": "Диагноз",
+  "detectionDate": "Дата обнаружения",
+  "symptoms": "Симптомы",
+  "treatment": "Лечение",
+  "action": "Действие",
+  "viewInfo": "Посмотреть информацию",
+  "back": "Перейти назад",
+  "medicalInformation": "Медицинская информация"
 }
