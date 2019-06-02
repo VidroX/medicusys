@@ -17,5 +17,20 @@
   "unexpectedError": "Unexpected error. Please contact server administrator.",
   "doctorPanel": "Doctor panel",
   "patientPanel": "Patient panel",
-  "recorderPanel": "Recorder panel"
+  "recorderPanel": "Recorder panel",
+  "logout": "Log out",
+  "LFP": "Patient name",
+  "lastVisit": "Last visit",
+  "upcomingVisit": "Upcoming visit",
+  "birthDay": "Birthday",
+  "generateReport": "Generate report",
+  "loadingError": "There was an error with getting information from the server",
+  "patientSearch": "Patient search",
+  "doctorCabinet": "Doctor cabinet",
+  "filters": "Filters",
+  "visitDate": "Visit date",
+  "from": "From",
+  "to": "To",
+  "prevPage": "Previous page",
+  "nextPage": "Next page"
 }

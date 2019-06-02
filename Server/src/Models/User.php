@@ -33,8 +33,10 @@ class User {
      * @param string $email
      * @param string $homeAddress
      * @param boolean $activated
+     * @param int $userLevel
+     * @param string $userToken
      */
-    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false)
+    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -45,6 +47,8 @@ class User {
         $this->email = $email;
         $this->homeAddress = $homeAddress;
         $this->activated = $activated;
+        $this->userLevel = $userLevel;
+        $this->userToken = $userToken;
     }
 
     /**
@@ -374,6 +378,212 @@ class User {
 
             return $patients;
         }
+    }
+
+    /**
+     * Convert User object to array
+     *
+     * @param bool $hide
+     *
+     * @return array
+     */
+    public function toArray($hide = true) {
+        if($hide){
+            return [
+                'id' => $this->getId(),
+                'firstName' => $this->getFirstName(),
+                'lastName' => $this->getLastName(),
+                'patronymic' => $this->getPatronymic(),
+                'birthDate' => $this->getBirthDate(),
+                'mobilePhone' => $this->getMobilePhone(),
+                'email' => $this->getEmail(),
+                'homeAddress' => $this->getHomeAddress(),
+                'activated' => $this->isActivated(),
+                'userLevel' => $this->getUserLevel()
+            ];
+        }else{
+            return [
+                'id' => $this->getId(),
+                'firstName' => $this->getFirstName(),
+                'lastName' => $this->getLastName(),
+                'patronymic' => $this->getPatronymic(),
+                'birthDate' => $this->getBirthDate(),
+                'mobilePhone' => $this->getMobilePhone(),
+                'email' => $this->getEmail(),
+                'homeAddress' => $this->getHomeAddress(),
+                'userToken' => $this->getUserToken(),
+                'activated' => $this->isActivated(),
+                'userLevel' => $this->getUserLevel()
+            ];
+        }
+    }
+
+    /**
+     * Check if doctor has more patients (for table)
+     *
+     * @param int $page
+     *
+     * @return bool
+     */
+    public function doctorHasMorePatients($page) {
+        if($this->isUserLoggedIn()) {
+            if($this->getUserLevel() == self::USER_DOCTOR) {
+                $id = $this->getUserInternalId($this->getId())['id'];
+                if($id == null){
+                    return null;
+                }
+
+                if($page < 1) {
+                    return null;
+                }
+
+                $page++;
+
+                $limit = 5;
+                if($page == 1){
+                    $start = 0;
+                }else{
+                    $start = ($page * $limit) - $limit;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare(
+                    "
+                        SELECT p.id FROM patients p
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE p.doctor_id = :id
+                        LIMIT :start, :end
+                    "
+                );
+
+                $query->execute([
+                    ":id" => $id,
+                    ":start" => $start,
+                    ":end" => $limit
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get all patients for logged in doctor
+     *
+     * @param int $page
+     * @param bool $arrayVariant
+     * @param bool $formattedDate
+     *
+     * @return array
+     */
+    public function getDoctorPatients($page = 1, $arrayVariant = false, $formattedDate = false) {
+        if($page < 1) {
+            return null;
+        }
+        if($this->isUserLoggedIn()) {
+            if($this->getUserLevel() == self::USER_DOCTOR) {
+                $id = $this->getUserInternalId($this->getId())['id'];
+                if($id == null){
+                    return null;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $limit = 5;
+                if($page == 1){
+                    $start = 0;
+                }else{
+                    $start = ($page * $limit) - $limit;
+                }
+
+                $query = $dbh->prepare(
+                    "
+                        SELECT u.*, p.id AS internal_id, v1.visit_date AS latest_date, v2.visit_date AS upcoming_date FROM patients p
+                        INNER JOIN users u ON p.user_id = u.id
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE p.doctor_id = :id
+                        ORDER BY upcoming_date DESC
+                        LIMIT :start, :limit
+                    "
+                );
+
+                $query->execute([
+                    ":id" => $id,
+                    ":start" => $start,
+                    ":limit" => $limit
+                ]);
+
+                $patients = [];
+
+                while ($row = $query->fetch()) {
+                    $user = new User(
+                        $row['id'],
+                        $row['first_name'],
+                        $row['last_name'],
+                        $row['patronymic'],
+                        $row['birthdate'],
+                        $row['mobilephone'],
+                        $row['email'],
+                        $row['home_address'],
+                        $row['activated'],
+                        self::USER_PATIENT
+                    );
+
+                    $latestDate = $row['latest_date'];
+                    $upcomingDate = $row['upcoming_date'];
+
+                    if($formattedDate) {
+                        if(empty($row['latest_date'])){
+                            $latestDate = null;
+                        }else{
+                            $dateTime1 = strtotime($row['latest_date']);
+                            $latestDate = date('d.m.Y', $dateTime1);
+                        }
+                        if(empty($row['upcoming_date'])){
+                            $upcomingDate = null;
+                        }else{
+                            $dateTime2 = strtotime($row['upcoming_date']);
+                            $upcomingDate = date('d.m.Y', $dateTime2);
+                        }
+                    }
+
+                    $patients[] = [
+                        'user' => $arrayVariant ? $user->toArray() : $user,
+                        'internalId'=>$row['internal_id'],
+                        'latestVisit' => $latestDate,
+                        'upcomingVisit' => $upcomingDate
+                    ];
+                }
+
+                usort($patients, function ($a, $b) {
+                    $a = $a['upcomingVisit'];
+                    $b = $b['upcomingVisit'];
+
+                    if($a && $b) return 0;
+
+                    return strnatcmp($a, $b);
+                });
+
+                return array_reverse($patients);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -929,6 +1139,129 @@ class User {
             "userLevel" => $this->getUserLevel(),
             "userToken" => $this->getUserToken()
         ];
+    }
+
+    /**
+     * Checks user token
+     *
+     * @param int $userId
+     * @param string $userToken
+     *
+     * @return bool
+     */
+    private function checkToken($userId, $userToken) {
+        $db = new Database();
+        $query = $db->getDatabase()->prepare("SELECT id, token FROM users WHERE id=:id AND token=:token");
+        $query->execute([
+            ':id'=>$userId,
+            ':token'=>$userToken
+        ]);
+
+        return $query->rowCount() > 0;
+    }
+
+    /**
+     * Get user's internal id
+     *
+     * @param int $id
+     *
+     * @return array
+     */
+    private function getUserInternalId($id) {
+        $db = new Database();
+
+        $query = $db->getDatabase()->prepare(
+            "
+                SELECT
+                  IFNULL(r.id, IFNULL(d.id, IFNULL(p.id, -1))) AS user_internal_id,
+                  IFNULL(r.user_id, -1) AS user_recorder,
+                  IFNULL(d.user_id, -1) AS user_doctor,
+                  IFNULL(p.user_id, -1) AS user_patient
+                FROM users
+                       LEFT JOIN patients p on users.id = p.user_id
+                       LEFT JOIN doctors d on users.id = d.user_id
+                       LEFT JOIN recorders r on users.id = r.user_id
+                WHERE users.id = :id LIMIT 1
+            "
+        );
+
+        $query->execute([
+            ":id"=>$id
+        ]);
+
+        if($query->rowCount() > 0){
+            if($row = $query->fetch()){
+                if($row['user_internal_id'] == -1){
+                    return null;
+                }
+
+                if($row['user_recorder'] != -1){
+                    $type = self::USER_RECORDER;
+                }elseif($row['user_doctor'] != -1){
+                    $type = self::USER_DOCTOR;
+                }elseif($row['user_patient'] != -1){
+                    $type = self::USER_PATIENT;
+                }else{
+                    $type = self::USER_UNSPECIFIED;
+                }
+
+                return [
+                    'type' => $type,
+                    'id' => $row['user_internal_id']
+                ];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get specific patient visits for doctor
+     *
+     * @param int $patientId
+     * @param bool $convertToInternalId
+     * @param bool $upcoming
+     *
+     * @return Visit[]
+     */
+    private function getVisitsById($patientId, $convertToInternalId = true, $upcoming = true) {
+        if($this->isUserLoggedIn()){
+            if($this->getUserLevel() == self::USER_DOCTOR && $patientId != null){
+                $doctorInternalId = $this->getUserInternalId($this->getId());
+                if($convertToInternalId) {
+                    $patientInternalId = $this->getUserInternalId($patientId);
+                }else{
+                    $patientInternalId = $patientId;
+                }
+
+                if($doctorInternalId != null && $patientInternalId != null) {
+                    $doctorInternalId = $doctorInternalId['id'];
+                    $patientInternalId = $patientInternalId['id'];
+
+                    $db = new Database();
+
+                    if ($upcoming) {
+                        $query = $db->getDatabase()->prepare("SELECT * FROM visits WHERE doctor_id = :id AND visit_date >= CURDATE() AND visited = 0 AND patient_id = :patientId");
+                    } else {
+                        $query = $db->getDatabase()->prepare("SELECT * FROM visits WHERE doctor_id = :id AND patient_id = :patientId");
+                    }
+                    $query->execute([
+                        ':id' => $doctorInternalId,
+                        ':patientId' => $patientInternalId
+                    ]);
+
+                    $visits = [];
+                    while ($row = $query->fetch()) {
+                        if ($row['visit_date'] != null) {
+                            $visits[] = new Visit($row['id'], $row['doctor_id'], $row['patient_id'], $row['visit_date'], $row['visited'] == 1);
+                        }
+                    }
+
+                    return $visits;
+                }
+            }
+        }
+        return null;
     }
 
     /**

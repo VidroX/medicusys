@@ -97,8 +97,31 @@ button:focus {
     border-bottom: 2px solid #cccccc;
 }
 
-.admin-nav {
-    margin-bottom: 20px;
+.admin-container {
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+    border-radius: 0 0 10px 10px;
+}
+
+.medicus-bg-color {
+    color: #fff!important;
+    background-color: #7986e1!important;
+}
+
+.medicus-bg-color-hover:hover {
+    color: #fff!important;
+    background-color: #7986e1!important;
+}
+
+a.medicus-color{
+    text-decoration: none;
+}
+.medicus-color {
+    color: rgba(0,0,0,.5)!important;
+}
+.medicus-color:hover {
+    color: rgba(0,0,0,1)!important;
 }
 
 /* Medicus Button and Form Control for Bootstrap */
@@ -225,6 +248,52 @@ button .spinner.sp-inline {
     margin: 20px 0;
 }
 
+.admin-drop-nav-outer {
+    padding: .25rem .75rem;
+}
+.admin-drop-nav-inner {
+    margin: .25rem .75rem;
+}
+
+.admin-table{
+    min-height: 309px;
+}
+
+table.admin-table{
+    min-width: 509px;
+    min-height: 309px;
+}
+
+.admin-search {
+    margin-bottom: 20px;
+}
+
+input.admin-search-input {
+    width: 40%;
+}
+
+.margin-bot-default {
+    margin-bottom: 10px;
+}
+
+.admin-bottom {
+    margin-top: 10px;
+}
+
+.flex-container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-items-center {
+    justify-content: center;
+    align-items: center;
+}
+
 @media (max-height: 420px) {
     .auth {
         height: auto;
@@ -235,9 +304,45 @@ button .spinner.sp-inline {
     .navbar>.container, .navbar>.container-fluid {
         justify-content: normal!important;
     }
+    input.admin-search-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .admin-container:not(first-child) {
+        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    .admin-container:first-child {
+        margin: 0;
+        background-color: #fff;
+        padding: 15px;
+        box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+        border-radius: 0 0 10px 10px;
+    }
 }
 
 @media (max-width: 575.98px) {
+    .admin-drop-nav-outer {
+        padding: .5rem 0;
+    }
+    .admin-drop-nav-inner {
+        margin: 0;
+    }
+    .admin-container:not(first-child) {
+        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        border-radius: 0;
+        margin-top: 20px;
+    }
+    .admin-container:first-child {
+        margin: 0;
+        background-color: #fff;
+        padding: 15px;
+        box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+        border-radius: 0 0 10px 10px;
+    }
     .navbar-brand{
         margin: 0 auto;
     }
