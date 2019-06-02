@@ -27,6 +27,11 @@ interface StatusCodes {
         20 => 'Unexpected error. Please contact server administrator.',
         21 => 'Please provide login and password.',
         22 => 'Invalid token',
-        23 => 'Invalid user token'
+        23 => 'Invalid user token',
+        24 => 'Not signed in',
+        25 => 'Not allowed',
+        26 => 'Invalid page',
+        27 => 'OK',
+        28 => 'There was an error with getting information from the server'
     ];
 }

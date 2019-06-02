@@ -55,7 +55,55 @@ class DoctorController {
             "page"=>"doctor_index",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user"=>$user
+        ]);
+    }
+
+    /*
+     *
+     * POST requests
+     *
+     */
+
+    public function tableGet(Request $request, Response $response, $args = []){
+        $user = new User();
+        $status = $user->isUserLoggedIn();
+
+        if(!$status) {
+            return $response->withStatus(405)->withJson([
+                "status" => 24,
+                "message" => StatusCodes::STATUS[24]
+            ]);
+        }else{
+            $user = $user->getCurrentUser();
+            if($user->getUserLevel() != User::USER_DOCTOR) {
+                return $response->withStatus(405)->withJson([
+                    "status" => 25,
+                    "message" => StatusCodes::STATUS[25]
+                ]);
+            }
+        }
+
+        $page = (int) $request->getParam('page');
+
+        if (!isset($page) || (isset($page) && $page < 1)) {
+            return $response->withJson([
+                "status" => 26,
+                "message" => StatusCodes::STATUS[26]
+            ]);
+        }
+
+        $patients = $user->getDoctorPatients($page, true, true);
+
+        return $response->withJson([
+            "status" => 27,
+            "message" => StatusCodes::STATUS[27],
+            "data" => [
+                "page" => $page,
+                "rows" => $patients,
+                "hasNext" => $user->doctorHasMorePatients($page)
+            ]
         ]);
     }
 
