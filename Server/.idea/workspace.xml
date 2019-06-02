@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="baede99b-ae8e-4793-8e5c-d5730b28237d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/languages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/languages/ru.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/ru.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/languages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/languages/uk.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/champis/MainStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/champis/MainStyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/main_page/home.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/web/main_page/home.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,11 +43,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/main_page/home.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="259" lean-forward="true" selection-start-line="259" selection-end-line="259" />
+            <state relative-caret-position="90">
+              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
               <folding>
                 <element signature="e#12#36#0#Twig" expanded="true" />
               </folding>
@@ -64,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/champis/MainStyle.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
-              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+              <caret line="36" selection-start-line="36" selection-end-line="36" />
             </state>
           </provider>
         </entry>
@@ -99,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="62" column="23" selection-start-line="62" selection-start-column="3" selection-end-line="62" selection-end-column="23" />
+            <state relative-caret-position="1185">
+              <caret line="79" column="1" lean-forward="true" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -138,7 +133,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/medicusys.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2445">
+            <state relative-caret-position="2400">
               <caret line="163" selection-start-line="163" selection-end-line="163" />
             </state>
           </provider>
@@ -188,10 +183,10 @@
         <option value="$PROJECT_DIR$/medicusys.sql" />
         <option value="$PROJECT_DIR$/config/core.php" />
         <option value="$PROJECT_DIR$/assets/languages/en.json" />
-        <option value="$PROJECT_DIR$/assets/languages/uk.json" />
         <option value="$PROJECT_DIR$/assets/languages/ru.json" />
         <option value="$PROJECT_DIR$/champis/MainStyle.css" />
         <option value="$PROJECT_DIR$/web/main_page/home.html.twig" />
+        <option value="$PROJECT_DIR$/assets/languages/uk.json" />
       </list>
     </option>
   </component>
@@ -317,7 +312,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46987000" />
+    <option name="totallyTimeSpent" value="49747000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -632,13 +627,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/medicusys.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2445">
-          <caret line="163" selection-start-line="163" selection-end-line="163" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-165">
@@ -656,13 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="62" column="23" selection-start-line="62" selection-start-column="3" selection-end-line="62" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/languages/ru.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="218">
@@ -673,7 +654,7 @@
     <entry file="file://$PROJECT_DIR$/champis/MainStyle.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
@@ -686,11 +667,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/main_page/home.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="259" lean-forward="true" selection-start-line="259" selection-end-line="259" />
+        <state relative-caret-position="90">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
           <folding>
             <element signature="e#12#36#0#Twig" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/medicusys.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2400">
+          <caret line="163" selection-start-line="163" selection-end-line="163" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/languages/uk.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1185">
+          <caret line="79" column="1" lean-forward="true" selection-start-line="79" selection-start-column="1" selection-end-line="79" selection-end-column="1" />
         </state>
       </provider>
     </entry>
