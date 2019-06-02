@@ -1,5 +1,7 @@
 package me.medicusys.medicussystem;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
@@ -22,11 +24,13 @@ import java.util.Scanner;
 class Network extends AsyncTask<String, Void, String> {
     TextView textView;
     String encoding;
-    String response;
+    JSONObject response;
+    Context context;
 
-    Network(TextView textView, String encoding)
+    Network(Context context, TextView textView, String encoding)
     {
         super();
+        this.context = context;
         this.textView = textView;
         this.encoding = encoding;
     }
@@ -39,7 +43,6 @@ class Network extends AsyncTask<String, Void, String> {
         String urlName = params[0];
         String requestData = params[1];
         OutputStream out;
-        String io = "none";
         HttpURLConnection urlConnection = null;
         String result = "";
         try {
@@ -48,19 +51,21 @@ class Network extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoInput(true);
             urlConnection.setDoOutput(true);
+
             out = new BufferedOutputStream(urlConnection.getOutputStream());
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
             writer.write(requestData);
             writer.flush();
             writer.close();
             out.close();
+
             urlConnection.connect();
             Scanner scanner = new Scanner(urlConnection.getInputStream());
             StringBuilder stringBuilder = new StringBuilder();
             while (scanner.hasNextLine()) {
                 stringBuilder.append(scanner.nextLine());
             }
-            response = new JSONObject(stringBuilder.toString()).toString();
+            response = new JSONObject(stringBuilder.toString());
 
         } catch (MalformedURLException e) {
             System.out.println("Bad URL: " + urlName);
@@ -81,9 +86,17 @@ class Network extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        textView.setText(response);
-        System.out.println("Request response was \"" + result + "\"");
-        System.out.println("Response response was \"" + response + "\"");
+        textView.setText(response.toString());
+        System.out.println("Response was \"" + response + "\"");
+        try {
+            if ("18".equals(response.getString("status"))) {
+                JSONObject userData = response.getJSONObject("data");
+                Intent myIntent = new Intent(context, CabinetActivity.class);
+                context.startActivity(myIntent);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         super.onPostExecute(result);
     }
 }

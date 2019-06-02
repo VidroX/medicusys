@@ -1,5 +1,6 @@
 package me.medicusys.medicussystem;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,6 @@ public class MainActivity extends AppCompatActivity {
         String login = ((TextView)findViewById(R.id.loginInput)).getText().toString();
         String password = ((TextView)findViewById(R.id.passwordInput)).getText().toString();
         TextView debugLogInResponse = findViewById(R.id.debugLogInResponse);
-        new Network(debugLogInResponse, "UTF-8").execute("http://192.168.0.103/api/v1/login", "login=" + login + "&password=" + password + "&token=PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV");
+        new Network(this, debugLogInResponse, "UTF-8").execute("http://192.168.0.103/api/v1/login", "login=" + login + "&password=" + password + "&token=PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV");
     }
 }
