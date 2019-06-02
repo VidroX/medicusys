@@ -49,7 +49,7 @@ class DoctorController {
         }
 
         $csrf = json_decode($response->getHeader('X-CSRF-Token')[0], true);
-        return $this->view->render($response, 'doctor/index.html.twig', [
+        return $this->view->render($response, 'doctor/home.html.twig', [
             "languageCode"=>$this->i18n->getLanguageCode(),
             "appName"=>$this->config['main']['appName'],
             "page"=>"doctor_index",

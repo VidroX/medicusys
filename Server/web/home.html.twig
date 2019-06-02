@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ i18n.home }}
+{% endblock %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+    <div class="container" id="back">
+        <style>
+            #back{
+                background: url("/assets/images/background.jpg");
+                height: 998px;
+            }
+        </style>
+        <div class="align-content-md-center" >
+            <style>
+                #helloPeople{
+                    text-align: center;
+                    background-color: snow;
+                    margin-top: 70px;
+                }
+            </style>
+            <h1 class="display-4 flex-center" id="helloPeople">Привет, мир!</h1>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                Одна из трёх колонок
+            </div>
+            <div class="col-md-4">
+                Одна из трёх колонок
+            </div>
+            <div class="col-md-4">
+                Одна из трёх колонок
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock %}

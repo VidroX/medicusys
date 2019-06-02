@@ -10,6 +10,10 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     $app->get("[/]", 'App\Controllers\MainController:index');
     $app->get("/about[/]", 'App\Controllers\MainController:about');
     $app->get("/login[/]", 'App\Controllers\AuthController:login');
+    $app->get("/staff[/]",'App\Controllers\MainController:staff');
+    $app->get("/contacts[/]",'App\Controllers\MainController:contacts');
+    $app->get("/news[/]",'App\Controllers\MainController:news');
+    $app->get("/home[/]",'App\Controllers\MainController:home');
 
     //AuthController
     $app->get("/register[/]", 'App\Controllers\AuthController:register');
@@ -33,7 +37,6 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     $app->group('/recorder', function () use ($app) {
         $app->get("[/]", 'App\Controllers\RecorderController:index');
     });
-
 
     /*\
  ---|  \ * -----------------------------------------------------------------------------------\

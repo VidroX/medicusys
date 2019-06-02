@@ -1,7 +1,7 @@
 <?php
 return array(
     "main"=>array(
-        "appName"=>"Medicus System",
+        "appName"=>"Medicus_System",
         "debugMode"=>true
     ),
     "db"=>array(

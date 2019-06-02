@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="{{ languageCode }}">
+<head>
+    <title>{{ appName }} &bull; {% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="/champis/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="/champis/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/champis/css/magnific-popup.css">
+    <link rel="stylesheet" href="/champis/css/jquery-ui.css">
+    <link rel="stylesheet" href="/champis/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/champis/css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="/champis/css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="/champis/fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="/champis/css/aos.css">
+
+    <link rel="stylesheet" href="/champis/css/style.css">
+    <link rel="stylesheet" href="/champis/MainStyle.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:300&display=swap&subset=cyrillic,cyrillic-ext');
+    </style>
+
+</head>
+<body>
+<div class="site-wrap">
+
+    <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <div class="border-bottom top-bar py-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">
+                        <span class="mr-3"><strong>{{ i18n.phone }}:</strong> <a
+                                    href="tel://#">+1 292 3293 4238</a></span>
+                        <span><strong>{{ i18n.email }}:</strong> <a href="#">info@yourdomain.com</a></span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <ul class="social-media">
+                        <li><a href="#" class="p-2"><span class="icon-facebook text-black"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="icon-github text-black"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="icon-instagram  text-black"></span></a></li>
+                        <li><a href="#" class="p-2"><span class="icon-linkedin  text-black"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="site-navbar py-4 bg-white" role="banner">
+
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-11 col-xl-2">
+                    <h1 class="mb-0 site-logo"><a href="{{ urlPrefix }}/" class="text-black h2 mb-0">{{ appName }} </a>
+                    </h1>
+                </div>
+                <div class="col-12 col-md-10 d-none d-xl-block">
+                    <nav class="site-navigation position-relative text-right" role="navigation">
+
+                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
+                            {% if page == 'news' %}
+                                <li class="active"><a class="active" href="{{ urlPrefix }}/news/">{{ i18n.news }}</a></li>
+                            {% else %}
+                                <li><a href="{{ urlPrefix }}/news/">{{ i18n.news }}</a></li>
+                            {% endif %}
+                            {% if page == 'staff' %}
+                                <li class="active"><a class="active" href="{{ urlPrefix }}/staff/">{{ i18n.staff }}</a></li>
+                            {% else %}
+                                <li><a href="{{ urlPrefix }}/staff/">{{ i18n.staff }}</a></li>
+                            {% endif %}
+
+                            {% if page == 'contacts' %}
+                                <li class="active"><a class="active" href="{{ urlPrefix }}/contacts/">{{ i18n.contacts }}</a></li>
+                            {% else %}
+                                <li><a href="{{ urlPrefix }}/contacts/">{{ i18n.contacts }}</a></li>
+                            {% endif %}
+
+                            <li><a href="{{ urlPrefix }}/login/" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.login }}</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+                <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a
+                            href="#" class="site-menu-toggle js-menu-toggle text-black"><span
+                                class="icon-menu h3"></span></a></div>
+
+            </div>
+
+
+        </div>
+
+    </header>
+</div>
+
+{% block body %}{% endblock %}
+
+{% block js %}
+
+{% endblock %}
+</body>
+</html>
