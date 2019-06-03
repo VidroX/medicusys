@@ -86,16 +86,18 @@ class Network extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        textView.setText(response.toString());
-        System.out.println("Response was \"" + response + "\"");
-        try {
-            if ("18".equals(response.getString("status"))) {
-                JSONObject userData = response.getJSONObject("data");
-                Intent myIntent = new Intent(context, CabinetActivity.class);
-                context.startActivity(myIntent);
+        if (response != null) {
+            textView.setText(response.toString());
+            System.out.println("Response was \"" + response + "\"");
+            try {
+                if ("18".equals(response.getString("status"))) {
+                    JSONObject userData = response.getJSONObject("data");
+                    Intent myIntent = new Intent(context, CabinetActivity.class);
+                    context.startActivity(myIntent);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         super.onPostExecute(result);
     }
