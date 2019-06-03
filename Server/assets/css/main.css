@@ -354,6 +354,10 @@ input.admin-search-input {
     margin-right: 10px;
 }
 
+td, th {
+    text-align: center;
+}
+
 @media (max-height: 420px) {
     .auth {
         height: auto;

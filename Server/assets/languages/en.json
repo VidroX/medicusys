@@ -88,5 +88,6 @@
   "action": "Action",
   "viewInfo": "View information",
   "back": "Go back",
-  "medicalInformation": "Medical information"
+  "medicalInformation": "Medical information",
+  "cabinet": "Cabinet"
 }

@@ -782,6 +782,31 @@ class User {
     }
 
     /**
+     * Check if a doctor has access to the patient
+     *
+     * @param string $patientId
+     *
+     * @return bool
+     */
+    private function checkAccessToPatient($patientId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                $id = $this->getUserInternalId($this->getId())['id'];
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare("SELECT patients.id FROM patients WHERE patients.doctor_id = :mobilePhone LIMIT 1");
+                $query->execute([
+                    ':mobilePhone' => $mobilePhone
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Register patient in the system
      *
      * @param string $email

@@ -90,7 +90,11 @@
                                 <li><a href="{{ urlPrefix }}/contacts/">{{ i18n.contacts }}</a></li>
                             {% endif %}
 
-                            <li><a href="{{ urlPrefix }}/login/" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.login }}</a>
+                            {% if userLoggedIn %}
+                                <li><a href="{{ cabinetUrl }}" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.cabinet }}</a>
+                            {% else %}
+                                <li><a href="{{ urlPrefix }}/login/" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.login }}</a>
+                            {% endif %}
                             </li>
                         </ul>
                     </nav>

@@ -88,5 +88,6 @@
   "action": "Действие",
   "viewInfo": "Посмотреть информацию",
   "back": "Перейти назад",
-  "medicalInformation": "Медицинская информация"
+  "medicalInformation": "Медицинская информация",
+  "cabinet": "Кабинет"
 }
