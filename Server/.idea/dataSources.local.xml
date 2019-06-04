@@ -2,14 +2,14 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="MySQL - medicusys@localhost" uuid="e974e5f7-bc2c-4aa2-acae-0b9f4e3dc27d">
-      <database-info product="MySQL" version="5.5.5-10.1.38-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )">
+      <database-info product="MySQL" version="5.5.5-10.1.38-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" dbms="MARIADB" exact-version="10.1.38" exact-driver-version="5.1">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
-      <secret-storage>master_key</secret-storage>
+      <secret-storage>session</secret-storage>
       <user-name>root</user-name>
-      <introspection-schemas>*:medicusys</introspection-schemas>
+      <introspection-schemas>*:@</introspection-schemas>
     </data-source>
   </component>
 </project>

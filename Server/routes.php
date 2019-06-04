@@ -23,7 +23,13 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     //DoctorController
     $app->group('/doctor', function () use ($app) {
         $app->get("[/]", 'App\Controllers\DoctorController:index');
-        $app->get("/report/{id}[/]", 'App\Controllers\DoctorController:report');
+        $app->group('/report', function () use ($app) {
+            $app->group('/{id}', function () use ($app) {
+                $app->get("[/]", 'App\Controllers\DoctorController:report');
+                $app->get("/info[/]", 'App\Controllers\DoctorController:reportInfo');
+                $app->get("/add[/]", 'App\Controllers\DoctorController:reportAdd');
+            });
+        });
         $app->group('/table', function () use ($app) {
             $app->post("/get[/]", 'App\Controllers\DoctorController:tableGet');
         });
@@ -45,9 +51,17 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
  ---|  / * -----------------------------------------------------------------------------------/
     \*/
 
-    //AuthController
+    // AuthController
     $app->post("/login[/]", 'App\Controllers\AuthController:loginPost');
     $app->post("/register[/]", 'App\Controllers\AuthController:registerPost');
+
+    // Admin part
+    $app->group('/admin', function () use ($app) {
+        // DoctorController
+        $app->group('/doctor/report', function () use ($app) {
+            $app->post("/add[/]", 'App\Controllers\DoctorController:postReportAdd');
+        });
+    });
 });
 
 if($config['csrfProtection']['enabled']){

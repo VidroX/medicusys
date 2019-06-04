@@ -50,7 +50,7 @@
   "They_Make_Beautiful_Things": "They Make Beautiful Things",
 
   "One_project_to_help": "One project to help",
-  "Welcome": "Welcome to Medicus project - a free life giving project",
+  "Welcome": "Welcome to Medicus project - a free life saving project",
   "Stay_in_touch": "Stay in touch",
   "Give_emergency_help": "Give emergency help",
   "Protect_health": "Protect health",
@@ -87,7 +87,21 @@
   "viewInfo": "View information",
   "back": "Go back",
   "medicalInformation": "Medical information",
-  "cabinet": "Cabinet"
+  "cabinet": "Cabinet",
   "Specialization": "Specialization",
-  "We_Made_Beautiful_Thing": "We Made Beautiful Thing"
+  "We_Made_Beautiful_Thing": "We Made Beautiful Thing",
+  "patient": "Patient",
+  "addRecord": "Add record",
+  "medicalSummary": "Medical summary",
+  "info": "Information",
+  "medication": "Medication",
+  "save": "Save",
+  "edit": "Edit",
+  "diagnosisName": "Diagnosis name",
+  "date": "Date",
+  "symptom": "Symptom",
+  "symptomName": "Symptom name",
+  "possibleDiagnoses": "Possible diagnoses",
+  "addSymptom": "Add symptom",
+  "removeSymptom": "Remove symptom"
 }

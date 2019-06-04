@@ -32,6 +32,10 @@ interface StatusCodes {
         25 => 'Not allowed',
         26 => 'Invalid page',
         27 => 'OK',
-        28 => 'There was an error with getting information from the server'
+        28 => 'There was an error with getting information from the server',
+        29 => 'Invalid gender id (Allowed: 1 = Male, 2 = Female)',
+        30 => 'No access to the patient',
+        31 => 'Invalid user id',
+        32 => 'Invalid patient id'
     ];
 }

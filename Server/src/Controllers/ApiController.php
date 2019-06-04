@@ -66,7 +66,7 @@ class ApiController {
             return $response->withJson([
                 "status" => 18,
                 "message" => StatusCodes::STATUS[18],
-                "data" => $user->getData()
+                "data" => $user->toArray(false)
             ]);
         } else {
             return $response->withJson([

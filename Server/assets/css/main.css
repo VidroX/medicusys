@@ -112,6 +112,15 @@ button:focus {
     border-radius: 0 0 10px 10px;
 }
 
+.shaded-container {
+    display: block;
+    width: 100%;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+    border-radius: 10px;
+}
+
 .medicus-bg-color {
     color: #fff!important;
     background-color: #7986e1!important;
@@ -137,32 +146,112 @@ a.medicus-color{
     color: #fff;
     background-color: #7986e1;
     border-color: #7986e1;
+    min-width: 100px;
+}
+
+.btn-medicus.btn-medicus-big-width {
+    min-width: 200px;
+}
+
+.btn-medicus.btn-medicus-login {
+    width: auto!important;
     min-width: 50%;
 }
+
+.btn-medicus.btn-medicus-control {
+    width: auto!important;
+    min-width: 50px;
+}
+
+.btn-medicus.btn-medicus-shaded {
+    box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+}
+
 .btn-medicus:hover {
     color: #fff;
     background-color: #6a74cd;
-    border-color: #6a74cd
+    border-color: #6a74cd;
 }
 
 .btn-medicus.focus,.btn-medicus:focus {
-    box-shadow: 0 0 0 .2rem rgba(106, 116, 205, 0.5)
+    box-shadow: 0 0 0 .2rem rgba(106, 116, 205, 0.5);
+}
+
+.btn-outline-medicus {
+    color: #7986e1;
+    border-color: #7986e1;
+}
+
+.btn-outline-medicus:hover {
+    color: #fff;
+    background-color: #7986e1;
+    border-color: #7986e1;
+}
+
+.btn-outline-medicus.focus,
+.btn-outline-medicus:focus {
+    box-shadow: 0 0 0 .2rem rgba(106, 116, 205, 0.5);
+}
+
+.btn-outline-medicus.disabled,
+.btn-outline-medicus:disabled {
+    color: #6a74cd;
+    background-color: transparent;
+}
+
+.btn-outline-medicus:not(:disabled):not(.disabled).active,
+.btn-outline-medicus:not(:disabled):not(.disabled):active,
+.show > .btn-outline-medicus.dropdown-toggle {
+    color: #fff;
+    background-color: #6a74cd;
+    border-color: #6a74cd;
+}
+
+.btn-outline-medicus:not(:disabled):not(.disabled).active:focus,
+.btn-outline-medicus:not(:disabled):not(.disabled):active:focus,
+.show > .btn-outline-medicus.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(106, 116, 205, 0.5);
+}
+
+.btn-medicus.btn-medicus-shaded:focus {
+    box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+}
+.btn-medicus.btn-medicus-shaded:active {
+    box-shadow: none;
 }
 
 .btn-medicus.disabled,.btn-medicus:disabled {
     color: #fff;
     background-color: #6a74cd;
-    border-color: #6a74cd
+    border-color: #6a74cd;
 }
 
 .btn-medicus:not(:disabled):not(.disabled).active,.btn-medicus:not(:disabled):not(.disabled):active,.show>.btn-medicus.dropdown-toggle {
     color: #fff;
     background-color: #7986e1;
-    border-color: #7986e1
+    border-color: #7986e1;
+}
+
+.medicus-no-min-width {
+    min-width: auto!important;
+    width: auto!important;
 }
 
 .btn-medicus:not(:disabled):not(.disabled).active:focus,.btn-medicus:not(:disabled):not(.disabled):active:focus,.show>.btn-medicus.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .2rem rgba(121, 134, 225, 0.5)
+    box-shadow: 0 0 0 .2rem rgba(121, 134, 225, 0.5);
+}
+
+.btn-block-md{
+    margin-bottom: 10px;
+}
+.btn-block-md:not(:first-child) {
+    margin-left: 8px;
+}
+
+.medicus-bottom-buttons{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .form-control {
@@ -264,11 +353,12 @@ button .spinner.sp-inline {
 }
 
 .admin-table{
-    min-height: 440px;
+    min-height: 320px;
 }
 
 table.admin-table{
     min-width: 509px;
+    min-height: auto;
 }
 
 table.admin-table > thead > tr > th {
@@ -307,6 +397,14 @@ input.admin-search-input {
     margin-bottom: 10px;
 }
 
+.margin-top-default {
+    margin-top: 10px;
+}
+
+.margin-top-big {
+    margin-top: 20px;
+}
+
 .admin-bottom {
     margin-top: 10px;
 }
@@ -334,8 +432,8 @@ input.admin-search-input {
 }
 
 .flex-left {
-    flex-basis: 25%;
-    margin-right: 10px;
+    flex-basis: 26%;
+    margin-right: 20px;
 }
 
 .flex-right {
@@ -364,6 +462,24 @@ td, th {
     }
 }
 
+.title-min-height {
+    min-height: 36px;
+}
+
+@media (max-width: 1199.98px) {
+    .flex-left {
+        flex-basis: 31%;
+    }
+
+    .admin-table{
+        min-height: 455px;
+    }
+
+    table.admin-table{
+        min-height: auto;
+    }
+}
+
 @media (max-width: 991px) {
     .navbar>.container, .navbar>.container-fluid {
         justify-content: normal!important;
@@ -380,7 +496,7 @@ td, th {
     }
 
     .flex-right {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     .flex-patient-info {
@@ -389,6 +505,13 @@ td, th {
 
     .admin-top {
         margin-bottom: 10px;
+    }
+
+    .admin-table {
+        min-height: 600px;
+    }
+    table.admin-table {
+        min-height: auto;
     }
 }
 
@@ -404,6 +527,9 @@ td, th {
         padding: 15px;
         box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
         border-radius: 0 0 10px 10px;
+    }
+    .medicus-bottom-buttons{
+        justify-content: center;
     }
 }
 
@@ -443,7 +569,10 @@ td, th {
     }
     .btn-medicus{
         min-width: auto;
-        width: 100%;
+    }
+    .btn-medicus.btn-medicus-login{
+        min-width: auto;
+        width: 100%!important;
     }
     .auth-row-container{
         padding: 10px;
@@ -456,6 +585,19 @@ td, th {
     }
     .navbar-nav {
         padding: 0!important;
+    }
+    .shaded-container {
+        border-radius: 0;
+    }
+    .btn-medicus.btn-block-md {
+        display: block;
+        min-width: auto!important;
+        width: 100%;
+        margin-left: 0;
+    }
+    .medicus-bottom-buttons{
+        justify-content: normal;
+        flex-direction: column-reverse;
     }
 }
 .nav-link.active{

@@ -10,11 +10,15 @@ class User {
     const USER_DOCTOR = 2;
     const USER_RECORDER = 3;
 
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
+
     private $id;
     private $firstName;
     private $lastName;
     private $patronymic;
     private $birthDate;
+    private $gender;
     private $mobilePhone;
     private $email;
     private $homeAddress;
@@ -29,6 +33,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $email
      * @param string $homeAddress
@@ -36,7 +41,7 @@ class User {
      * @param int $userLevel
      * @param string $userToken
      */
-    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
+    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -49,6 +54,7 @@ class User {
         $this->activated = $activated;
         $this->userLevel = $userLevel;
         $this->userToken = $userToken;
+        $this->gender = $gender;
     }
 
     /**
@@ -82,6 +88,7 @@ class User {
             $this->setLastName($row['last_name']);
             $this->setPatronymic($row['patronymic']);
             $this->setBirthDate($row['birthdate']);
+            $this->setGender($row['gender']);
             $this->setMobilePhone($row['mobilephone']);
             $this->setEmail($row['email']);
             $this->setHomeAddress($row['home_address']);
@@ -215,6 +222,7 @@ class User {
                 $this->setLastName($row['last_name']);
                 $this->setPatronymic($row['patronymic']);
                 $this->setBirthDate($row['birthdate']);
+                $this->setGender($row['gender']);
                 $this->setMobilePhone($row['mobilephone']);
                 $this->setEmail($row['email']);
                 $this->setHomeAddress($row['home_address']);
@@ -286,6 +294,7 @@ class User {
                 $row['last_name'],
                 $row['patronymic'],
                 $row['birthdate'],
+                $row['gender'],
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
@@ -314,6 +323,7 @@ class User {
                 $row['last_name'],
                 $row['patronymic'],
                 $row['birthdate'],
+                $row['gender'],
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
@@ -348,6 +358,7 @@ class User {
                     $row['last_name'],
                     $row['patronymic'],
                     $row['birthdate'],
+                    $row['gender'],
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
@@ -369,6 +380,7 @@ class User {
                     $row['last_name'],
                     $row['patronymic'],
                     $row['birthdate'],
+                    $row['gender'],
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
@@ -378,6 +390,46 @@ class User {
 
             return $patients;
         }
+    }
+
+    /**
+     * @param int $patientId
+     *
+     * @return User
+     */
+    public function getPatientById($patientId) {
+        if($patientId != null) {
+            $db = new Database();
+            $dbh = $db->getDatabase();
+
+            $query = $dbh->prepare("SELECT patients.id AS internal_id, users.* FROM patients INNER JOIN users ON patients.user_id = users.id WHERE users.id = :id");
+            $query->execute([
+                ":id" => $patientId
+            ]);
+
+            if($query->rowCount() > 0) {
+                if ($row = $query->fetch()) {
+                    return new User(
+                        $row['id'],
+                        $row['first_name'],
+                        $row['last_name'],
+                        $row['patronymic'],
+                        $row['birthdate'],
+                        $row['gender'],
+                        $row['mobilephone'],
+                        $row['email'],
+                        $row['home_address'],
+                        $row['activated'],
+                        self::USER_PATIENT,
+                        $row['token']
+                    );
+                }
+            }
+
+            return null;
+        }
+
+        return null;
     }
 
     /**
@@ -395,6 +447,7 @@ class User {
                 'lastName' => $this->getLastName(),
                 'patronymic' => $this->getPatronymic(),
                 'birthDate' => $this->getBirthDate(),
+                'gender' => $this->getGender(),
                 'mobilePhone' => $this->getMobilePhone(),
                 'email' => $this->getEmail(),
                 'homeAddress' => $this->getHomeAddress(),
@@ -408,6 +461,7 @@ class User {
                 'lastName' => $this->getLastName(),
                 'patronymic' => $this->getPatronymic(),
                 'birthDate' => $this->getBirthDate(),
+                'gender' => $this->getGender(),
                 'mobilePhone' => $this->getMobilePhone(),
                 'email' => $this->getEmail(),
                 'homeAddress' => $this->getHomeAddress(),
@@ -696,6 +750,7 @@ class User {
                         $row['last_name'],
                         $row['patronymic'],
                         $row['birthdate'],
+                        $row['gender'],
                         $row['mobilephone'],
                         $row['email'],
                         $row['home_address'],
@@ -784,20 +839,27 @@ class User {
     /**
      * Check if a doctor has access to the patient
      *
-     * @param string $patientId
+     * @param int $patientUID
      *
      * @return bool
      */
-    private function checkAccessToPatient($patientId)
+    public function checkAccessToPatient($patientUID)
     {
         if ($this->isUserLoggedIn()) {
             if ($this->getUserLevel() == self::USER_DOCTOR) {
-                $id = $this->getUserInternalId($this->getId())['id'];
                 $db = new Database();
 
-                $query = $db->getDatabase()->prepare("SELECT patients.id FROM patients WHERE patients.doctor_id = :mobilePhone LIMIT 1");
+                $query = $db->getDatabase()->prepare(
+                "
+                    SELECT patients.id FROM patients
+                    INNER JOIN doctors d on d.user_id = :doctorId
+                    INNER JOIN users u ON patients.user_id = :patientId AND patients.doctor_id = d.id
+                    LIMIT 1
+                "
+                );
                 $query->execute([
-                    ':mobilePhone' => $mobilePhone
+                    ':doctorId' => $this->getId(),
+                    ':patientId' => $patientUID
                 ]);
 
                 return $query->rowCount() > 0;
@@ -815,6 +877,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param int $doctorId
@@ -822,7 +885,7 @@ class User {
      *
      * @return mixed
      */
-    public function registerPatient($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $doctorId, $activated = false) {
+    public function registerPatient($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $doctorId, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -867,6 +930,12 @@ class User {
                 ]);
             }
         }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
+        }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
                 "status"=>8,
@@ -910,9 +979,9 @@ class User {
         $query1 = $dbh->prepare(
         "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -939,6 +1008,7 @@ class User {
                     ":lastName" => $lastName,
                     ":patronymic" => $patronymic,
                     ":birthDate" => $birthDate,
+                    ":gender" => $gender,
                     ":mobilePhone" => $mobilePhone,
                     ":homeAddress" => $homeAddress,
                     ":activated" => $activated,
@@ -987,6 +1057,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param string $specialty
@@ -994,7 +1065,7 @@ class User {
      *
      * @return mixed
      */
-    public function registerDoctor($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $specialty, $activated = false) {
+    public function registerDoctor($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $specialty, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -1038,6 +1109,12 @@ class User {
                     "message" => StatusCodes::STATUS[7]
                 ]);
             }
+        }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
         }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
@@ -1083,9 +1160,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -1110,6 +1187,7 @@ class User {
                 ":lastName" => $lastName,
                 ":patronymic" => $patronymic,
                 ":birthDate" => $birthDate,
+                ":gender" => $gender,
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
@@ -1152,13 +1230,14 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param bool $activated
      *
      * @return mixed
      */
-    public function registerRecorder($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $activated = false) {
+    public function registerRecorder($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -1203,6 +1282,12 @@ class User {
                 ]);
             }
         }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
+        }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('^[0-9]{10}$|^[0-9]{12}$', $mobilePhone))){
             return json_encode([
                 "status"=>8,
@@ -1240,9 +1325,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -1267,6 +1352,7 @@ class User {
                 ":lastName" => $lastName,
                 ":patronymic" => $patronymic,
                 ":birthDate" => $birthDate,
+                ":gender" => $gender,
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
@@ -1301,28 +1387,9 @@ class User {
 
     public function logout() {
         if($this->isUserLoggedIn()){
+            $_SESSION['USER'] = null;
             unset($_SESSION['USER']);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getData()
-    {
-        return [
-            "id" => $this->getId(),
-            "firstName" => $this->getFirstName(),
-            "lastName" => $this->getLastName(),
-            "patronymic" => $this->getPatronymic(),
-            "birthDate" => $this->getBirthDate(),
-            "mobilePhone" => $this->getMobilePhone(),
-            "email" => $this->getEmail(),
-            "homeAddress" => $this->getHomeAddress(),
-            "activated" => $this->isActivated(),
-            "userLevel" => $this->getUserLevel(),
-            "userToken" => $this->getUserToken()
-        ];
     }
 
     /**
@@ -1335,7 +1402,7 @@ class User {
      */
     private function checkToken($userId, $userToken) {
         $db = new Database();
-        $query = $db->getDatabase()->prepare("SELECT id, token FROM users WHERE id=:id AND token=:token");
+        $query = $db->getDatabase()->prepare("SELECT id, token FROM users WHERE id=:id AND token=:token LIMIT 1");
         $query->execute([
             ':id'=>$userId,
             ':token'=>$userToken
@@ -1622,5 +1689,21 @@ class User {
     public function setUserToken($userToken)
     {
         $this->userToken = $userToken;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param int $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
     }
 }

@@ -18,5 +18,12 @@ return array(
         "enabled"=>true,
         "versionCode"=>1,
         "token"=>"PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV"
+    ),
+    "symptoms_api"=>array(
+        "enabled"=>true,
+        "urlAuth"=>"https://sandbox-authservice.priaid.ch",
+        "urlHealthService"=>"https://sandbox-healthservice.priaid.ch",
+        "user"=>"vadym.karachenko@nure.ua",
+        "password"=>"Mg83WzLp65Ywt9F4R"
     )
 );

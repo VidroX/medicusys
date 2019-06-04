@@ -94,6 +94,9 @@ function loadData(page, searchVal, from, to, showSpinner) {
 
     let rowsNum = 0;
 
+    nextButton.attr("disabled", true);
+    prevButton.attr("disabled", true);
+
     $.ajax({
         url: '/'+app_language_code+'/doctor/table/get',
         data: fd,
@@ -128,17 +131,6 @@ function loadData(page, searchVal, from, to, showSpinner) {
 
             window.history.replaceState(null, null, newParams);
 
-            if(latestPage) {
-                nextButton.attr("disabled", true);
-            }else{
-                nextButton.attr("disabled", false);
-            }
-            if(page === 1){
-                prevButton.attr("disabled", true);
-            }else{
-                prevButton.attr("disabled", false);
-            }
-
             insertRows(rows);
         },
         error: function(data){
@@ -157,6 +149,17 @@ function loadData(page, searchVal, from, to, showSpinner) {
                 } catch (e) {
                     console.log(e);
                 }
+            }
+
+            if(latestPage) {
+                nextButton.attr("disabled", true);
+            }else{
+                nextButton.attr("disabled", false);
+            }
+            if(page === 1){
+                prevButton.attr("disabled", true);
+            }else{
+                prevButton.attr("disabled", false);
             }
 
             if(globalPage === 1 && rowsNum === 0) {
