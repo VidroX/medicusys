@@ -61,7 +61,7 @@
   "Load_more_news": "Загрузить еще новости",
   "all_people": "всему человечеству",
   "cure_all_diseases": "излечить все болезни",
-  "control_the universe": "и мир у твоих ног",
+  "control_the_universe": "склонить мир у твоих ног",
 
   "Enter_Email": "Введите электронный адрес",
   "Send": "Отправить",
@@ -76,8 +76,6 @@
   "City": "Город",
   "about2": "О себе",
 
-  "Specialization": "Специализация",
-
   "nothingFound": "Ничего не найдено...",
   "apply": "Применить",
   "noPatientData": "Нет доступных данных о пациенте...",
@@ -90,4 +88,6 @@
   "back": "Перейти назад",
   "medicalInformation": "Медицинская информация",
   "cabinet": "Кабинет"
+  "Specialization": "Специализация",
+  "We_Made_Beautiful_Thing": "Мы сделали прекрасную вещь"
 }

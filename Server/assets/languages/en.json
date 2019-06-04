@@ -61,7 +61,7 @@
   "Load_more_news": "Load more news",
   "all_people": "all people",
   "cure_all_diseases": "cure all diseases",
-  "control_the universe": "control the universe",
+  "control_the_universe": "control the universe",
 
   "Enter_Email": "Enter Email",
   "Send": "Send",
@@ -76,8 +76,6 @@
   "about2": "About",
   "Name": "Name",
 
-  "Specialization": "Specialization",
-
   "nothingFound": "Nothing found...",
   "apply": "Apply",
   "noPatientData": "No patient data available...",
@@ -90,4 +88,6 @@
   "back": "Go back",
   "medicalInformation": "Medical information",
   "cabinet": "Cabinet"
+  "Specialization": "Specialization",
+  "We_Made_Beautiful_Thing": "We Made Beautiful Thing"
 }

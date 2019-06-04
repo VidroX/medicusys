@@ -6,7 +6,7 @@
 
 {% endblock %}
 {% block body %}
-    <div class="site-wrap">
+
 
 
 
@@ -18,8 +18,8 @@
 
                         <div class="row justify-content-center mb-4">
                             <div class="col-md-8 text-center">
-                                <h1>One project to help <span class="typed-words"></span></h1>
-                                <p class="lead mb-5">We Made Beautiful Thing</p>
+                                <h1>{{ i18n.One_project_to_help }} <span class="typed-words"></span></h1>
+                                <p class="lead mb-5">{{ i18n.We_Made_Beautiful_Thing }}</p>
 
 
                             </div>
@@ -40,43 +40,41 @@
                                 <div class="h-100">
                                     <div class="mb-5 d-flex align-items-center">
 
-                                        <h2>Welcome to Medicus project - a free life giving project</h2>
+                                        <h2>{{ i18n.Welcome }}</h2>
                                     </div>
-                                    <img src="/champis/images/icon-medkit.png" alt="Image" class="img">
-                                    <h1 class="text-white text-center">Medicus_System</h1>
+                                    <img src="/champis/images/icon-medkit.png" alt="Image"  class="img">
+                                    <h1 class="text-white text-center">{{ appName }}</h1>
                                 </div>
                             </div>
                             <div class="col-lg-3 ml-auto">
                                 <div class="mb-5">
-                                    <h3 class="d-flex align-items-center"><span class="icon icon-comments-o mr-2"></span><span>Stay in touch</span></h3>
+                                    <h3 class="d-flex align-items-center"><span class="icon icon-comments-o mr-2"></span><span>{{ i18n.Stay_in_touch }}</span></h3>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque ab nihil quam nesciunt.</p>
-                                    <p><a href="#">Read More</a></p>
+
                                 </div>
 
                                 <div>
                                     <h3 class="d-flex align-items-center"><span class="icon icon-ambulance mr-2"></span><span>
 
-											Give emergensy
-
-											help
+											{{ i18n.Give_emergency_help }}
 										</span></h3>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque ab nihil quam nesciunt.</p>
-                                    <p><a href="#">Read More</a></p>
+
                                 </div>
 
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-5">
-                                    <h3 class="d-flex align-items-center"><span class="icon icon-shield mr-2"></span><span>Protect health</span></h3>
+                                    <h3 class="d-flex align-items-center"><span class="icon icon-shield mr-2"></span><span>{{ i18n.Protect_health }}</span></h3>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque ab nihil quam nesciunt.</p>
-                                    <p><a href="#">Read More</a></p>
+
                                 </div>
 
                                 <div>
                                     <h3 class="d-flex align-items-center"><span class="icon  icon-notifications_active mr-2"></span>
-                                        <span>Be notified</span></h3>
+                                        <span>{{ i18n.Be_notified }}</span></h3>
                                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque ab nihil quam nesciunt.</p>
-                                    <p><a href="#">Read More</a></p>
+
                                 </div>
                             </div>
                         </div>
@@ -92,7 +90,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="p-3 box-with-humber">
                             <div class="number-behind">01.</div>
-                            <h2>Our Values</h2>
+                            <h2>{{ i18n.Our_Values }}</h2>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et praesentium eos nulla qui commodi consectetur beatae fugiat. Veniam iste rerum perferendis.</p>
                         </div>
                     </div>
@@ -100,7 +98,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="p-3 box-with-humber">
                             <div class="number-behind">02.</div>
-                            <h2>Our Mission</h2>
+                            <h2>{{ i18n.Our_Mission }}</h2>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et praesentium eos nulla qui commodi consectetur beatae fugiat. Veniam iste rerum perferendis.</p>
                         </div>
                     </div>
@@ -108,7 +106,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="p-3 box-with-humber">
                             <div class="number-behind">03.</div>
-                            <h2>Our Philosophy</h2>
+                            <h2>{{ i18n.Our_Philosophy }}</h2>
                             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et praesentium eos nulla qui commodi consectetur beatae fugiat. Veniam iste rerum perferendis.</p>
                         </div>
                     </div>
@@ -125,7 +123,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8 text-center">
-                        <h2 class="text-black h1 site-section-heading text-center">News</h2>
+                        <h2 class="text-black h1 site-section-heading text-center">{{ i18n.news }}</h2>
                     </div>
                 </div>
 
@@ -161,21 +159,23 @@
                 </div>
             </div>
             <div class="col-12 text-center mt-5">
-                <a href="#" class="btn btn-primary btn-md" id="logIn">Load more news</a>
+                <a href="#" class="btn btn-primary btn-md" id="logIn">{{ i18n.Load_more_news }}</a>
             </div>
         </section>
 
-        <footer class="site-footer">
+        {% block footer %}
+        <footer class="site-footer w-100">
             <div class="container">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="row">
                             <div class="col-md-5">
-                                <h2 class="footer-heading mb-4">About Us</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque facere laudantium magnam voluptatum autem. Amet aliquid nesciunt veritatis aliquam.</p>
+                                <h2 class="footer-heading mb-4">{{ i18n.about }}</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque facere laudantium
+                                    magnam voluptatum autem. Amet aliquid nesciunt veritatis aliquam.</p>
                             </div>
                             <div class="col-md-3 ml-auto">
-                                <h2 class="footer-heading mb-4">Features</h2>
+                                <h2 class="footer-heading mb-4">{{ i18n.Features }}</h2>
                                 <ul class="list-unstyled">
                                     <li><a href="#">About Us</a></li>
                                     <li><a href="#">Services</a></li>
@@ -184,7 +184,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-3">
-                                <h2 class="footer-heading mb-4">Follow Us</h2>
+                                <h2 class="footer-heading mb-4">{{ i18n.Follow_Us }}</h2>
                                 <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
                                 <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
                                 <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
@@ -193,12 +193,16 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <h2 class="footer-heading mb-4">Subscribe Newsletter</h2>
+                        <h2 class="footer-heading mb-4">{{ i18n.Subscribe_Newsletter }}</h2>
                         <form action="#" method="post">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control border-secondary text-white bg-transparent" placeholder="Enter Email" aria-label="Enter Email" aria-describedby="button-addon2">
+                                <input type="text" class="form-control border-secondary text-white bg-transparent"
+                                       placeholder="{{ i18n.Enter_Email }}Enter Email" aria-label="Enter Email"
+                                       aria-describedby="button-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary text-white logIn" type="button" id="button-addon2" >Send</button>
+                                    <button class="btn btn-primary text-white logIn" type="button" id="button-addon2">
+                                        {{ i18n.Send }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -211,7 +215,9 @@
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 Copyright &copy;<script>
                                     document.write(new Date().getFullYear());
-                                </script> All rights unreserved | Big thanks to <i class="icon-heart" aria-hidden="true"></i> <a href="https://colorlib.com" target="_blank">Colorlib</a> for such good template
+                                </script>
+                                All rights unreserved | Big thanks to <i class="icon-heart" aria-hidden="true"></i> <a
+                                        href="https://colorlib.com" target="_blank">Colorlib</a> for such good template
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
@@ -220,6 +226,8 @@
                 </div>
             </div>
         </footer>
+
+{% endblock %}
     </div>
 
 
@@ -239,8 +247,8 @@
 
     <script src="/champis/js/typed.js"></script>
     <script>
-        var typed = new Typed('.typed-words', {
-            strings: ["all people", "cure all diseases", "controll the universe"],
+        let typed = new Typed('.typed-words', {
+            strings: ["{{ i18n.all_people }}", "{{ i18n.cure_all_diseases }}", "{{ i18n.control_the_universe }}"],
             typeSpeed: 80,
             backSpeed: 80,
             backDelay: 4000,
