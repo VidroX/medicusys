@@ -24,6 +24,11 @@ return array(
         "urlAuth"=>"https://sandbox-authservice.priaid.ch",
         "urlHealthService"=>"https://sandbox-healthservice.priaid.ch",
         "user"=>"vadym.karachenko@nure.ua",
-        "password"=>"Mg83WzLp65Ywt9F4R"
+        "password"=>"Mg83WzLp65Ywt9F4R",
+        "defaultLanguage" => "ru-ru",
+        "availableLanguages" => array(
+            "en-gb",
+            "ru-ru"
+        )
     )
 );

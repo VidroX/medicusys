@@ -1516,6 +1516,47 @@ class User {
     }
 
     /**
+     * Add diagnosis to the patient
+     *
+     * @param int $patientId
+     * @param array $diagnosisData
+     *
+     * @return bool
+     */
+    public function addDiagnosis($patientId, $diagnosisData) {
+        if($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($this->checkAccessToPatient($patientId)) {
+                    if($diagnosisData != null) {
+                        $db = new Database();
+                        $dbh = $db->getDatabase();
+
+                        try {
+                            $query = $dbh->prepare("");
+
+                            $dbh->beginTransaction();
+
+                            $query->execute([
+                            ]);
+
+                            $dbh->commit();
+
+                            return true;
+                        } catch (\PDOException $ex) {
+                            $dbh->rollBack();
+
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+
+    /**
      * @return int
      */
     public function getId()

@@ -8,9 +8,6 @@ $config = include(__DIR__."/config/core.php");
 
 session_start();
 
-//$user = new \App\Models\User();
-//die($user->registerDoctor("test@example.com", "123321", "Test", "Test", "Test", "1920-01-12", "380000000000", "Test Str", "Toster"));
-
 if($config['main']['debugMode']){
     error_reporting(-1);
     ini_set('display_errors', 1);
