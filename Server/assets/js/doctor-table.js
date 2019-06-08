@@ -35,8 +35,24 @@ function insertRows(rowObject) {
             "<td>" + user.lastName + " " + user.firstName + " " + user.patronymic + "</td>" +
             "<td>" + lastVisit + "</td>" +
             "<td>" + upcomingVisit + "</td>" +
-            "<td class=\"text-center\"><a class=\"medicus-color\" title=\""+ app_generate_report + "\" href=\""+app_url_prefix+"/doctor/report/"+user.id+"/\"><i class=\"fas fa-id-card\"></i></a></td>" +
+            "<td class=\"text-center\">" +
+            "<a class=\"medicus-color margin-right-default\" title=\"" + app_generate_report + "\" href=\"" + app_url_prefix + "/doctor/report/" + user.id + "/\"><i class=\"fas fa-id-card\"></i></a>" +
+            "</td>" +
             "</tr>";
+
+        if(user.fcmRegToken != null && user.fcmRegToken.length > 0) {
+            row =
+                "<tr id=\"" + user.id + "\">" +
+                "<th scope=\"row\">" + user.id + "</th>" +
+                "<td>" + user.lastName + " " + user.firstName + " " + user.patronymic + "</td>" +
+                "<td>" + lastVisit + "</td>" +
+                "<td>" + upcomingVisit + "</td>" +
+                "<td class=\"text-center\">" +
+                "<a class=\"medicus-color margin-right-default\" title=\"" + app_generate_report + "\" href=\"" + app_url_prefix + "/doctor/report/" + user.id + "/\"><i class=\"fas fa-id-card\"></i></a>" +
+                "<a class=\"medicus-color\" title=\"" + app_send_message + "\" href=\"" + app_url_prefix + "/doctor/message/" + user.id + "/\"><i class=\"fas fa-paper-plane\"></i></a>" +
+                "</td>" +
+                "</tr>";
+        }
         table.find("tbody").append(row);
     });
 

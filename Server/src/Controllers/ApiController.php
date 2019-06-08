@@ -47,7 +47,12 @@ class ApiController {
             $login = $parsedBody['login'];
             $pass = $parsedBody['password'];
 
-            $user = $user->auth($login, $pass, true);
+            $fcmRegToken = null;
+            if(isset($parsedBody['fcm_reg_token']) && !empty($parsedBody['fcm_reg_token'])) {
+                $fcmRegToken = $parsedBody['fcm_reg_token'];
+            }
+
+            $user = $user->auth($login, $pass, true, $fcmRegToken);
             if (!($user instanceof User)) {
                 $data = json_decode($user, true);
                 if ($data['status'] === 2) {

@@ -6,6 +6,10 @@ use App\Models\StatusCodes;
 use App\Models\User;
 use App\Utils\ApiHelper;
 use App\Utils\i18n;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
+use Kreait\Firebase\ServiceAccount;
 use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -74,6 +78,66 @@ class DoctorController {
             "urlPrefix"=>$urlPrefix,
             "tablePage"=>$tablePage,
             "user"=>$user
+        ]);
+    }
+
+    public function message(Request $request, Response $response, $args = []){
+        $user = new User();
+        $status = $user->isUserLoggedIn();
+        $urlPrefix = empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl();
+
+        if(!$status) {
+            return $response->withRedirect($urlPrefix."/login");
+        }else{
+            $user = $user->getCurrentUser();
+            switch ($user->getUserLevel()) {
+                case User::USER_PATIENT:
+                    return $response->withRedirect($urlPrefix."/patient");
+                    break;
+                case User::USER_RECORDER:
+                    return $response->withRedirect($urlPrefix."/recorder");
+                    break;
+                case User::USER_UNSPECIFIED:
+                    return $response->withRedirect($urlPrefix."/");
+                    break;
+            }
+        }
+
+        $userId = (int) $request->getAttribute("id");
+        if(!isset($userId) || (isset($userId) && $userId <= 0)) {
+            return $response->withRedirect($urlPrefix."/doctor");
+        }
+        if(!$user->checkAccessToPatient($userId)) {
+            throw new NotFoundException($request, $response);
+        }
+
+        $patient = $user->getPatientById($userId);
+
+        $fcmToken = $patient->getFcmRegToken();
+
+        if(!isset($fcmToken) || $fcmToken == null || ($fcmToken != null && strlen($fcmToken) <= 0)) {
+            throw new NotFoundException($request, $response);
+        }
+
+        $csrfArray = $response->getHeader('X-CSRF-Token');
+        if($csrfArray != null) {
+            $csrf = json_decode($csrfArray[0], true);
+        }else{
+            $csrf = [
+                'csrf_name' => "",
+                'csrf_value' => ""
+            ];
+        }
+        return $this->view->render($response, 'doctor/message.html.twig', [
+            "languageCode"=>$this->i18n->getLanguageCode(),
+            "appName"=>$this->config['main']['appName'],
+            "page"=>"doctor_report",
+            "i18n"=>$this->i18n->getTranslations(),
+            "csrf"=>$csrf,
+            "urlPrefix"=>$urlPrefix,
+            "user"=>$user,
+            "userId"=>$userId,
+            "patient"=>$patient
         ]);
     }
 
@@ -945,6 +1009,83 @@ class DoctorController {
                 'message' => StatusCodes::STATUS[52]
             ]);
         }
+    }
+
+    public function postMessageSend(Request $request, Response $response, $args = []){
+        $user = new User();
+        $status = $user->isUserLoggedIn();
+
+        if(!$status) {
+            return $response->withStatus(405)->withJson([
+                'status'=>24,
+                'message'=>StatusCodes::STATUS[24]
+            ]);
+        }else{
+            $user = $user->getCurrentUser();
+            if($user->getUserLevel() != User::USER_DOCTOR) {
+                return $response->withStatus(405)->withJson([
+                    'status'=>25,
+                    'message'=>StatusCodes::STATUS[25]
+                ]);
+            }
+        }
+
+        $userId = (int) $request->getParam("patient_id");
+        if(!isset($userId) || (isset($userId) && strlen($userId) <= 0)) {
+            return $response->withJson([
+                'status'=>32,
+                'message'=>StatusCodes::STATUS[32]
+            ]);
+        }
+        if(!$user->checkAccessToPatient($userId)) {
+            return $response->withJson([
+                'status'=>30,
+                'message'=>StatusCodes::STATUS[30]
+            ]);
+        }
+
+        $fcmRegToken = (string) $request->getParam("fcm_reg_token");
+        if(!isset($fcmRegToken) || (isset($fcmRegToken) && strlen($fcmRegToken) <= 0)) {
+            return $response->withJson([
+                'status'=>59,
+                'message'=>StatusCodes::STATUS[59]
+            ]);
+        }
+
+        $title = (string) $request->getParam("title");
+        if(!isset($title) || (isset($title) && strlen($title) <= 0)) {
+            return $response->withJson([
+                'status'=>56,
+                'message'=>StatusCodes::STATUS[56]
+            ]);
+        }
+
+        $message = (string) $request->getParam("message");
+        if(!isset($message) || (isset($message) && strlen($message) <= 0)) {
+            return $response->withJson([
+                'status'=>57,
+                'message'=>StatusCodes::STATUS[57]
+            ]);
+        }
+
+        $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../config/firebase_credentials.json');
+        $firebase = (new Factory)
+            ->withServiceAccount($serviceAccount)
+            ->create();
+
+        $messaging = $firebase->getMessaging();
+
+        $notification = Notification::create($title, $message);
+
+        $message = CloudMessage::withTarget('token', $fcmRegToken)
+            ->withNotification($notification);
+
+        $messaging->send($message);
+
+        return $response->withJson([
+            'status'=>58,
+            'message'=>StatusCodes::STATUS[58]
+        ]);
     }
 
 }

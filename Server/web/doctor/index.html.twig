@@ -26,7 +26,7 @@
                                 <th id="colLFP" scope="col">{{ i18n.LFP }}</th>
                                 <th id="colLastVisit" scope="col">{{ i18n.lastVisit }}</th>
                                 <th id="colUpcomingVisit" scope="col">{{ i18n.upcomingVisit }}</th>
-                                <th id="colGenerateReport" scope="col">{{ i18n.generateReport }}</th>
+                                <th id="colGenerateReport" scope="col">{{ i18n.action }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,6 +58,7 @@
         const app_url_prefix = '{{ urlPrefix }}';
         const app_language_code = '{{ languageCode }}';
         const app_page_param = ({{ tablePage }}) == null ? 1 : {{ tablePage }};
+        const app_send_message = '{{ i18n.sendMessage }}';
     </script>
     <script type="text/javascript" src="/assets/js/doctor-table.js" async></script>
 {% endblock %}

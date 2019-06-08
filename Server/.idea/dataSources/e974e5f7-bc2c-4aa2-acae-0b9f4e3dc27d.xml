@@ -1131,28 +1131,29 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="280" parent="245" name="name">
+    <column id="280" parent="245" name="rp">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="245" name="amount">
+    <column id="281" parent="245" name="dtdn">
       <Position>4</Position>
-      <DataType>int(5)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="245" name="frequency">
+    <column id="282" parent="245" name="signa">
       <Position>5</Position>
-      <DataType>int(5)|0s</DataType>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="245" name="period">
+    <column id="283" parent="245" name="active">
       <Position>6</Position>
-      <DataType>int(5)|0s</DataType>
+      <DataType>int(1)|0s</DataType>
       <NotNull>1</NotNull>
+      <DefaultExpression>1</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="284" parent="245" name="diagnosis_id">
@@ -1375,101 +1376,106 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="324" parent="250" name="home_address">
+    <column id="324" parent="250" name="fcm_reg_token">
       <Position>11</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="325" parent="250" name="home_address">
+      <Position>12</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="250" name="activated">
-      <Position>12</Position>
+    <column id="326" parent="250" name="activated">
+      <Position>13</Position>
       <DataType>int(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="326" parent="250" name="mobilephone">
+    <index id="327" parent="250" name="mobilephone">
       <ColNames>mobilephone</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="327" parent="250" name="email">
+    <index id="328" parent="250" name="email">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="328" parent="250" name="PRIMARY">
+    <key id="329" parent="250" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="329" parent="250" name="mobilephone">
+    <key id="330" parent="250" name="mobilephone">
       <ColNames>mobilephone</ColNames>
       <UnderlyingIndexName>mobilephone</UnderlyingIndexName>
     </key>
-    <key id="330" parent="250" name="email">
+    <key id="331" parent="250" name="email">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email</UnderlyingIndexName>
     </key>
-    <column id="331" parent="251" name="id">
+    <column id="332" parent="251" name="id">
       <Position>1</Position>
       <DataType>int(10)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="332" parent="251" name="doctor_id">
+    <column id="333" parent="251" name="doctor_id">
       <Position>2</Position>
       <DataType>int(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="333" parent="251" name="patient_id">
+    <column id="334" parent="251" name="patient_id">
       <Position>3</Position>
       <DataType>int(10)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="334" parent="251" name="visit_date">
+    <column id="335" parent="251" name="visit_date">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="335" parent="251" name="visited">
+    <column id="336" parent="251" name="visited">
       <Position>5</Position>
       <DataType>int(1)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="336" parent="251" name="doctor_id">
+    <index id="337" parent="251" name="doctor_id">
       <ColNames>doctor_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="337" parent="251" name="patient_id">
+    <index id="338" parent="251" name="patient_id">
       <ColNames>patient_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="338" parent="251" name="sort_index2">
+    <index id="339" parent="251" name="sort_index2">
       <ColNames>visit_date
 patient_id
 visited</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="339" parent="251" name="visit_date">
+    <index id="340" parent="251" name="visit_date">
       <ColNames>visit_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="340" parent="251" name="PRIMARY">
+    <key id="341" parent="251" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="341" parent="251" name="visits_ibfk_2">
+    <foreign-key id="342" parent="251" name="visits_ibfk_2">
       <ColNames>doctor_id</ColNames>
       <RefSchemaName>medicusys</RefSchemaName>
       <RefTableName>doctors</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="342" parent="251" name="visits_ibfk_1">
+    <foreign-key id="343" parent="251" name="visits_ibfk_1">
       <ColNames>patient_id</ColNames>
       <RefSchemaName>medicusys</RefSchemaName>
       <RefTableName>patients</RefTableName>

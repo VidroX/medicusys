@@ -25,6 +25,7 @@ class User {
     private $userToken;
     private $activated;
     private $userLevel;
+    private $fcmRegToken;
 
     /**
      * User constructor.
@@ -39,9 +40,10 @@ class User {
      * @param string $homeAddress
      * @param boolean $activated
      * @param int $userLevel
+     * @param string $fcmRegToken
      * @param string $userToken
      */
-    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
+    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $fcmRegToken = null, $userToken = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -55,6 +57,7 @@ class User {
         $this->userLevel = $userLevel;
         $this->userToken = $userToken;
         $this->gender = $gender;
+        $this->fcmRegToken = $fcmRegToken;
     }
 
     /**
@@ -93,6 +96,7 @@ class User {
             $this->setEmail($row['email']);
             $this->setHomeAddress($row['home_address']);
             $this->setUserToken(null);
+            $this->setFcmRegToken($row['fcm_reg_token']);
             $this->setActivated($row['activated'] == 1);
 
             if($row['user_recorder'] != -1){
@@ -165,10 +169,11 @@ class User {
      * @param string $login User's E-Mail or mobile phone
      * @param string $pass User's password
      * @param bool $api if function is being used in the API
+     * @param string $fcmRegToken Firebase Cloud Messaging Registration Token
      *
      * @return mixed
      */
-    public function auth($login, $pass, $api = false) {
+    public function auth($login, $pass, $api = false, $fcmRegToken = null) {
         if($login == null || $pass == null) return null;
 
         $db = new Database();
@@ -187,12 +192,22 @@ class User {
             $secureKey = bin2hex(openssl_random_pseudo_bytes(256));
             $userToken = hash_hmac('sha3-256', $login, $secureKey);
 
-            $updateQuery = $dbh->prepare("UPDATE users SET token = :token WHERE email = :login1 OR mobilephone = :login2");
-            $updateQuery->execute([
-               ':token' => $userToken,
-               ':login1' => $login,
-               ':login2' => $login
-            ]);
+            if($fcmRegToken != null) {
+                $updateQuery = $dbh->prepare("UPDATE users SET token = :token, fcm_reg_token = :fcmRegToken WHERE email = :login1 OR mobilephone = :login2");
+                $updateQuery->execute([
+                    ':token' => $userToken,
+                    ':fcmRegToken' => $fcmRegToken,
+                    ':login1' => $login,
+                    ':login2' => $login
+                ]);
+            }else{
+                $updateQuery = $dbh->prepare("UPDATE users SET token = :token WHERE email = :login1 OR mobilephone = :login2");
+                $updateQuery->execute([
+                    ':token' => $userToken,
+                    ':login1' => $login,
+                    ':login2' => $login
+                ]);
+            }
         }
 
         if($type === 0) {
@@ -248,6 +263,7 @@ class User {
                 $this->setHomeAddress($row['home_address']);
                 $this->setActivated($row['activated'] == 1);
                 $this->setUserToken($row['token']);
+                $this->setFcmRegToken($row['fcm_reg_token']);
 
                 if($row['user_recorder'] != -1){
                     $this->setUserLevel(self::USER_RECORDER);
@@ -325,6 +341,7 @@ class User {
             $this->setHomeAddress($row['home_address']);
             $this->setActivated($row['activated'] == 1);
             $this->setUserToken($row['token']);
+            $this->setFcmRegToken($row['fcm_reg_token']);
 
             if($row['user_recorder'] != -1){
                 $this->setUserLevel(self::USER_RECORDER);
@@ -382,7 +399,9 @@ class User {
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
-                $row['activated']
+                $row['activated'],
+                self::USER_RECORDER,
+                $row['fcm_reg_token']
             );
         }
 
@@ -411,7 +430,9 @@ class User {
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
-                $row['activated']
+                $row['activated'],
+                self::USER_DOCTOR,
+                $row['fcm_reg_token']
             );
         }
 
@@ -446,7 +467,9 @@ class User {
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
-                    $row['activated']
+                    $row['activated'],
+                    self::USER_PATIENT,
+                    $row['fcm_reg_token']
                 );
             }
 
@@ -468,7 +491,9 @@ class User {
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
-                    $row['activated']
+                    $row['activated'],
+                    self::USER_PATIENT,
+                    $row['fcm_reg_token']
                 );
             }
 
@@ -505,6 +530,7 @@ class User {
                         $row['home_address'],
                         $row['activated'],
                         self::USER_PATIENT,
+                        $row['fcm_reg_token'],
                         $row['token']
                     );
                 }
@@ -536,7 +562,8 @@ class User {
                 'email' => $this->getEmail(),
                 'homeAddress' => $this->getHomeAddress(),
                 'activated' => $this->isActivated(),
-                'userLevel' => $this->getUserLevel()
+                'userLevel' => $this->getUserLevel(),
+                'fcmRegToken' => $this->getFcmRegToken()
             ];
         }else{
             return [
@@ -551,7 +578,8 @@ class User {
                 'homeAddress' => $this->getHomeAddress(),
                 'userToken' => $this->getUserToken(),
                 'activated' => $this->isActivated(),
-                'userLevel' => $this->getUserLevel()
+                'userLevel' => $this->getUserLevel(),
+                'fcmRegToken' => $this->getFcmRegToken()
             ];
         }
     }
@@ -839,7 +867,9 @@ class User {
                         $row['email'],
                         $row['home_address'],
                         $row['activated'],
-                        self::USER_PATIENT
+                        self::USER_PATIENT,
+                        $row['fcm_reg_token'],
+                        $row['token']
                     );
 
                     $latestDate = $row['latest_date'];
@@ -2569,5 +2599,21 @@ class User {
     public function setGender($gender)
     {
         $this->gender = $gender;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFcmRegToken()
+    {
+        return $this->fcmRegToken;
+    }
+
+    /**
+     * @param string|null $fcmRegToken
+     */
+    public function setFcmRegToken($fcmRegToken)
+    {
+        $this->fcmRegToken = $fcmRegToken;
     }
 }
