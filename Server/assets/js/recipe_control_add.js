@@ -7,7 +7,9 @@ let iDtdn = $("#iDtdn");
 let iSigna = $("#iSigna");
 
 $(document).ready(function () {
-    form.on('submit', function () {
+    form.on('submit', function (e) {
+        e.preventDefault();
+
         let fd = new FormData();
         fd.append('csrf_name', header.csrf_name);
         fd.append('csrf_value', header.csrf_value);
