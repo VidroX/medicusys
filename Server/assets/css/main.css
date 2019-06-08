@@ -121,6 +121,11 @@ button:focus {
     border-radius: 10px;
 }
 
+.admin-rounded {
+    border-radius: 10px;
+    padding: 10px;
+}
+
 .medicus-bg-color {
     color: #fff!important;
     background-color: #7986e1!important;
@@ -241,6 +246,17 @@ a.medicus-color{
     box-shadow: 0 0 0 .2rem rgba(121, 134, 225, 0.5);
 }
 
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: #7986e1!important;
+}
+
+.modal-content {
+    border: none!important;
+    border-radius: .3rem;
+    box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
+}
+
 .btn-block-md{
     margin-bottom: 10px;
 }
@@ -279,6 +295,10 @@ a.medicus-color{
     width: 20px;
     height: 20px;
     position: relative;
+}
+
+.prepend-fixed {
+    min-width: 80px;
 }
 
 button.flex-button {
@@ -397,6 +417,10 @@ input.admin-search-input {
     margin-bottom: 10px;
 }
 
+.margin-bot-small {
+    margin-bottom: 4px;
+}
+
 .margin-top-default {
     margin-top: 10px;
 }
@@ -431,6 +455,28 @@ input.admin-search-input {
     align-items: center;
 }
 
+.flex-card {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.flex-card-left {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.flex-card-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+label.no-margin {
+    margin: 0!important;
+}
+
 .flex-left {
     flex-basis: 26%;
     margin-right: 20px;
@@ -452,8 +498,32 @@ input.admin-search-input {
     margin-right: 10px;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 td, th {
     text-align: center;
+}
+
+.input-group>.twitter-typeahead {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-bottom: 0;
+}
+.input-group>.twitter-typeahead:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.input-group>.twitter-typeahead>.tt-input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.form-control.tt-input:focus {
+    z-index: 3
 }
 
 @media (max-height: 420px) {
@@ -595,9 +665,22 @@ td, th {
         width: 100%;
         margin-left: 0;
     }
+    .btn-medicus.btn-block-md-normal {
+        display: block;
+        min-width: auto!important;
+        width: 100%;
+    }
     .medicus-bottom-buttons{
         justify-content: normal;
         flex-direction: column-reverse;
+    }
+    .flex-card {
+        flex-direction: column;
+    }
+    ul.typeahead.dropdown-menu {
+        display: block;
+        min-width: auto!important;
+        width: 100%;
     }
 }
 .nav-link.active{

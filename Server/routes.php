@@ -26,7 +26,12 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
         $app->group('/report', function () use ($app) {
             $app->group('/{id}', function () use ($app) {
                 $app->get("[/]", 'App\Controllers\DoctorController:report');
-                $app->get("/info[/]", 'App\Controllers\DoctorController:reportInfo');
+                $app->get("/info/{diagnosisId}[/]", 'App\Controllers\DoctorController:reportInfo');
+                $app->group('/recipe/{diagnosisId}', function () use ($app) {
+                    $app->get("[/]", 'App\Controllers\DoctorController:recipeInfo');
+                    $app->get("/add[/]", 'App\Controllers\DoctorController:recipeAdd');
+                    $app->get("/{recipeId}/edit[/]", 'App\Controllers\DoctorController:recipeEdit');
+                });
                 $app->get("/add[/]", 'App\Controllers\DoctorController:reportAdd');
             });
         });
@@ -58,8 +63,16 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     // Admin part
     $app->group('/admin', function () use ($app) {
         // DoctorController
+        $app->post('/doctor/diagnosis', 'App\Controllers\DoctorController:getDiagnosis');
+        $app->post('/doctor/symptoms', 'App\Controllers\DoctorController:getSymptoms');
         $app->group('/doctor/report', function () use ($app) {
             $app->post("/add[/]", 'App\Controllers\DoctorController:postReportAdd');
+            $app->post("/delete[/]", 'App\Controllers\DoctorController:postReportDelete');
+        });
+        $app->group('/doctor/recipe', function () use ($app) {
+            $app->post("/add[/]", 'App\Controllers\DoctorController:postAddRecipe');
+            $app->post("/edit[/]", 'App\Controllers\DoctorController:postEditRecipe');
+            $app->post("/delete[/]", 'App\Controllers\DoctorController:postDeleteRecipe');
         });
     });
 });
@@ -74,5 +87,7 @@ if($config['api']['enabled']){
     $app->group('/api/v1', function () use ($app) {
         $app->map(['GET', 'POST'], "[/]", 'App\Controllers\ApiController:index');
         $app->post('/login[/]', 'App\Controllers\ApiController:login');
+        $app->post('/diagnosis[/]', 'App\Controllers\ApiController:diagnosis');
+        $app->post('/recipe[/]', 'App\Controllers\ApiController:recipe');
     });
 }

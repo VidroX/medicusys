@@ -75,4 +75,97 @@ class ApiController {
             ]);
         }
     }
+
+    public function diagnosis(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['user_id']) && !empty($parsedBody['user_id'])) && (isset($parsedBody['user_token']) && !empty($parsedBody['user_token']))) {
+            $uid = $parsedBody['user_id'];
+            $utoken = $parsedBody['user_token'];
+
+            $user = $user->getUser($uid, $utoken);
+            if($user->isUserLoggedIn(true)) {
+                return $response->withJson([
+                    "status" => 27,
+                    "message" => StatusCodes::STATUS[27],
+                    "data" => $user->getPatientDiagnoses()
+                ]);
+            } else {
+                return $response->withJson([
+                    "status" => 53,
+                    "message" => StatusCodes::STATUS[53]
+                ]);
+            }
+        } else {
+            return $response->withJson([
+                "status" => 55,
+                "message" => StatusCodes::STATUS[55]
+            ]);
+        }
+    }
+
+    public function recipe(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['user_id']) && !empty($parsedBody['user_id'])) && (isset($parsedBody['user_token']) && !empty($parsedBody['user_token']))) {
+            $uid = $parsedBody['user_id'];
+            $utoken = $parsedBody['user_token'];
+
+            if(!isset($parsedBody['diagnosis_id']) || empty($parsedBody['diagnosis_id'])) {
+                return $response->withJson([
+                    "status" => 45,
+                    "message" => StatusCodes::STATUS[45]
+                ]);
+            }
+
+            $diagnosisId = $parsedBody['diagnosis_id'];
+
+            $user = $user->getUser($uid, $utoken);
+            if($user->isUserLoggedIn(true)) {
+                return $response->withJson([
+                    "status" => 27,
+                    "message" => StatusCodes::STATUS[27],
+                    "data" => $user->getPatientRecipes($diagnosisId)
+                ]);
+            } else {
+                return $response->withJson([
+                    "status" => 53,
+                    "message" => StatusCodes::STATUS[53]
+                ]);
+            }
+        } else {
+            return $response->withJson([
+                "status" => 55,
+                "message" => StatusCodes::STATUS[55]
+            ]);
+        }
+    }
 }

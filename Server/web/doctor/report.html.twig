@@ -23,19 +23,27 @@
                                 <tr>
                                     <th id="colDiagnosis" scope="col">{{ i18n.diagnosis }}</th>
                                     <th id="colDetectionDate" scope="col">{{ i18n.detectionDate }}</th>
-                                    <th id="colTreatment" scope="col">{{ i18n.treatment }}</th>
                                     <th id="colAction" scope="col">{{ i18n.action }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>2</td>
-                                    <td>3</td>
-                                    <td class="text-center"><a class="medicus-color" title="{{ i18n.viewInfo }}" href="{{ urlPrefix }}/doctor/report/{{ userId }}/info"><i class="fas fa-info-circle"></i></a></td>
-                                </tr>
+                                {% if patientDiagnoses is not null and patientDiagnoses is not empty %}
+                                    {% for diagnosis in patientDiagnoses %}
+                                        <tr>
+                                            <td>{{ diagnosis.data.name }}</td>
+                                            <td>{{ diagnosis.data.detection_date|date("d.m.Y") }}</td>
+                                            <td class="text-center">
+                                                <a class="medicus-color margin-right-default" title="{{ i18n.viewInfo }}" href="{{ urlPrefix }}/doctor/report/{{ userId }}/info/{{ diagnosis.data.id }}"><i class="fas fa-info-circle"></i></a>
+                                                <a class="medicus-color" title="{{ i18n.recipes }}" href="{{ urlPrefix }}/doctor/report/{{ userId }}/recipe/{{ diagnosis.data.id }}"><i class="fas fa-scroll"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
                                 </tbody>
                             </table>
+                            {% if patientDiagnoses is null or patientDiagnoses is empty %}
+                                <p class="text-center">{{ i18n.noDiagnoses }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

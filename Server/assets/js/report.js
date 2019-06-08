@@ -1,13 +1,5 @@
 let form = $("#diagnosisForm");
 
-let csrf_name = $("input[name=csrf_name]").val();
-let csrf_value = $("input[name=csrf_value]").val();
-
-let header = {
-    'csrf_name': csrf_name,
-    'csrf_value': csrf_value,
-};
-
 $(document).ready(function () {
     //spinner.hide(150);
     //error.hide(150);
@@ -49,7 +41,12 @@ $(document).ready(function () {
             },
             success: function(data){
                 //spinner.hide();
-                console.log(data);
+                //console.log(data);
+                if(data.status === 27) {
+                    window.location.href = window.location.origin+app_prev_url;
+                }else{
+                    alert(data.message);
+                }
             },
             error: function(data){
                 //error.show(150);

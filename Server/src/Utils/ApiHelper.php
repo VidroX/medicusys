@@ -282,10 +282,10 @@ class ApiHelper {
         $dbh = $db->getDatabase();
 
         if($needle == null) {
-            $query = $dbh->prepare("SELECT symptoms.name FROM symptoms");
+            $query = $dbh->prepare("SELECT symptoms.id, symptoms.api_id, symptoms.name FROM symptoms");
             $query->execute();
         }else{
-            $query = $dbh->prepare("SELECT symptoms.name FROM symptoms WHERE name LIKE :needle");
+            $query = $dbh->prepare("SELECT symptoms.id, symptoms.api_id, symptoms.name FROM symptoms WHERE name LIKE :needle");
             $query->execute([
                 ':needle' => $needle.'%'
             ]);
@@ -294,9 +294,39 @@ class ApiHelper {
         $symptoms = [];
 
         while ($row = $query->fetch()) {
-            $symptoms[] = $row['name'];
+            $symptoms[] = [
+                'id' => $row['id'],
+                'api_id' => $row['api_id'],
+                'name' => $row['name']
+            ];
         }
 
         return $symptoms;
+    }
+
+    /**
+     * Get patient possible diagnoses
+     *
+     * @param string $symptomIds (JSON encoded string array with symptom ids)
+     * @param string $gender (male, female)
+     * @param int $birthDate
+     * @param string $language
+     *
+     * @return array
+     */
+    public function getDiagnoses($symptomIds, $gender, $birthDate, $language) {
+        $token = $this->getToken();
+        if(isset($token) && $token != null && strlen($token) > 0) {
+            $url = $this->config['symptoms_api']['urlHealthService'] . '/diagnosis';
+            $extraArgs = '?token=' . $token . '&format=json&language=' . $language . '&year_of_birth=' . $birthDate . '&gender=' . $gender . '&symptoms=' . $symptomIds;
+            //die($extraArgs);
+            $diagnoses = $this->sendGetRequest($url . $extraArgs);
+
+            if(isset($diagnoses) && $diagnoses != null) {
+                return $diagnoses;
+            }
+        }
+
+        return null;
     }
 }
