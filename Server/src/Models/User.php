@@ -10,11 +10,15 @@ class User {
     const USER_DOCTOR = 2;
     const USER_RECORDER = 3;
 
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
+
     private $id;
     private $firstName;
     private $lastName;
     private $patronymic;
     private $birthDate;
+    private $gender;
     private $mobilePhone;
     private $email;
     private $homeAddress;
@@ -29,6 +33,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $email
      * @param string $homeAddress
@@ -36,7 +41,7 @@ class User {
      * @param int $userLevel
      * @param string $userToken
      */
-    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
+    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $userToken = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -49,6 +54,7 @@ class User {
         $this->activated = $activated;
         $this->userLevel = $userLevel;
         $this->userToken = $userToken;
+        $this->gender = $gender;
     }
 
     /**
@@ -82,6 +88,7 @@ class User {
             $this->setLastName($row['last_name']);
             $this->setPatronymic($row['patronymic']);
             $this->setBirthDate($row['birthdate']);
+            $this->setGender($row['gender']);
             $this->setMobilePhone($row['mobilephone']);
             $this->setEmail($row['email']);
             $this->setHomeAddress($row['home_address']);
@@ -114,10 +121,18 @@ class User {
     }
 
     /**
+     * Check if user is logged in
+     *
+     * @param bool $api
+     *
      * @return bool
      */
-    public function isUserLoggedIn() {
-        return $this->getCurrentUser() != null;
+    public function isUserLoggedIn($api = false) {
+        if($api) {
+            return $this != null;
+        }else{
+            return $this->getCurrentUser() != null;
+        }
     }
 
     /**
@@ -168,6 +183,18 @@ class User {
             }
         }
 
+        if($api) {
+            $secureKey = bin2hex(openssl_random_pseudo_bytes(256));
+            $userToken = hash_hmac('sha3-256', $login, $secureKey);
+
+            $updateQuery = $dbh->prepare("UPDATE users SET token = :token WHERE email = :login1 OR mobilephone = :login2");
+            $updateQuery->execute([
+               ':token' => $userToken,
+               ':login1' => $login,
+               ':login2' => $login
+            ]);
+        }
+
         if($type === 0) {
             $query = $dbh->prepare(
                 "
@@ -215,6 +242,7 @@ class User {
                 $this->setLastName($row['last_name']);
                 $this->setPatronymic($row['patronymic']);
                 $this->setBirthDate($row['birthdate']);
+                $this->setGender($row['gender']);
                 $this->setMobilePhone($row['mobilephone']);
                 $this->setEmail($row['email']);
                 $this->setHomeAddress($row['home_address']);
@@ -247,6 +275,70 @@ class User {
                 "status"=>1,
                 "message"=>StatusCodes::STATUS[1]
             ]);
+        }
+    }
+
+    /**
+     * Get user from the database
+     *
+     * @param int $userId User's ID
+     * @param string $userToken User's token
+     *
+     * @return User
+     */
+    public function getUser($userId, $userToken) {
+        if($userId == null || $userToken == null) return null;
+
+        $db = new Database();
+        $dbh = $db->getDatabase();
+
+        $query = $dbh->prepare(
+            "
+                    SELECT 
+                        users.*,
+                        IFNULL(r.user_id, -1) AS user_recorder,
+                        IFNULL(d.user_id, -1) AS user_doctor,
+                        IFNULL(p.user_id, -1) AS user_patient
+                    FROM users 
+                        LEFT JOIN patients p on users.id = p.user_id 
+                        LEFT JOIN doctors d on users.id = d.user_id 
+                        LEFT JOIN recorders r on users.id = r.user_id 
+                    WHERE users.id = :id AND users.token = :uToken LIMIT 1
+                    "
+        );
+        $query->execute([
+            ":id" => $userId,
+            ":uToken" => $userToken
+        ]);
+
+        if($query->rowCount() > 0){
+            $row = $query->fetch();
+
+            $this->setId($row['id']);
+            $this->setFirstName($row['first_name']);
+            $this->setLastName($row['last_name']);
+            $this->setPatronymic($row['patronymic']);
+            $this->setBirthDate($row['birthdate']);
+            $this->setGender($row['gender']);
+            $this->setMobilePhone($row['mobilephone']);
+            $this->setEmail($row['email']);
+            $this->setHomeAddress($row['home_address']);
+            $this->setActivated($row['activated'] == 1);
+            $this->setUserToken($row['token']);
+
+            if($row['user_recorder'] != -1){
+                $this->setUserLevel(self::USER_RECORDER);
+            }elseif($row['user_doctor'] != -1){
+                $this->setUserLevel(self::USER_DOCTOR);
+            }elseif ($row['user_patient'] != -1){
+                $this->setUserLevel(self::USER_PATIENT);
+            }else{
+                $this->setUserLevel(self::USER_UNSPECIFIED);
+            }
+
+            return $this;
+        }else{
+            return null;
         }
     }
 
@@ -286,6 +378,7 @@ class User {
                 $row['last_name'],
                 $row['patronymic'],
                 $row['birthdate'],
+                $row['gender'],
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
@@ -314,6 +407,7 @@ class User {
                 $row['last_name'],
                 $row['patronymic'],
                 $row['birthdate'],
+                $row['gender'],
                 $row['mobilephone'],
                 $row['email'],
                 $row['home_address'],
@@ -348,6 +442,7 @@ class User {
                     $row['last_name'],
                     $row['patronymic'],
                     $row['birthdate'],
+                    $row['gender'],
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
@@ -369,6 +464,7 @@ class User {
                     $row['last_name'],
                     $row['patronymic'],
                     $row['birthdate'],
+                    $row['gender'],
                     $row['mobilephone'],
                     $row['email'],
                     $row['home_address'],
@@ -378,6 +474,46 @@ class User {
 
             return $patients;
         }
+    }
+
+    /**
+     * @param int $patientId
+     *
+     * @return User
+     */
+    public function getPatientById($patientId) {
+        if($patientId != null) {
+            $db = new Database();
+            $dbh = $db->getDatabase();
+
+            $query = $dbh->prepare("SELECT patients.id AS internal_id, users.* FROM patients INNER JOIN users ON patients.user_id = users.id WHERE users.id = :id");
+            $query->execute([
+                ":id" => $patientId
+            ]);
+
+            if($query->rowCount() > 0) {
+                if ($row = $query->fetch()) {
+                    return new User(
+                        $row['id'],
+                        $row['first_name'],
+                        $row['last_name'],
+                        $row['patronymic'],
+                        $row['birthdate'],
+                        $row['gender'],
+                        $row['mobilephone'],
+                        $row['email'],
+                        $row['home_address'],
+                        $row['activated'],
+                        self::USER_PATIENT,
+                        $row['token']
+                    );
+                }
+            }
+
+            return null;
+        }
+
+        return null;
     }
 
     /**
@@ -395,6 +531,7 @@ class User {
                 'lastName' => $this->getLastName(),
                 'patronymic' => $this->getPatronymic(),
                 'birthDate' => $this->getBirthDate(),
+                'gender' => $this->getGender(),
                 'mobilePhone' => $this->getMobilePhone(),
                 'email' => $this->getEmail(),
                 'homeAddress' => $this->getHomeAddress(),
@@ -408,6 +545,7 @@ class User {
                 'lastName' => $this->getLastName(),
                 'patronymic' => $this->getPatronymic(),
                 'birthDate' => $this->getBirthDate(),
+                'gender' => $this->getGender(),
                 'mobilePhone' => $this->getMobilePhone(),
                 'email' => $this->getEmail(),
                 'homeAddress' => $this->getHomeAddress(),
@@ -422,10 +560,13 @@ class User {
      * Check if doctor has more patients (for table)
      *
      * @param int $page
+     * @param bool $searchVal
+     * @param string $from
+     * @param string $to
      *
      * @return bool
      */
-    public function doctorHasMorePatients($page) {
+    public function doctorHasMorePatients($page, $searchVal = null, $from = null, $to = null) {
         if($this->isUserLoggedIn()) {
             if($this->getUserLevel() == self::USER_DOCTOR) {
                 $id = $this->getUserInternalId($this->getId())['id'];
@@ -449,8 +590,14 @@ class User {
                 $db = new Database();
                 $dbh = $db->getDatabase();
 
-                $query = $dbh->prepare(
-                    "
+                $filterStr = "";
+                if($from != null && $to != null){
+                    $filterStr = "AND v1.visit_date >= :date1 AND v1.visit_date <= :date2";
+                }
+
+                if($searchVal == null) {
+                    $query = $dbh->prepare(
+                        "
                         SELECT p.id FROM patients p
                         LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
@@ -458,16 +605,86 @@ class User {
                         LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
                         )
-                        WHERE p.doctor_id = :id
+                        WHERE p.doctor_id = :id {$filterStr}
                         LIMIT :start, :end
                     "
-                );
+                    );
 
-                $query->execute([
-                    ":id" => $id,
-                    ":start" => $start,
-                    ":end" => $limit
-                ]);
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }
+                }else{
+                    $query = $db->getDatabase()->prepare(
+                        "
+                        SELECT u.id, u.first_name, u.last_name, u.patronymic, v1.visit_date, v2.visit_date FROM patients p
+                        INNER JOIN users u on p.user_id = u.id
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE 
+                              p.doctor_id = :id AND 
+                              (
+                                u.id = :sval1 
+                                 OR CONCAT(u.last_name, ' ', u.first_name, ' ', u.patronymic) LIKE :sval2
+                                 OR v1.visit_date LIKE :sval3
+                                 OR v2.visit_date LIKE :sval4
+                              )
+                              {$filterStr}
+                        LIMIT :start, :end
+                    "
+                    );
+
+                    $searchVal = '%'.$searchVal.'%';
+
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":start" => $start,
+                            ":end" => $limit
+                        ]);
+                    }
+                }
 
                 return $query->rowCount() > 0;
             }
@@ -477,15 +694,18 @@ class User {
     }
 
     /**
-     * Get all patients for logged in doctor
+     * Get all patients for logged in doctor (with search and filter)
      *
      * @param int $page
      * @param bool $arrayVariant
      * @param bool $formattedDate
+     * @param string $searchVal
+     * @param string $from
+     * @param string $to
      *
      * @return array
      */
-    public function getDoctorPatients($page = 1, $arrayVariant = false, $formattedDate = false) {
+    public function getDoctorPatients($page = 1, $arrayVariant = false, $formattedDate = false, $searchVal = null, $from = null, $to = null) {
         if($page < 1) {
             return null;
         }
@@ -497,7 +717,6 @@ class User {
                 }
 
                 $db = new Database();
-                $dbh = $db->getDatabase();
 
                 $limit = 5;
                 if($page == 1){
@@ -506,8 +725,14 @@ class User {
                     $start = ($page * $limit) - $limit;
                 }
 
-                $query = $dbh->prepare(
-                    "
+                $filterStr = "";
+                if($from != null && $to != null){
+                    $filterStr = "AND v1.visit_date >= :date1 AND v1.visit_date <= :date2";
+                }
+
+                if($searchVal == null) {
+                    $query = $db->getDatabase()->prepare(
+                        "
                         SELECT u.*, p.id AS internal_id, v1.visit_date AS latest_date, v2.visit_date AS upcoming_date FROM patients p
                         INNER JOIN users u ON p.user_id = u.id
                         LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
@@ -516,20 +741,92 @@ class User {
                         LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
                           SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
                         )
-                        WHERE p.doctor_id = :id
+                        WHERE 
+                              p.doctor_id = :id
+                              {$filterStr}
                         ORDER BY upcoming_date DESC
                         LIMIT :start, :limit
                     "
-                );
+                    );
 
-                $query->execute([
-                    ":id" => $id,
-                    ":start" => $start,
-                    ":limit" => $limit
-                ]);
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }
+                }else{
+                    $query = $db->getDatabase()->prepare(
+                        "
+                        SELECT u.*, p.id AS internal_id, v1.visit_date AS latest_date, v2.visit_date AS upcoming_date FROM patients p
+                        INNER JOIN users u ON p.user_id = u.id
+                        LEFT JOIN visits v1 ON p.id = v1.patient_id AND v1.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date < CURDATE() AND v.visited = 1 ORDER BY v.visit_date DESC LIMIT 1
+                        )
+                        LEFT JOIN visits v2 ON p.id = v2.patient_id AND v2.visit_date = (
+                          SELECT v.visit_date FROM visits v WHERE v.patient_id = p.id AND v.visit_date >= CURDATE() AND v.visited = 0 ORDER BY v.visit_date ASC LIMIT 1
+                        )
+                        WHERE 
+                              p.doctor_id = :id AND 
+                              (
+                                u.id = :sval1 
+                                 OR CONCAT(u.last_name, ' ', u.first_name, ' ', u.patronymic) LIKE :sval2
+                                 OR v1.visit_date LIKE :sval3
+                                 OR v2.visit_date LIKE :sval4
+                              )
+                              {$filterStr}
+                        ORDER BY upcoming_date DESC
+                        LIMIT :start, :limit
+                      "
+                    );
+
+                    $searchVal = '%'.$searchVal.'%';
+
+                    if($filterStr != null && strlen($filterStr) > 0) {
+                        $phpDate1 = strtotime($from);
+                        $phpDate2 = strtotime($to);
+                        $date1 = date( 'Y-m-d H:i:s', $phpDate1 );
+                        $date2 = date( 'Y-m-d H:i:s', $phpDate2 );
+
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":date1" => $date1,
+                            ":date2" => $date2,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }else{
+                        $query->execute([
+                            ":id" => $id,
+                            ":sval1" => $searchVal,
+                            ":sval2" => $searchVal,
+                            ":sval3" => $searchVal,
+                            ":sval4" => $searchVal,
+                            ":start" => $start,
+                            ":limit" => $limit
+                        ]);
+                    }
+                }
 
                 $patients = [];
-
                 while ($row = $query->fetch()) {
                     $user = new User(
                         $row['id'],
@@ -537,6 +834,7 @@ class User {
                         $row['last_name'],
                         $row['patronymic'],
                         $row['birthdate'],
+                        $row['gender'],
                         $row['mobilephone'],
                         $row['email'],
                         $row['home_address'],
@@ -623,6 +921,190 @@ class User {
     }
 
     /**
+     * Check if a doctor has access to the patient
+     *
+     * @param int $patientUID
+     *
+     * @return bool
+     */
+    public function checkAccessToPatient($patientUID)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                "
+                    SELECT patients.id FROM patients
+                    INNER JOIN doctors d on d.user_id = :doctorId
+                    INNER JOIN users u ON patients.user_id = :patientId AND patients.doctor_id = d.id
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':doctorId' => $this->getId(),
+                    ':patientId' => $patientUID
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if a patient has access to the diagnosis
+     *
+     * @param int $patientUID
+     * @param int $diagnosisId
+     *
+     * @return bool
+     */
+    public function checkPatientAccessToDiagnosis($patientUID, $diagnosisId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($patientUID == null || $diagnosisId == null) {
+                    return false;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT d.id FROM patients
+                    INNER JOIN users u ON patients.user_id = :patientId
+                    INNER JOIN diagnoses d on patients.id = d.patient_id
+                    WHERE d.id = :diagnosisId AND d.active = 1
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $patientUID,
+                    ':diagnosisId' => $diagnosisId
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if a patient has access to the recipe
+     *
+     * @param int $patientUID
+     * @param int $recipeId
+     *
+     * @return bool
+     */
+    public function checkPatientAccessToRecipe($patientUID, $recipeId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($patientUID == null || $recipeId == null) {
+                    return false;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT m.id FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    INNER JOIN diagnoses d on p.id = d.patient_id
+                    INNER JOIN medication m on d.id = m.diagnosis_id
+                    WHERE users.id = :patientId AND m.id = :recipeId
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $patientUID,
+                    ':recipeId' => $recipeId
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if a doctor has access to the recipe
+     *
+     * @param int $recipeId
+     *
+     * @return bool
+     */
+    public function checkAccessToRecipe($recipeId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($recipeId == null) {
+                    return false;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT m.id FROM users
+                    INNER JOIN doctors dc on users.id = dc.user_id
+                    INNER JOIN diagnoses d on dc.id = d.doctor_id
+                    INNER JOIN medication m on d.id = m.diagnosis_id
+                    WHERE users.id = :doctorId AND m.id = :recipeId
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':doctorId' => $this->getId(),
+                    ':recipeId' => $recipeId
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check if a doctor has access to the diagnosis
+     *
+     * @param int $diagnosisId
+     *
+     * @return bool
+     */
+    public function checkAccessToDiagnosis($diagnosisId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($diagnosisId == null) {
+                    return false;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT d2.id FROM users
+                    INNER JOIN doctors d on users.id = d.user_id
+                    INNER JOIN diagnoses d2 on d.id = d2.doctor_id
+                    WHERE d2.id = :diagnosisId AND d.user_id = :id AND d2.active = 1
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':diagnosisId' => $diagnosisId,
+                    ':id' => $this->getId()
+                ]);
+
+                return $query->rowCount() > 0;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Register patient in the system
      *
      * @param string $email
@@ -631,6 +1113,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param int $doctorId
@@ -638,7 +1121,7 @@ class User {
      *
      * @return mixed
      */
-    public function registerPatient($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $doctorId, $activated = false) {
+    public function registerPatient($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $doctorId, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -683,6 +1166,12 @@ class User {
                 ]);
             }
         }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
+        }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
                 "status"=>8,
@@ -726,9 +1215,9 @@ class User {
         $query1 = $dbh->prepare(
         "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -755,6 +1244,7 @@ class User {
                     ":lastName" => $lastName,
                     ":patronymic" => $patronymic,
                     ":birthDate" => $birthDate,
+                    ":gender" => $gender,
                     ":mobilePhone" => $mobilePhone,
                     ":homeAddress" => $homeAddress,
                     ":activated" => $activated,
@@ -803,6 +1293,7 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param string $specialty
@@ -810,7 +1301,7 @@ class User {
      *
      * @return mixed
      */
-    public function registerDoctor($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $specialty, $activated = false) {
+    public function registerDoctor($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $specialty, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -854,6 +1345,12 @@ class User {
                     "message" => StatusCodes::STATUS[7]
                 ]);
             }
+        }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
         }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('/^[0-9]{10}$|^[0-9]{12}$/', $mobilePhone))){
             return json_encode([
@@ -899,9 +1396,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -926,6 +1423,7 @@ class User {
                 ":lastName" => $lastName,
                 ":patronymic" => $patronymic,
                 ":birthDate" => $birthDate,
+                ":gender" => $gender,
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
@@ -968,13 +1466,14 @@ class User {
      * @param string $lastName
      * @param string $patronymic
      * @param string $birthDate
+     * @param int $gender
      * @param string $mobilePhone
      * @param string $homeAddress
      * @param bool $activated
      *
      * @return mixed
      */
-    public function registerRecorder($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $mobilePhone, $homeAddress, $activated = false) {
+    public function registerRecorder($email, $pass, $firstName, $lastName, $patronymic, $birthDate, $gender, $mobilePhone, $homeAddress, $activated = false) {
         if($email == null || !filter_var($email, FILTER_VALIDATE_EMAIL)){
             return json_encode([
                 "status"=>3,
@@ -1019,6 +1518,12 @@ class User {
                 ]);
             }
         }
+        if($gender == null || ($gender != null && $gender < 1 || $gender > 2)){
+            return json_encode([
+                "status"=>29,
+                "message"=>StatusCodes::STATUS[29]
+            ]);
+        }
         if($mobilePhone == null || ($mobilePhone != null && !preg_match('^[0-9]{10}$|^[0-9]{12}$', $mobilePhone))){
             return json_encode([
                 "status"=>8,
@@ -1056,9 +1561,9 @@ class User {
         $query1 = $dbh->prepare(
             "
               INSERT INTO 
-                    users (email, pass, first_name, last_name, patronymic, birthdate, mobilephone, home_address, activated, token) 
+                    users (email, pass, first_name, last_name, patronymic, birthdate, gender, mobilephone, home_address, activated, token) 
               VALUES 
-                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :mobilePhone, :homeAddress, :activated, :token)
+                    (:email, :pass, :firstName, :lastName, :patronymic, :birthDate, :gender, :mobilePhone, :homeAddress, :activated, :token)
         ");
         $query2 = $dbh->prepare(
             "
@@ -1083,6 +1588,7 @@ class User {
                 ":lastName" => $lastName,
                 ":patronymic" => $patronymic,
                 ":birthDate" => $birthDate,
+                ":gender" => $gender,
                 ":mobilePhone" => $mobilePhone,
                 ":homeAddress" => $homeAddress,
                 ":activated" => $activated,
@@ -1117,28 +1623,9 @@ class User {
 
     public function logout() {
         if($this->isUserLoggedIn()){
+            $_SESSION['USER'] = null;
             unset($_SESSION['USER']);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getData()
-    {
-        return [
-            "id" => $this->getId(),
-            "firstName" => $this->getFirstName(),
-            "lastName" => $this->getLastName(),
-            "patronymic" => $this->getPatronymic(),
-            "birthDate" => $this->getBirthDate(),
-            "mobilePhone" => $this->getMobilePhone(),
-            "email" => $this->getEmail(),
-            "homeAddress" => $this->getHomeAddress(),
-            "activated" => $this->isActivated(),
-            "userLevel" => $this->getUserLevel(),
-            "userToken" => $this->getUserToken()
-        ];
     }
 
     /**
@@ -1151,7 +1638,7 @@ class User {
      */
     private function checkToken($userId, $userToken) {
         $db = new Database();
-        $query = $db->getDatabase()->prepare("SELECT id, token FROM users WHERE id=:id AND token=:token");
+        $query = $db->getDatabase()->prepare("SELECT id, token FROM users WHERE id=:id AND token=:token LIMIT 1");
         $query->execute([
             ':id'=>$userId,
             ':token'=>$userToken
@@ -1262,6 +1749,634 @@ class User {
             }
         }
         return null;
+    }
+
+    /**
+     * Get symptoms that ARE NOT in the database
+     *
+     * @param $symptomsArr
+     *
+     * @return array
+     */
+    public function getDistinctSymptomsFromArray($symptomsArr) {
+        if($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($symptomsArr != null) {
+                    $db = new Database();
+                    $dbh = $db->getDatabase();
+
+                    $symptomsStr = "";
+                    foreach ($symptomsArr as $symptom) {
+                        $symptomsStr .= $dbh->quote($symptom) . ", ";
+                    }
+
+                    $symptomsStr = rtrim($symptomsStr,', ');
+
+                    $query = $dbh->prepare("SELECT symptoms.name FROM symptoms WHERE symptoms.name IN ({$symptomsStr})");
+
+                    $query->execute();
+
+                    $dbSymptoms = [];
+
+                    while($row = $query->fetch()) {
+                        $dbSymptoms[] = $row['name'];
+                    }
+
+                    $symptoms = [];
+                    foreach ($symptomsArr as $symptom) {
+                        if(!in_array($symptom, $dbSymptoms)) {
+                            $symptoms[] = $symptom;
+                        }
+                    }
+
+                    return $symptoms;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get symptoms that ARE in the database
+     *
+     * @param $symptomsArr
+     *
+     * @return array
+     */
+    public function getSymptomsFromArray($symptomsArr) {
+        if($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($symptomsArr != null) {
+                    $db = new Database();
+                    $dbh = $db->getDatabase();
+
+                    $symptomsStr = "";
+                    foreach ($symptomsArr as $symptom) {
+                        $symptomsStr .= $dbh->quote($symptom) . ", ";
+                    }
+
+                    $symptomsStr = rtrim($symptomsStr,', ');
+
+                    $query = $dbh->prepare("SELECT symptoms.* FROM symptoms WHERE symptoms.name IN ({$symptomsStr})");
+
+                    $query->execute();
+
+                    $dbSymptoms = [];
+
+                    while($row = $query->fetch()) {
+                        $dbSymptoms[] = [
+                            'id' => $row['id'],
+                            'api_id' => $row['api_id'],
+                            'name' => $row['name']
+                        ];
+                    }
+
+                    return $dbSymptoms;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Add diagnosis to the patient
+     *
+     * @param int $patientId
+     * @param array $diagnosisData
+     *
+     * @return bool
+     */
+    public function addDiagnosis($patientId, $diagnosisData) {
+        if($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($this->checkAccessToPatient($patientId)) {
+                    if($diagnosisData != null) {
+                        $db = new Database();
+                        $dbh = $db->getDatabase();
+
+                        if($diagnosisData['diagnosis'] == null){
+                            return false;
+                        }
+
+                        $pId = $this->getUserInternalId($patientId)['id'];
+                        $uId = $this->getUserInternalId($this->getId())['id'];
+
+                        if(!isset($pId) || (isset($pId) && $pId == null) || !isset($uId) || (isset($uId) && $uId == null)) {
+                            return false;
+                        }
+
+                        $newSymptoms = null;
+                        if($diagnosisData['symptoms'] != null) {
+                            $newSymptoms = $this->getDistinctSymptomsFromArray($diagnosisData['symptoms']);
+                            if($newSymptoms != null) {
+                                $query1 = $dbh->prepare("INSERT INTO symptoms (api_id, name) VALUES (-1, :name)");
+                            }
+                        }
+                        $query2 = $dbh->prepare("INSERT INTO diagnoses (doctor_id, patient_id, name, detection_date) VALUES (:uId, :pId, :dName, :dDate)");
+                        $query3 = $dbh->prepare("INSERT INTO diagnoses_data (diagnosis_id, symptom_id) VALUES (:dId, :sid)");
+
+                        try {
+                            $dbh->beginTransaction();
+
+                            if($diagnosisData['symptoms'] != null && $newSymptoms != null) {
+                                foreach ($newSymptoms as $symptom) {
+                                    $query1->execute([
+                                        ':name' => $symptom
+                                    ]);
+                                }
+                            }
+
+                            $query2->execute([
+                                ':uId' => $uId,
+                                ':pId' => $pId,
+                                ':dName' => $diagnosisData['diagnosis'],
+                                ':dDate' => date("Y-m-d")
+                            ]);
+
+                            $lastInsertId = $dbh->lastInsertId();
+
+                            $dbh->commit();
+
+                            if($diagnosisData['symptoms'] != null) {
+                                $dbh->beginTransaction();
+
+                                $newSymptoms2 = $this->getSymptomsFromArray($diagnosisData['symptoms']);
+
+                                if ($newSymptoms2 != null) {
+                                    foreach ($newSymptoms2 as $symptom) {
+                                        $query3->execute([
+                                            ':dId' => $lastInsertId,
+                                            ':sid' => $symptom['id']
+                                        ]);
+                                    }
+                                }
+
+                                $dbh->commit();
+                            }
+
+                            return true;
+                        } catch (\PDOException $ex) {
+                            $dbh->rollBack();
+
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get symptoms from diagnosis
+     *
+     * @param int $patientId
+     * @param int $diagnosisId
+     *
+     * @return array
+     */
+    public function getSymptomsForDiagnosis($patientId, $diagnosisId) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare(
+                    "
+                            SELECT s.name FROM symptoms s
+                            INNER JOIN diagnoses_data dd on s.id = dd.symptom_id
+                            INNER JOIN diagnoses d ON dd.diagnosis_id = d.id
+                            WHERE d.patient_id = :pID AND dd.diagnosis_id = :dID
+                        "
+                );
+
+                $query->execute([
+                    ':pID' => $patientId,
+                    ':dID' => $diagnosisId
+                ]);
+
+                $symptoms = [];
+
+                while($row = $query->fetch()) {
+                    $symptoms[] = $row['name'];
+                }
+
+                return $symptoms;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get patient's diagnoses
+     *
+     * @param int $patientId
+     *
+     * @return array
+     */
+    public function getDiagnoses($patientId)
+    {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if ($this->checkAccessToPatient($patientId)) {
+                    $patientInternalId = $this->getUserInternalId($patientId)['id'];
+
+                    $db = new Database();
+                    $dbh = $db->getDatabase();
+
+                    $query = $dbh->prepare(
+                        "
+                            SELECT d.id, d.name, d.detection_date, dd.symptom_id, s.name AS symptom_name FROM diagnoses d
+                            LEFT JOIN diagnoses_data dd ON d.id = dd.diagnosis_id
+                            LEFT JOIN symptoms s on dd.symptom_id = s.id
+                            WHERE d.patient_id = :pID AND d.active = 1
+                        "
+                    );
+
+                    $query->execute([
+                        ':pID' => $patientInternalId
+                    ]);
+
+                    $diagnoses = [];
+
+                    while($row = $query->fetch()) {
+                        if(array_key_exists($row['id'], $diagnoses)) {
+                            if($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                                if($diagnoses[$row['id']]['symptoms'] != null) {
+                                    array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
+                                } else {
+                                    $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                                }
+                            }
+                        }else{
+                            $diagnoses[$row['id']]['data'] = [
+                                'id' => $row['id'],
+                                'name' => $row['name'],
+                                'detection_date' => $row['detection_date']
+                            ];
+                            $diagnoses[$row['id']]['symptoms'] = null;
+
+                            if($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                                if($diagnoses[$row['id']]['symptoms'] != null) {
+                                    array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
+                                } else {
+                                    $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                                }
+                            }
+                        }
+                    }
+
+                    return $diagnoses;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get patient's diagnoses (for patient)
+     *
+     * @return array
+     */
+    public function getPatientDiagnoses()
+    {
+        if ($this->isUserLoggedIn(true)) {
+            if ($this->getUserLevel() == self::USER_PATIENT) {
+                $patientInternalId = $this->getUserInternalId($this->getId())['id'];
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare(
+                    "
+                            SELECT d.id, d.name, d.detection_date, dd.symptom_id, s.name AS symptom_name FROM diagnoses d
+                            LEFT JOIN diagnoses_data dd ON d.id = dd.diagnosis_id
+                            LEFT JOIN symptoms s on dd.symptom_id = s.id
+                            WHERE d.patient_id = :pID AND d.active = 1
+                        "
+                );
+
+                $query->execute([
+                    ':pID' => $patientInternalId
+                ]);
+
+                $diagnoses = [];
+
+                while($row = $query->fetch()) {
+                    if(array_key_exists($row['id'], $diagnoses)) {
+                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                            if($diagnoses[$row['id']]['symptoms'] != null) {
+                                array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
+                            } else {
+                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                            }
+                        }
+                    }else{
+                        $diagnoses[$row['id']]['data'] = [
+                            'id' => $row['id'],
+                            'name' => $row['name'],
+                            'detection_date' => $row['detection_date']
+                        ];
+                        $diagnoses[$row['id']]['symptoms'] = null;
+
+                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                            if($diagnoses[$row['id']]['symptoms'] != null) {
+                                array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
+                            } else {
+                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                            }
+                        }
+                    }
+                }
+
+                return $diagnoses;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Deactivate diagnosis in the database
+     *
+     * @param $diagnosisId
+     *
+     * @return bool
+     */
+    public function deleteDiagnosis($diagnosisId) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if(!$this->checkAccessToDiagnosis($diagnosisId)) {
+                    return false;
+                }
+
+                $doctorId = $this->getUserInternalId($this->getId())['id'];
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $updateQuery = $dbh->prepare("UPDATE diagnoses SET active = 0 WHERE id = :id AND doctor_id = :dId");
+                return $updateQuery->execute([
+                    ':id' => $diagnosisId,
+                    ':dId' => $doctorId
+                ]);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get patient's recipes by diagnosis (for doctor)
+     *
+     * @param int $patientId
+     * @param int $diagnosisId
+     *
+     * @return array
+     */
+    public function getRecipes($patientId, $diagnosisId) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($patientId == null || $diagnosisId == null) {
+                    return null;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT m.* FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    INNER JOIN diagnoses d on p.id = d.patient_id
+                    INNER JOIN medication m on d.id = m.diagnosis_id
+                    WHERE users.id = :patientId AND m.diagnosis_id = :diagnosisId AND d.active = 1 AND m.active = 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $patientId,
+                    ':diagnosisId' => $diagnosisId
+                ]);
+
+                $recipe = [];
+
+                while ($row = $query->fetch()) {
+                    $recipe[] = [
+                        'id' => $row['id'],
+                        'rp' => $row['rp'],
+                        'dtdn' => $row['dtdn'],
+                        'signa' => $row['signa']
+                    ];
+                }
+
+                return $recipe;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get patient's recipes by diagnosis (for patient)
+     *
+     * @param int $diagnosisId
+     *
+     * @return array
+     */
+    public function getPatientRecipes($diagnosisId) {
+        if ($this->isUserLoggedIn(true)) {
+            if ($this->getUserLevel() == self::USER_PATIENT) {
+                if($diagnosisId == null) {
+                    return null;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT m.* FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    INNER JOIN diagnoses d on p.id = d.patient_id
+                    INNER JOIN medication m on d.id = m.diagnosis_id
+                    WHERE users.id = :patientId AND m.diagnosis_id = :diagnosisId AND d.active = 1 AND m.active = 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $this->getId(),
+                    ':diagnosisId' => $diagnosisId
+                ]);
+
+                $recipes = [];
+
+                while ($row = $query->fetch()) {
+                    $recipes[] = [
+                        'id' => $row['id'],
+                        'rp' => $row['rp'],
+                        'dtdn' => $row['dtdn'],
+                        'signa' => $row['signa']
+                    ];
+                }
+
+                return $recipes;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get patient's recipe by diagnosis
+     *
+     * @param int $patientId
+     * @param int $diagnosisId
+     * @param int $recipeId
+     *
+     * @return array
+     */
+    public function getRecipe($patientId, $diagnosisId, $recipeId) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($patientId == null || $diagnosisId == null || $recipeId == null) {
+                    return null;
+                }
+
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT m.* FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    INNER JOIN diagnoses d on p.id = d.patient_id
+                    INNER JOIN medication m on d.id = m.diagnosis_id
+                    WHERE users.id = :patientId AND m.diagnosis_id = :diagnosisId AND m.id = :recipeId AND d.active = 1 AND m.active = 1
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $patientId,
+                    ':diagnosisId' => $diagnosisId,
+                    ':recipeId' => $recipeId
+                ]);
+
+                $recipe = null;
+
+                if ($row = $query->fetch()) {
+                    $recipe = [
+                        'id' => $row['id'],
+                        'rp' => $row['rp'],
+                        'dtdn' => $row['dtdn'],
+                        'signa' => $row['signa']
+                    ];
+                }
+
+                return $recipe;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Update patient's recipe
+     *
+     * @param int $recipeId
+     * @param int $rp
+     * @param int $dtdn
+     * @param int $signa
+     *
+     * @return bool
+     */
+    public function updateRecipe($recipeId, $rp, $dtdn, $signa) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($recipeId == null) {
+                    return null;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare("UPDATE medication SET rp = :rp, dtdn = :dtdn, signa = :signa WHERE id = :id");
+                return $query->execute([
+                    ':id' => $recipeId,
+                    ':rp' => $rp,
+                    ':dtdn' => $dtdn,
+                    ':signa' => $signa
+                ]);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Add recipe
+     *
+     * @param int $diagnosisId
+     * @param int $rp
+     * @param int $dtdn
+     * @param int $signa
+     *
+     * @return bool
+     */
+    public function addRecipe($diagnosisId, $rp, $dtdn, $signa) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if($diagnosisId == null) {
+                    return null;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare("INSERT INTO medication (diagnosis_id, rp, dtdn, signa) VALUES (:did, :rp, :dtdn, :signa)");
+                try {
+
+                    $dbh->beginTransaction();
+
+                    $query->execute([
+                        ':did' => $diagnosisId,
+                        ':rp' => $rp,
+                        ':dtdn' => $dtdn,
+                        ':signa' => $signa
+                    ]);
+
+                    $dbh->commit();
+
+                    return true;
+                } catch (\PDOException $e) {
+                    $dbh->rollback();
+
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Deactivate patient's recipe
+     *
+     * @param $recipeId
+     *
+     * @return bool
+     */
+    public function deleteRecipe($recipeId) {
+        if ($this->isUserLoggedIn()) {
+            if ($this->getUserLevel() == self::USER_DOCTOR) {
+                if(!$this->checkAccessToRecipe($recipeId)) {
+                    return false;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $updateQuery = $dbh->prepare("UPDATE medication SET active = 0 WHERE id = :id");
+                return $updateQuery->execute([
+                    ':id' => $recipeId
+                ]);
+            }
+        }
+        return false;
     }
 
     /**
@@ -1438,5 +2553,21 @@ class User {
     public function setUserToken($userToken)
     {
         $this->userToken = $userToken;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param int $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
     }
 }

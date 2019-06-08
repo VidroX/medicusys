@@ -7,10 +7,7 @@
           <option name="id" value="e90794c1-df7b-4e38-8b14-161424099b06" />
           <option name="name" value="medicusys" />
           <option name="urls">
-            <array>
-              <option value="file://$PROJECT_DIR$/medicusys.sql" />
-              <option value="file://$PROJECT_DIR$/medicusis.sql" />
-            </array>
+            <array />
           </option>
         </State>
         <State>

@@ -7,41 +7,33 @@
             <div class="col-md-3 admin-container">
                 <h5>{{ i18n.filters }}</h5>
                 <label>{{ i18n.visitDate }}</label>
-                <input class="form-control margin-bot-default" type="date" placeholder="{{ i18n.from }}">
-                <input class="form-control margin-bot-default" type="date" placeholder="{{ i18n.to }}">
+                <input id="filterFrom" class="form-control margin-bot-default" type="date" placeholder="{{ i18n.from }}">
+                <input id="filterTo" class="form-control margin-bot-default" type="date" placeholder="{{ i18n.to }}">
+                <button id="applyFilter" type="button" class="btn btn-medicus-shaded btn-block btn-medicus" title="{{ i18n.apply }}">{{ i18n.apply }}</button>
             </div>
             <div class="col-md-8 offset-md-1 admin-container">
                 <div class="admin-top flex-container flex-column">
                     <h5>{{ i18n.doctorCabinet }}</h5>
                     <div class="admin-search">
-                        <input class="form-control admin-search-input" type="text" placeholder="{{ i18n.patientSearch }}">
+                        <input id="searchInput" class="form-control admin-search-input" type="text" placeholder="{{ i18n.patientSearch }}">
                     </div>
                 </div>
                 <div class="table-responsive admin-table">
                     <table id="patientsTable" class="table table-striped table-hover admin-table">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">{{ i18n.LFP }}</th>
-                                <th scope="col">{{ i18n.lastVisit }}</th>
-                                <th scope="col">{{ i18n.upcomingVisit }}</th>
-                                <th scope="col">{{ i18n.generateReport }}</th>
+                                <th id="colId" scope="col">ID</th>
+                                <th id="colLFP" scope="col">{{ i18n.LFP }}</th>
+                                <th id="colLastVisit" scope="col">{{ i18n.lastVisit }}</th>
+                                <th id="colUpcomingVisit" scope="col">{{ i18n.upcomingVisit }}</th>
+                                <th id="colGenerateReport" scope="col">{{ i18n.generateReport }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {% for patient in patients %}
-                            <tr>
-                                <th scope="row">{{ patient.user.id }}</th>
-                                <td>{{ patient.user.lastName }} {{ patient.user.firstName }} {{ patient.user.patronymic }}</td>
-                                <td>{{ patient.lastVisit }}</td>
-                                <td>{{ patient.upcomingVisit }}</td>
-                                <td class="text-center"><a class="medicus-color" title="{{ i18n.generateReport }}" href="#"><i class="fas fa-id-card"></i></a></td>
-                            </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                     <div id="error" class="box-center" style="display: none">
-                        {{ i18n.loadingError }}
+                        {{ i18n.nothingFound }}
                     </div>
                     <div id="loadingSpinner" class="box-center spinner sp-medicus" style="display: none">
                         <div class="double-bounce1"></div>
@@ -50,8 +42,8 @@
                 </div>
                 <div class="admin-bottom flex-container flex-items-center">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button id="prevPage" type="button" class="btn btn-medicus" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
-                        <button id="nextPage" type="button" class="btn btn-medicus" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
+                        <button id="prevPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
+                        <button id="nextPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
             </div>
@@ -63,7 +55,9 @@
         const app_csrf_name = '{{ csrf.csrf_name }}';
         const app_csrf_value = '{{ csrf.csrf_value }}';
         const app_generate_report = '{{ i18n.generateReport }}';
+        const app_url_prefix = '{{ urlPrefix }}';
         const app_language_code = '{{ languageCode }}';
+        const app_page_param = ({{ tablePage }}) == null ? 1 : {{ tablePage }};
     </script>
     <script type="text/javascript" src="/assets/js/doctor-table.js" async></script>
 {% endblock %}

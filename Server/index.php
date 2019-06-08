@@ -8,8 +8,16 @@ $config = include(__DIR__."/config/core.php");
 
 session_start();
 
-//$user = new \App\Models\User();
-//die($user->registerDoctor("test@example.com", "123321", "Test", "Test", "Test", "1920-01-12", "380000000000", "Test Str", "Toster"));
+//die(date('Y-m-d'));
+
+/*$user = new \App\Models\User();
+$user = $user->getCurrentUser();
+
+echo '<pre>';
+print_r($user->getRecipe(3, 13));
+echo '</pre>';
+
+die();*/
 
 if($config['main']['debugMode']){
     error_reporting(-1);
