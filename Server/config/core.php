@@ -30,5 +30,8 @@ return array(
             "en-gb",
             "ru-ru"
         )
+    ),
+    "firebase" => array(
+        "credentialsFile" => null
     )
 );

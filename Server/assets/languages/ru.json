@@ -136,5 +136,10 @@
   "medicationName": "Название лекарства",
   "medicationAmount": "Количество в дозе",
   "medicationFrequency": "Количество в день",
-  "medicationPeriod": "Количество дней"
+  "medicationPeriod": "Количество дней",
+  "message": "Сообщение",
+  "sendMessage": "Отправить сообщение",
+  "send": "Отправить",
+  "title": "Название",
+  "messageSent": "Сообщение успешно отправлено"
 }

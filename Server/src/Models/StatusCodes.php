@@ -59,6 +59,13 @@ interface StatusCodes {
         52 => 'Unable to delete recipe',
         53 => 'User not found',
         54 => 'Invalid user_id or user_token',
-        55 => 'Please provide user_id and user_token'
+        55 => 'Please provide user_id and user_token',
+        56 => 'Invalid title',
+        57 => 'Invalid message',
+        58 => 'Message sent successfully',
+        59 => 'Invalid FCM registration token',
+        60 => 'Firebase error occurred',
+        61 => 'FCM registration token updated successfully',
+        62 => 'There was an error while updating FCM registration token'
     ];
 }
