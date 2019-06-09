@@ -11,4 +11,10 @@
     <string name="menu_health">Здоров\'я</string>
     <string name="menu_healing">Лікування</string>
     <string name="server_url">Server URL:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_health">Hello health!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_healing">Hello healing!</string>
 </resources>

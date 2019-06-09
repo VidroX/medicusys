@@ -1,18 +1,15 @@
 package me.medicusys.medicussystem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -25,12 +22,10 @@ class Network extends AsyncTask<String, Void, String> {
     TextView textView;
     String encoding;
     JSONObject response;
-    Context context;
 
-    Network(Context context, TextView textView, String encoding)
+    Network(TextView textView, String encoding)
     {
         super();
-        this.context = context;
         this.textView = textView;
         this.encoding = encoding;
     }
@@ -92,8 +87,7 @@ class Network extends AsyncTask<String, Void, String> {
             try {
                 if ("18".equals(response.getString("status"))) {
                     JSONObject userData = response.getJSONObject("data");
-                    Intent myIntent = new Intent(context, CabinetActivity.class);
-                    context.startActivity(myIntent);
+                    SystemData.logIn(userData);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
