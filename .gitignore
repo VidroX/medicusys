@@ -19,3 +19,5 @@ Server/.idea
 Server/.idea/
 Server/.idea/*
 Server/config/*.json
+Server/vendor
+Server/vendor/*
