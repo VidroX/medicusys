@@ -63,6 +63,9 @@ interface StatusCodes {
         56 => 'Invalid title',
         57 => 'Invalid message',
         58 => 'Message sent successfully',
-        59 => 'Invalid FCM registration token'
+        59 => 'Invalid FCM registration token',
+        60 => 'Firebase error occurred',
+        61 => 'FCM registration token updated successfully',
+        62 => 'There was an error while updating FCM registration token'
     ];
 }

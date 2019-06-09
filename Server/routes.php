@@ -91,5 +91,6 @@ if($config['api']['enabled']){
         $app->post('/login[/]', 'App\Controllers\ApiController:login');
         $app->post('/diagnosis[/]', 'App\Controllers\ApiController:diagnosis');
         $app->post('/recipe[/]', 'App\Controllers\ApiController:recipe');
+        $app->post('/fcm/token[/]', 'App\Controllers\ApiController:fcmTokenUpdate');
     });
 }

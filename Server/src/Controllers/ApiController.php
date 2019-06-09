@@ -103,7 +103,7 @@ class ApiController {
             $utoken = $parsedBody['user_token'];
 
             $user = $user->getUser($uid, $utoken);
-            if($user->isUserLoggedIn(true)) {
+            if($user != null && $user instanceof User) {
                 return $response->withJson([
                     "status" => 27,
                     "message" => StatusCodes::STATUS[27],
@@ -154,12 +154,73 @@ class ApiController {
             $diagnosisId = $parsedBody['diagnosis_id'];
 
             $user = $user->getUser($uid, $utoken);
-            if($user->isUserLoggedIn(true)) {
+            if($user != null && $user instanceof User) {
                 return $response->withJson([
                     "status" => 27,
                     "message" => StatusCodes::STATUS[27],
                     "data" => $user->getPatientRecipes($diagnosisId)
                 ]);
+            } else {
+                return $response->withJson([
+                    "status" => 53,
+                    "message" => StatusCodes::STATUS[53]
+                ]);
+            }
+        } else {
+            return $response->withJson([
+                "status" => 55,
+                "message" => StatusCodes::STATUS[55]
+            ]);
+        }
+    }
+
+    public function fcmTokenUpdate(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['user_id']) && !empty($parsedBody['user_id'])) && (isset($parsedBody['user_token']) && !empty($parsedBody['user_token']))) {
+            $uid = $parsedBody['user_id'];
+            $utoken = $parsedBody['user_token'];
+
+            if(!isset($parsedBody['fcm_reg_token']) || empty($parsedBody['fcm_reg_token'])) {
+                return $response->withJson([
+                    "status" => 59,
+                    "message" => StatusCodes::STATUS[59]
+                ]);
+            }
+
+            $fcmRegToken = $parsedBody['fcm_reg_token'];
+
+            $user = $user->getUser($uid, $utoken);
+            if($user != null && $user instanceof User) {
+                if($user->updateFCMRegistrationToken($uid, $utoken, $fcmRegToken)) {
+                    $user->setFcmRegToken($fcmRegToken);
+                    return $response->withJson([
+                        "status" => 61,
+                        "message" => StatusCodes::STATUS[61],
+                        "data" => [
+                            "newToken" => $user->getFcmRegToken()
+                        ]
+                    ]);
+                }else{
+                    return $response->withJson([
+                        "status" => 62,
+                        "message" => StatusCodes::STATUS[62]
+                    ]);
+                }
             } else {
                 return $response->withJson([
                     "status" => 53,

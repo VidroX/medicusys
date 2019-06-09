@@ -295,6 +295,30 @@ class User {
     }
 
     /**
+     * Update user's Firebase Cloud Messaging registration token
+     *
+     * @param int $userId User's ID
+     * @param string $userToken User's token
+     * @param string $fcmRegToken New FCM registration token
+     *
+     * @return bool
+     */
+    public function updateFCMRegistrationToken($userId, $userToken, $fcmRegToken) {
+        if($userId == null || $userToken == null || $fcmRegToken == null) return false;
+
+        $db = new Database();
+        $dbh = $db->getDatabase();
+
+        $updateQuery = $dbh->prepare("UPDATE users SET fcm_reg_token = :fcmRegToken WHERE id = :id AND token = :token");
+
+        return $updateQuery->execute([
+            ':id' => $userId,
+            ':token' => $userToken,
+            ':fcmRegToken' => $fcmRegToken,
+        ]);
+    }
+
+    /**
      * Get user from the database
      *
      * @param int $userId User's ID

@@ -1068,24 +1068,44 @@ class DoctorController {
             ]);
         }
 
-        $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/../../config/firebase_credentials.json');
-        $firebase = (new Factory)
-            ->withServiceAccount($serviceAccount)
-            ->create();
+        try {
+            $serviceAccount = ServiceAccount::fromJsonFile($this->config['firebase']['credentialsFile']);
+            $firebase = (new Factory)
+                ->withServiceAccount($serviceAccount)
+                ->create();
 
-        $messaging = $firebase->getMessaging();
+            $messaging = $firebase->getMessaging();
 
-        $notification = Notification::create($title, $message);
+            $notification = Notification::create($title, $message);
 
-        $message = CloudMessage::withTarget('token', $fcmRegToken)
-            ->withNotification($notification);
+            $message = CloudMessage::withTarget('token', $fcmRegToken)
+                ->withNotification($notification);
 
-        $messaging->send($message);
+            $messaging->send($message);
 
-        return $response->withJson([
-            'status'=>58,
-            'message'=>StatusCodes::STATUS[58]
-        ]);
+            return $response->withJson([
+                'status'=>58,
+                'message'=>StatusCodes::STATUS[58]
+            ]);
+        } catch (\Kreait\Firebase\Exception\Messaging\InvalidMessage $ex) {
+            return $response->withJson([
+                'status'=>59,
+                'message'=>StatusCodes::STATUS[59],
+                'data' => [
+                    'phpErrorCode' => $ex->getCode(),
+                    'phpErrorMessage' => $ex->getMessage()
+                ]
+            ]);
+        } catch (\Exception $ex) {
+            return $response->withJson([
+                'status'=>60,
+                'message'=>StatusCodes::STATUS[60],
+                'data' => [
+                    'phpErrorCode' => $ex->getCode(),
+                    'phpErrorMessage' => $ex->getMessage()
+                ]
+            ]);
+        }
     }
 
 }
