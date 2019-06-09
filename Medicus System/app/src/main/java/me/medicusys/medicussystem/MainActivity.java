@@ -18,6 +18,6 @@ public class MainActivity extends AppCompatActivity {
         String password = ((TextView)findViewById(R.id.passwordInput)).getText().toString();
         String serverURL = ((TextView)findViewById(R.id.serverURLInput)).getText().toString();
         TextView debugLogInResponse = findViewById(R.id.debugLogInResponse);
-        new Network(this, debugLogInResponse, "UTF-8").execute("http://" + serverURL + "/api/v1/login", "login=" + login + "&password=" + password + "&token=PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV");
+        new Network(this, debugLogInResponse, "UTF-8").execute(serverURL + "/api/v1/login", "login=" + login + "&password=" + password + "&token=PUsecR0B6brOYUcrI9LhiXU8w5SlFRorlFrdrlV");
     }
 }
