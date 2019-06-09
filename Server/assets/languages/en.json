@@ -136,5 +136,10 @@
   "medicationName": "Medication name",
   "medicationAmount": "Dose amount",
   "medicationFrequency": "Per day",
-  "medicationPeriod": "Period in days"
+  "medicationPeriod": "Period in days",
+  "message": "Message",
+  "sendMessage": "Send message",
+  "send": "Send",
+  "title": "Title",
+  "messageSent": "Message sent successfully"
 }

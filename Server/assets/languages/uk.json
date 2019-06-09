@@ -135,5 +135,10 @@
   "medicationName": "Назва ліків",
   "medicationAmount": "Кількість в дозі",
   "medicationFrequency": "Кількість в день",
-  "medicationPeriod": "Кількість днів"
+  "medicationPeriod": "Кількість днів",
+  "message": "Повідомлення",
+  "sendMessage": "Надіслати повідомлення",
+  "send": "Надіслати",
+  "title": "Назва",
+  "messageSent": "Повідомлення успішно відправлено"
 }

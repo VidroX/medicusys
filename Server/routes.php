@@ -23,6 +23,7 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     //DoctorController
     $app->group('/doctor', function () use ($app) {
         $app->get("[/]", 'App\Controllers\DoctorController:index');
+        $app->get("/message/{id}[/]", 'App\Controllers\DoctorController:message');
         $app->group('/report', function () use ($app) {
             $app->group('/{id}', function () use ($app) {
                 $app->get("[/]", 'App\Controllers\DoctorController:report');
@@ -63,6 +64,7 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     // Admin part
     $app->group('/admin', function () use ($app) {
         // DoctorController
+        $app->post('/doctor/fcmmessage', 'App\Controllers\DoctorController:postMessageSend');
         $app->post('/doctor/diagnosis', 'App\Controllers\DoctorController:getDiagnosis');
         $app->post('/doctor/symptoms', 'App\Controllers\DoctorController:getSymptoms');
         $app->group('/doctor/report', function () use ($app) {
@@ -89,5 +91,6 @@ if($config['api']['enabled']){
         $app->post('/login[/]', 'App\Controllers\ApiController:login');
         $app->post('/diagnosis[/]', 'App\Controllers\ApiController:diagnosis');
         $app->post('/recipe[/]', 'App\Controllers\ApiController:recipe');
+        $app->post('/fcm/token[/]', 'App\Controllers\ApiController:fcmTokenUpdate');
     });
 }
