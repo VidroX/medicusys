@@ -31,7 +31,6 @@ function insertRows(rowObject) {
 
         let row =
             "<tr id=\"" + user.id + "\">" +
-            "<th scope=\"row\">" + user.id + "</th>" +
             "<td>" + user.lastName + " " + user.firstName + " " + user.patronymic + "</td>" +
             "<td>" + lastVisit + "</td>" +
             "<td>" + upcomingVisit + "</td>" +
@@ -43,7 +42,6 @@ function insertRows(rowObject) {
         if(user.fcmRegToken != null && user.fcmRegToken.length > 0) {
             row =
                 "<tr id=\"" + user.id + "\">" +
-                "<th scope=\"row\">" + user.id + "</th>" +
                 "<td>" + user.lastName + " " + user.firstName + " " + user.patronymic + "</td>" +
                 "<td>" + lastVisit + "</td>" +
                 "<td>" + upcomingVisit + "</td>" +
@@ -244,6 +242,14 @@ function sortTable(column, type) {
 
         switch (type) {
             case 'text':
+                if(a === '' || b === '') {
+                    return 0;
+                }
+                if(a === '...') {
+                    return 0;
+                }else if(b === '...') {
+                    return -1;
+                }
                 return order === 'ASC' ? a.localeCompare(b) : b.localeCompare(a);
             case 'number':
                 return order === 'ASC' ? a - b : b - a;
