@@ -597,16 +597,16 @@
         },
         {
             "name": "kreait/firebase-php",
-            "version": "4.23.0",
+            "version": "4.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kreait/firebase-php.git",
-                "reference": "1581d34de5cf0aa2c35be56665e808452626f24a"
+                "reference": "7a0647d324cafbd5f10cf9262ac25f26ebaf4bb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/1581d34de5cf0aa2c35be56665e808452626f24a",
-                "reference": "1581d34de5cf0aa2c35be56665e808452626f24a",
+                "url": "https://api.github.com/repos/kreait/firebase-php/zipball/7a0647d324cafbd5f10cf9262ac25f26ebaf4bb4",
+                "reference": "7a0647d324cafbd5f10cf9262ac25f26ebaf4bb4",
                 "shasum": ""
             },
             "require": {
@@ -664,7 +664,7 @@
                 "google",
                 "sdk"
             ],
-            "time": "2019-06-05T18:09:29+00:00"
+            "time": "2019-06-10T14:37:13+00:00"
         },
         {
             "name": "kreait/firebase-tokens",

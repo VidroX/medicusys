@@ -12,7 +12,7 @@
   "emailAddress": "E-Mail address",
   "email": "E-Mail",
   "password": "Password",
-  "invalidEmailPass": "Invalid E-Mail or password",
+  "invalidEmailPass": "Invalid E-Mail or password or phone",
   "invalidPass": "Invalid password",
   "unexpectedError": "Unexpected error. Please contact server administrator.",
   "contacts": "Contacts",

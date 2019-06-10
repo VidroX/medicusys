@@ -9,7 +9,7 @@
   "registerTitle": "Реєстрація",
   "loginTitle": "Вхід",
   "login": "Увійти",
-  "emailAddress": "Адреса електронної пошти",
+  "emailAddress": "Адреса електронної пошти або телефон",
   "email": "E-Mail",
   "password": "Пароль",
   "invalidEmailPass": "Неправильний E-Mail або пароль",
