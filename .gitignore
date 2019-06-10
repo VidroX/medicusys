@@ -15,9 +15,10 @@
 /Medicus System/captures
 /Medicus System/.externalNativeBuild
 
-Server/assets/css/material-components-web\.min\.css
-
-Server/assets/js/material-components-web\.min\.js
-
-Server\.idea\
-Server/.idea/workspace.xml
+Server/.idea
+Server/.idea/
+Server/.idea/*
+Medicus System/app/google-services.json
+Server/vendor
+Server/vendor/*
+Server/config/*.json

@@ -1,4 +1,4 @@
-<FilesMatch "\.(json)$">
+<FilesMatch "\.(json)|\.(html\.twig)$">
 Order allow,deny
 Deny from all
 </FilesMatch>

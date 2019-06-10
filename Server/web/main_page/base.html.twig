@@ -46,7 +46,7 @@
                     <p class="mb-0">
                         <span class="mr-3"><strong>{{ i18n.phone }}:</strong> <a
                                     href="tel://#">+1 292 3293 4238</a></span>
-                        <span><strong>{{ i18n.email }}:</strong> <a href="mailto:info@medicus.me">info@medicus.me</a></span>
+                        <span><strong>{{ i18n.email }}:</strong> <a href="mailto:info@medicusys.me">info@medicusys.me</a></span>
                     </p>
                 </div>
                 <div class="col-md-6">
@@ -90,7 +90,11 @@
                                 <li><a href="{{ urlPrefix }}/contacts/">{{ i18n.contacts }}</a></li>
                             {% endif %}
 
-                            <li><a href="{{ urlPrefix }}/login/" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.login }}</a>
+                            {% if userLoggedIn %}
+                                <li><a href="{{ cabinetUrl }}" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.cabinet }}</a>
+                            {% else %}
+                                <li><a href="{{ urlPrefix }}/login/" class="btn btn-primary btn-md text-white" id="logIn">{{ i18n.login }}</a>
+                            {% endif %}
                             </li>
                         </ul>
                     </nav>
@@ -109,10 +113,20 @@
     </header>
 
 
-{% block body %}{% endblock %}
+{% block body %}
+    {% block footer %}
+
+</div>
+{% endblock %}
 
 {% block js %}
 
 {% endblock %}
+
+{% endblock %}
+
+
+
+
 
 </html>

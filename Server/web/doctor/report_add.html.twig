@@ -1,0 +1,110 @@
+{% extends 'doctor/base.html.twig' %}
+{% block title %}{{ i18n.medicalSummary }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-md-12 admin-container">
+                <div class="admin-top margin-bot-default flex-container flex-row flex-items-center-vertical">
+                    <h5 class="medicus-title">{{ i18n.medicalSummary }}</h5>
+                </div>
+                <h6>{{ i18n.patient }}: {{ patient.lastName }} {{ patient.firstName }} {{ patient.patronymic }}</h6>
+                <h6>{{ i18n.date }}: {{ "now"|date("d.m.Y") }}</h6>
+            </div>
+        </div>
+        <div class="row align-items-start margin-top-big">
+            <div class="col-md-12 shaded-container">
+                <form id="diagnosisForm" method="post">
+                    <input type="hidden" name="csrf_name" value="{{ csrf.csrf_name }}">
+                    <input type="hidden" name="csrf_value" value="{{ csrf.csrf_value }}">
+                    <label for="symptomsDiv">{{ i18n.symptoms }}</label>
+                    <div id="symptomsDiv">
+                        <small class="form-text margin-bot-small text-muted">
+                            {{ i18n.symptomPressEnter }}
+                        </small>
+                        <div class="input-group mb-3 wrapper">
+                            <input id="inputAdd" aria-label="{{ i18n.symptom }}" type="text" class="form-control" placeholder="{{ i18n.symptomName }}">
+                            <div id="pSymptomsError" class="invalid-tooltip">
+                                {{ i18n.invalidSymptom }}
+                            </div>
+                            <div class="input-group-append">
+                                <button class="btn btn-medicus medicus-no-min-width btn-add" title="{{ i18n.addSymptom }}" type="button"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <label for="diagnosis" class="margin-top-default">{{ i18n.diagnosis }}</label>
+                    <div>
+                        <input name="diagnosis" id="diagnosis" type="text" class="form-control" placeholder="{{ i18n.diagnosisName }}" required>
+                        <button class="btn btn-medicus btn-medicus-shaded btn-medicus-big-width btn-block-md-normal margin-top-default" id="possibleDiagnoses" type="button">{{ i18n.calculateDiagnosis }}</button>
+                    </div>
+                    <input id="formSubmitBtn" type="submit" name="submit" class="btn btn-medicus btn-medicus-big-width btn-medicus-shaded btn-block-md" style="display: none" value="{{ i18n.save }}" />
+                </form>
+                <div class="modal fade" id="possibleDiagnosesModal" tabindex="-1" role="dialog" aria-labelledby="possibleDiagnosesModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" >
+                                <h5 class="modal-title" id="exampleModalLabel">{{ i18n.possibleDiagnoses }}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="possibleDiagnosesModalBody">
+                                <div id="loadingSpinner" class="box-center spinner sp-medicus" style="display: none;">
+                                    <div class="double-bounce1"></div>
+                                    <div class="double-bounce2"></div>
+                                </div>
+                                <div id="pDiagnosisError" style="display: none;">{{ i18n.noSymptoms }}</div>
+                                <div id="possibleIssues" style="display: none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-start margin-top-big">
+            <div class="col-md-12 medicus-bottom-buttons">
+                <a href="{{ urlPrefix }}/doctor/report/{{ userId }}" class="btn btn-medicus btn-medicus-big-width btn-medicus-shaded btn-block-md">{{ i18n.back }}</a>
+                <button type="button" id="submitBtn" class="btn btn-medicus btn-medicus-big-width btn-medicus-shaded btn-block-md">{{ i18n.save }}</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/assets/js/typeahead.min.js"></script>
+    <script type="text/javascript" src="/assets/js/lodash.core.min.js"></script>
+    <script type="text/javascript">
+        const app_language = '{{ languageCode }}';
+        const app_prev_url = '{{ urlPrefix }}/doctor/report/{{ userId }}';
+        const app_post_url = '/{{ languageCode }}/admin/doctor/report/add';
+        const app_symptoms_url = '/{{ languageCode }}/admin/doctor/symptoms';
+        const app_diagnosis_url = '/{{ languageCode }}/admin/doctor/diagnosis';
+        const app_select = '{{ i18n.select }}';
+        const app_remove_symptom = '{{ i18n.removeSymptom }}';
+        const app_symptom_name = '{{ i18n.symptomName }}';
+        const app_symptom = '{{ i18n.symptom }}';
+        const app_patient_id = '{{ patient.id }}';
+        const app_no_symptoms = '{{ i18n.noSymptoms }}';
+        const app_no_diagnoses = '{{ i18n.noDiagnosis }}';
+        const app_already_added = '{{ i18n.symptomAlreadyAdded }}';
+
+        const language_code_api = '{{ languageCodeForApi }}';
+        const user_gender = ({{ patient.gender }}) == null ? 0 : {{ patient.gender }};
+        const user_birth_date = '{{ patient.birthDate }}';
+
+        const app_name = '{{ i18n.name }}';
+        const app_accuracy = '{{ i18n.accuracy }}';
+        const app_icd = '{{ i18n.ICDCode }}';
+        const app_icd_name = '{{ i18n.ICDName }}';
+        const app_prof_name = '{{ i18n.ProfName }}';
+
+        let csrf_name = $("input[name=csrf_name]").val();
+        let csrf_value = $("input[name=csrf_value]").val();
+
+        let header = {
+            'csrf_name': csrf_name,
+            'csrf_value': csrf_value,
+        };
+    </script>
+    <script type="text/javascript" src="/assets/js/report_control.js" async></script>
+    <script type="text/javascript" src="/assets/js/report.js" async></script>
+{% endblock %}

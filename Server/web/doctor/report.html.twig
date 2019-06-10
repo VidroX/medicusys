@@ -1,0 +1,55 @@
+{% extends 'doctor/base.html.twig' %}
+{% block title %}{{ i18n.medicalInformation }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-md-12 admin-container">
+                <div class="flex-container flex-patient-info flex-wrap">
+                    <div class="flex-left">
+                        <div class="admin-top flex-container flex-row flex-items-center-vertical title-min-height">
+                            <a class="medicus-color margin-right-default big-icon" href="{{ urlPrefix }}/doctor/" title="{{ i18n.back }}"><i class="fas fa-long-arrow-alt-left"></i></a>
+                            <h5 class="medicus-title">{{ i18n.medicalInformation }}</h5>
+                        </div>
+                        <a href="{{ urlPrefix }}/doctor/report/{{ userId }}/add" class="btn btn-block btn-medicus-shaded btn-medicus">{{ i18n.addRecord }}</a>
+                    </div>
+                    <div class="flex-right flex-table">
+                        <div class="admin-top flex-container flex-row flex-items-center-vertical title-min-height">
+                            <h5 class="medicus-title">{{ i18n.patient }}: {{ patient.lastName }} {{ patient.firstName }} {{ patient.patronymic }}</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="diagnosisTable" class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th id="colDiagnosis" scope="col">{{ i18n.diagnosis }}</th>
+                                    <th id="colDetectionDate" scope="col">{{ i18n.detectionDate }}</th>
+                                    <th id="colAction" scope="col">{{ i18n.action }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if patientDiagnoses is not null and patientDiagnoses is not empty %}
+                                    {% for diagnosis in patientDiagnoses %}
+                                        <tr>
+                                            <td>{{ diagnosis.data.name }}</td>
+                                            <td>{{ diagnosis.data.detection_date|date("d.m.Y") }}</td>
+                                            <td class="text-center">
+                                                <a class="medicus-color margin-right-default" title="{{ i18n.viewInfo }}" href="{{ urlPrefix }}/doctor/report/{{ userId }}/info/{{ diagnosis.data.id }}"><i class="fas fa-info-circle"></i></a>
+                                                <a class="medicus-color" title="{{ i18n.recipes }}" href="{{ urlPrefix }}/doctor/report/{{ userId }}/recipe/{{ diagnosis.data.id }}"><i class="fas fa-scroll"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                            {% if patientDiagnoses is null or patientDiagnoses is empty %}
+                                <p class="text-center">{{ i18n.noDiagnoses }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+{% endblock %}
