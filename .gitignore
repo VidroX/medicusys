@@ -22,4 +22,9 @@ Medicus System/app/google-services.json
 Server/vendor
 Server/vendor/*
 Server/config/*.json
+<<<<<<< Updated upstream
 */vendor/*
+=======
+Server/.idea/workspace.xml
+Server/.idea/workspace.xml
+>>>>>>> Stashed changes
