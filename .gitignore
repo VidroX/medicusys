@@ -22,3 +22,5 @@ Medicus System/app/google-services.json
 Server/vendor
 Server/vendor/*
 Server/config/*.json
+
+*.lock

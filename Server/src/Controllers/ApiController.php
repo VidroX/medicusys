@@ -81,6 +81,61 @@ class ApiController {
         }
     }
 
+    public function botLogin(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['login']) && !empty($parsedBody['login'])) && (isset($parsedBody['password']) && !empty($parsedBody['password']))) {
+            $login = $parsedBody['login'];
+            $pass = $parsedBody['password'];
+
+            $tChatId = null;
+            if(isset($parsedBody['telegram_chat_id']) && !empty($parsedBody['telegram_chat_id'])) {
+                $tChatId = $parsedBody['telegram_chat_id'];
+            }
+
+            $user = $user->auth($login, $pass, false, null, $tChatId);
+            if (!($user instanceof User)) {
+                $data = json_decode($user, true);
+                if ($data['status'] === 2) {
+                    return $response->withJson([
+                        "status" => 2,
+                        "message" => StatusCodes::STATUS[2]
+                    ]);
+                } elseif ($data['status'] === 1) {
+                    return $response->withJson([
+                        "status" => 1,
+                        "message" => StatusCodes::STATUS[1]
+                    ]);
+                }
+            }
+
+            return $response->withJson([
+                "status" => 18,
+                "message" => StatusCodes::STATUS[18],
+                "data" => $user->toArray(true)
+            ]);
+        } else {
+            return $response->withJson([
+                "status" => 21,
+                "message" => StatusCodes::STATUS[21]
+            ]);
+        }
+    }
+
     public function diagnosis(Request $request, Response $response, $args = [])
     {
         $parsedBody = $request->getParsedBody();
@@ -159,6 +214,140 @@ class ApiController {
                     "status" => 27,
                     "message" => StatusCodes::STATUS[27],
                     "data" => $user->getPatientRecipes($diagnosisId)
+                ]);
+            } else {
+                return $response->withJson([
+                    "status" => 53,
+                    "message" => StatusCodes::STATUS[53]
+                ]);
+            }
+        } else {
+            return $response->withJson([
+                "status" => 55,
+                "message" => StatusCodes::STATUS[55]
+            ]);
+        }
+    }
+
+    public function appointment(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['user_id']) && !empty($parsedBody['user_id'])) && (isset($parsedBody['user_token']) && !empty($parsedBody['user_token']))) {
+            $uid = $parsedBody['user_id'];
+            $utoken = $parsedBody['user_token'];
+
+            if(!isset($parsedBody['action']) || empty($parsedBody['action'])) {
+                return $response->withJson([
+                    "status" => 63,
+                    "message" => StatusCodes::STATUS[63]
+                ]);
+            }
+
+            $action = (string) $parsedBody['action'];
+            if($action != 'list' && $action != 'create') {
+                return $response->withJson([
+                    "status" => 63,
+                    "message" => StatusCodes::STATUS[63]
+                ]);
+            }
+
+            $user = $user->getUser($uid, $utoken);
+            if($user != null && $user instanceof User) {
+                if($action == 'list') {
+                    return $response->withJson([
+                        "status" => 27,
+                        "message" => StatusCodes::STATUS[27],
+                        "data" => $user->getPatientAppointments()
+                    ]);
+                }elseif($action == 'create') {
+                    $date = (string) $parsedBody['date'];
+                    if($date == null || ($date != null && empty($date))) {
+                        return $response->withJson([
+                            "status" => 63,
+                            "message" => StatusCodes::STATUS[63]
+                        ]);
+                    }
+
+                    if($user->createAppointment($date)) {
+                        return $response->withJson([
+                            "status" => 66,
+                            "message" => StatusCodes::STATUS[66]
+                        ]);
+                    }else{
+                        return $response->withJson([
+                            "status" => 65,
+                            "message" => StatusCodes::STATUS[65]
+                        ]);
+                    }
+                }else{
+                    return $response->withJson([
+                        "status" => 63,
+                        "message" => StatusCodes::STATUS[63]
+                    ]);
+                }
+            } else {
+                return $response->withJson([
+                    "status" => 53,
+                    "message" => StatusCodes::STATUS[53]
+                ]);
+            }
+        } else {
+            return $response->withJson([
+                "status" => 55,
+                "message" => StatusCodes::STATUS[55]
+            ]);
+        }
+    }
+
+    public function doctorAppointment(Request $request, Response $response, $args = [])
+    {
+        $parsedBody = $request->getParsedBody();
+        if(!isset($parsedBody) || empty($parsedBody)){
+            return $response->withJson([
+                "status" => 20,
+                "message" => StatusCodes::STATUS[20]
+            ]);
+        }
+        if (!isset($parsedBody['token']) || (isset($parsedBody['token']) && $parsedBody['token'] != $this->token)) {
+            return $response->withJson([
+                "status" => 22,
+                "message" => StatusCodes::STATUS[22]
+            ]);
+        }
+
+        $user = new User();
+        if ((isset($parsedBody['user_id']) && !empty($parsedBody['user_id'])) && (isset($parsedBody['user_token']) && !empty($parsedBody['user_token']))) {
+            $uid = $parsedBody['user_id'];
+            $utoken = $parsedBody['user_token'];
+
+            $doctorId = $parsedBody['doctor_id'];
+            if(!isset($doctorId) || empty($doctorId)) {
+                return $response->withJson([
+                    "status" => 67,
+                    "message" => StatusCodes::STATUS[67]
+                ]);
+            }
+
+            $user = $user->getUser($uid, $utoken);
+            if($user != null && $user instanceof User) {
+                return $response->withJson([
+                    "status" => 27,
+                    "message" => StatusCodes::STATUS[27],
+                    "data" => $user->getDoctorAppointments($doctorId)
                 ]);
             } else {
                 return $response->withJson([

@@ -26,4 +26,27 @@ class ArrayUtil {
         return null;
     }
 
+    /**
+     * Find appointment
+     *
+     * @param int $doctorId
+     * @param string $date
+     * @param array $appointments
+     *
+     * @return bool
+     */
+    public static function searchForAppointment($doctorId, $date, $appointments) {
+        if($date == null || $appointments == null) {
+            return false;
+        }
+
+        foreach ($appointments as $key => $val) {
+            if ($val['doctor_id'] == $doctorId && $val['visit_date'] == $date) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

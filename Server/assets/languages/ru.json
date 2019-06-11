@@ -12,7 +12,7 @@
   "emailAddress": "Адрес электронной почты или телефон",
   "email": "E-Mail",
   "password": "Пароль",
-  "invalidEmailPass": "Неправильный E-Mail или пароль",
+  "invalidEmailPass": "Неправильный E-Mail / телефон или пароль",
   "invalidPass": "Неправильный пароль",
   "unexpectedError": "Неожиданная ошибка. Пожалуйста, свяжитесь с администратором сервера.",
   "contacts": "Контакты",
