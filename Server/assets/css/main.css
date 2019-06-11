@@ -373,7 +373,7 @@ button .spinner.sp-inline {
 }
 
 .admin-table{
-    min-height: 320px;
+    min-height: 580px;
 }
 
 table.admin-table{
@@ -578,7 +578,7 @@ td, th {
     }
 
     .admin-table {
-        min-height: 600px;
+        min-height: 780px;
     }
     table.admin-table {
         min-height: auto;
