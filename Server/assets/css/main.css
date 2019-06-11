@@ -391,7 +391,7 @@ table.admin-table > thead > tr > th {
     cursor: pointer;
 }
 
-table.admin-table > thead > tr > th:last-child, table.admin-table > thead > tr > th:first-child {
+table.admin-table > thead > tr > th:last-child {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

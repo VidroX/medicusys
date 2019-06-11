@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\ArrayUtil;
 use App\Utils\Database;
 
 class User {
@@ -2095,11 +2096,14 @@ class User {
     /**
      * Get patient's diagnoses (for patient)
      *
+     * @param bool $api used in API
+     * @param bool $arrayVariant response with array
+     *
      * @return array
      */
-    public function getPatientDiagnoses()
+    public function getPatientDiagnoses($api = false, $arrayVariant = false)
     {
-        if ($this->isUserLoggedIn(true)) {
+        if ($this->isUserLoggedIn($api)) {
             if ($this->getUserLevel() == self::USER_PATIENT) {
                 $patientInternalId = $this->getUserInternalId($this->getId())['id'];
 
@@ -2122,28 +2126,40 @@ class User {
                 $diagnoses = [];
 
                 while($row = $query->fetch()) {
-                    if(array_key_exists($row['id'], $diagnoses)) {
-                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
-                            if($diagnoses[$row['id']]['symptoms'] != null) {
-                                array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
-                            } else {
-                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                    if($arrayVariant) {
+                        $key = ArrayUtil::searchForDiagnosis($row['id'], $diagnoses);
+                        if (array_key_exists($key, $diagnoses)) {
+                            if ($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                                array_push($diagnoses[$key]['symptoms'], $row['symptom_name']);
                             }
+                        }else{
+                            $diagnoses[] = [
+                                'data' => [
+                                    'id' => $row['id'],
+                                    'name' => $row['name'],
+                                    'detection_date' => $row['detection_date']
+                                ],
+                                'symptoms' => $row['symptom_name'] != null ? [
+                                    $row['symptom_name']
+                                ] : null
+                            ];
                         }
-                    }else{
-                        $diagnoses[$row['id']]['data'] = [
-                            'id' => $row['id'],
-                            'name' => $row['name'],
-                            'detection_date' => $row['detection_date']
-                        ];
-                        $diagnoses[$row['id']]['symptoms'] = null;
-
-                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
-                            if($diagnoses[$row['id']]['symptoms'] != null) {
+                    } else {
+                        if (array_key_exists($row['id'], $diagnoses)) {
+                            if ($row['symptom_id'] != null && $row['symptom_name'] != null) {
                                 array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
-                            } else {
-                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
                             }
+                        } else {
+                            $diagnoses[$row['id']] = [
+                                'data' => [
+                                    'id' => $row['id'],
+                                    'name' => $row['name'],
+                                    'detection_date' => $row['detection_date']
+                                ],
+                                'symptoms' => $row['symptom_name'] != null ? [
+                                    $row['symptom_name']
+                                ] : null
+                            ];
                         }
                     }
                 }

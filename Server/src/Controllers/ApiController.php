@@ -107,7 +107,7 @@ class ApiController {
                 return $response->withJson([
                     "status" => 27,
                     "message" => StatusCodes::STATUS[27],
-                    "data" => $user->getPatientDiagnoses()
+                    "data" => $user->getPatientDiagnoses(true, true)
                 ]);
             } else {
                 return $response->withJson([
