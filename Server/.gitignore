@@ -5,3 +5,4 @@
 /config/*.json
 /vendor
 /vendor/*
+/composer.lock

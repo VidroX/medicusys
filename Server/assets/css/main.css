@@ -373,7 +373,7 @@ button .spinner.sp-inline {
 }
 
 .admin-table{
-    min-height: 320px;
+    min-height: 580px;
 }
 
 table.admin-table{
@@ -391,7 +391,7 @@ table.admin-table > thead > tr > th {
     cursor: pointer;
 }
 
-table.admin-table > thead > tr > th:last-child, table.admin-table > thead > tr > th:first-child {
+table.admin-table > thead > tr > th:last-child {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -578,7 +578,7 @@ td, th {
     }
 
     .admin-table {
-        min-height: 600px;
+        min-height: 780px;
     }
     table.admin-table {
         min-height: auto;

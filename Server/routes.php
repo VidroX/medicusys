@@ -91,6 +91,15 @@ if($config['api']['enabled']){
         $app->post('/login[/]', 'App\Controllers\ApiController:login');
         $app->post('/diagnosis[/]', 'App\Controllers\ApiController:diagnosis');
         $app->post('/recipe[/]', 'App\Controllers\ApiController:recipe');
+        $app->group('/patient', function () use ($app) {
+            $app->post("/appointment[/]", 'App\Controllers\ApiController:appointment');
+        });
+        $app->group('/doctor', function () use ($app) {
+            $app->post("/appointment[/]", 'App\Controllers\ApiController:doctorAppointment');
+        });
+        $app->group('/bot', function () use ($app) {
+            $app->post("/login[/]", 'App\Controllers\ApiController:botLogin');
+        });
         $app->post('/fcm/token[/]', 'App\Controllers\ApiController:fcmTokenUpdate');
     });
 }

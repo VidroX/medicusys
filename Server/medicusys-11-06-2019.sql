@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2019 at 10:54 PM
+-- Generation Time: Jun 11, 2019 at 04:33 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -81,7 +81,8 @@ INSERT INTO `diagnoses` (`id`, `doctor_id`, `patient_id`, `name`, `detection_dat
 (16, 1, 1, 'Allergy', '2019-06-08', 1),
 (17, 1, 1, 'Adverse drug reaction', '2019-06-08', 1),
 (18, 1, 1, 'Anxiety disorder', '2019-06-08', 1),
-(19, 1, 1, 'Adverse drug reaction', '2019-06-08', 1);
+(19, 1, 1, 'Adverse drug reaction', '2019-06-08', 1),
+(20, 1, 1, 'Gastroesophageal reflux disease', '2019-06-11', 1);
 
 -- --------------------------------------------------------
 
@@ -128,7 +129,10 @@ INSERT INTO `diagnoses_data` (`id`, `diagnosis_id`, `symptom_id`) VALUES
 (26, 16, 21),
 (27, 17, 4),
 (28, 18, 7),
-(29, 19, 4);
+(29, 19, 4),
+(30, 20, 1),
+(31, 20, 2),
+(32, 20, 7);
 
 -- --------------------------------------------------------
 
@@ -425,6 +429,7 @@ CREATE TABLE `users` (
   `pass` varchar(255) NOT NULL,
   `token` varchar(255) NOT NULL,
   `fcm_reg_token` varchar(255) DEFAULT NULL,
+  `telegram_chat_id` varchar(255) DEFAULT NULL,
   `home_address` varchar(255) NOT NULL,
   `activated` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -433,16 +438,16 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `patronymic`, `birthdate`, `gender`, `mobilephone`, `email`, `pass`, `token`, `fcm_reg_token`, `home_address`, `activated`) VALUES
-(1, 'Андрей', 'Филипенко', 'Сергеевич', '1985-04-01', 1, '380001234567', 'test@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '123', NULL, 'ул. Сумская, 1', 0),
-(2, 'Антон', 'Филипенко2', 'Сергеевич2', '1985-01-21', 1, '380001234564', 'test2@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '32s1', NULL, 'ул. Сумская, 2', 1),
-(3, 'Сергей', 'Степаненко', 'Артемович', '1986-08-16', 1, '3801111111', 'test3@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '3fd434f4ca1036051ca5acbdd34ef050bb271b4b3b7411ae7feb9c455005057f', '1232', 'ул. Сумская, 3', 0),
-(4, 'Сергей2', 'Степаненко2', 'Артемович2', '1926-08-11', 1, '3802222222', 'test4@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '1234', NULL, 'ул. Сумская, 4', 0),
-(5, 'Antony', 'Bzzz', 'Zzzb', '1890-05-05', 1, '30901212211', 'test5@example.com', '123', '55341', NULL, 'Ksds St', 0),
-(6, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232123', 'test6@example.com', '$2y$10$O.Rnb0jdJLcC517wn90CsOvX4bV9HwlegnttzpbQSaz/NiJgMu8Mu', 'g422', NULL, 'test str', 0),
-(8, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232124', 'test7@example.com', '$2y$10$c07LWQiY88LR4EGgsqMmUON7OX4nzdfTk45ULlJwrPDtJhe3yG0Ny', 'bvedqq', NULL, 'test str', 0),
-(9, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232125', 'test8@example.com', '$2y$10$1bkNVabUb0eKafivBDawZel5jquniLjbbyAeelxNtGZrLszQrspty', 'htqeqwd', NULL, 'test str', 0),
-(10, 'SAdasd', 'asdasd', 'asdasd', '1923-12-12', 1, '380123456789', 'asdasd@asdasd.com', '$2y$10$F9Kf1rSrZmsVm1twYNdw..pQ8FdHev/uT9fhpjw8MF51sodZOfAse', '99608643f163a1eb91aa51023f6857ee7bfd1da7e5377d41af8402c8090e2403', NULL, 'asdasd', 0);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `patronymic`, `birthdate`, `gender`, `mobilephone`, `email`, `pass`, `token`, `fcm_reg_token`, `telegram_chat_id`, `home_address`, `activated`) VALUES
+(1, 'Андрей', 'Филипенко', 'Сергеевич', '1985-04-01', 1, '380001234567', 'test@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '123', NULL, NULL, 'ул. Сумская, 1', 0),
+(2, 'Антон', 'Филипенко2', 'Сергеевич2', '1985-01-21', 1, '380001234564', 'test2@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '32s1', NULL, NULL, 'ул. Сумская, 2', 1),
+(3, 'Сергей', 'Степаненко', 'Артемович', '1986-08-16', 1, '3801111111', 'test3@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '9fc43c39b0127dab436ef386114b01881bed657d6e65441139941791e4695a12', '1232', '1231232134', 'ул. Сумская, 3', 0),
+(4, 'Сергей2', 'Степаненко2', 'Артемович2', '1926-08-11', 1, '3802222222', 'test4@example.com', '$2y$10$KCKaO/y2pd6w2S.6BaIWW.U6MTYWs6gTCoIxj5YaeTWsVIuYLEQ.6', '1234', NULL, NULL, 'ул. Сумская, 4', 0),
+(5, 'Antony', 'Bzzz', 'Zzzb', '1890-05-05', 1, '30901212211', 'test5@example.com', '123', '55341', NULL, NULL, 'Ksds St', 0),
+(6, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232123', 'test6@example.com', '$2y$10$O.Rnb0jdJLcC517wn90CsOvX4bV9HwlegnttzpbQSaz/NiJgMu8Mu', 'g422', NULL, NULL, 'test str', 0),
+(8, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232124', 'test7@example.com', '$2y$10$c07LWQiY88LR4EGgsqMmUON7OX4nzdfTk45ULlJwrPDtJhe3yG0Ny', 'bvedqq', NULL, NULL, 'test str', 0),
+(9, 'Test', 'Test', 'Test', '1000-11-12', 1, '380991232125', 'test8@example.com', '$2y$10$1bkNVabUb0eKafivBDawZel5jquniLjbbyAeelxNtGZrLszQrspty', 'htqeqwd', NULL, NULL, 'test str', 0),
+(10, 'SAdasd', 'asdasd', 'asdasd', '1923-12-12', 1, '380123456789', 'asdasd@asdasd.com', '$2y$10$F9Kf1rSrZmsVm1twYNdw..pQ8FdHev/uT9fhpjw8MF51sodZOfAse', '99608643f163a1eb91aa51023f6857ee7bfd1da7e5377d41af8402c8090e2403', NULL, NULL, 'asdasd', 0);
 
 -- --------------------------------------------------------
 
@@ -499,7 +504,13 @@ INSERT INTO `visits` (`id`, `doctor_id`, `patient_id`, `visit_date`, `visited`) 
 (34, 1, 5, '2019-06-02 23:00:00', 0),
 (35, 1, 5, '2019-06-02 23:00:00', 0),
 (36, 1, 5, '2019-06-02 23:00:00', 0),
-(37, 1, 5, '2018-06-02 23:00:00', 1);
+(37, 1, 5, '2018-06-02 23:00:00', 1),
+(38, 1, 1, '2019-06-12 00:00:00', 0),
+(39, 1, 3, '2019-06-19 01:00:00', 0),
+(40, 1, 3, '2019-06-20 01:00:00', 0),
+(41, 1, 3, '2019-06-18 00:00:00', 0),
+(42, 1, 3, '2019-06-19 12:00:00', 0),
+(43, 1, 3, '2019-06-19 13:00:00', 0);
 
 --
 -- Indexes for dumped tables
@@ -584,13 +595,13 @@ ALTER TABLE `visits`
 -- AUTO_INCREMENT for table `diagnoses`
 --
 ALTER TABLE `diagnoses`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `diagnoses_data`
 --
 ALTER TABLE `diagnoses_data`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `doctors`
@@ -632,7 +643,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `visits`
 --
 ALTER TABLE `visits`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
@@ -663,26 +674,6 @@ ALTER TABLE `doctors`
 --
 ALTER TABLE `medication`
   ADD CONSTRAINT `medication_ibfk_1` FOREIGN KEY (`diagnosis_id`) REFERENCES `diagnoses` (`id`);
-
---
--- Constraints for table `patients`
---
-ALTER TABLE `patients`
-  ADD CONSTRAINT `patients_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `patients_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`);
-
---
--- Constraints for table `recorders`
---
-ALTER TABLE `recorders`
-  ADD CONSTRAINT `recorders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `visits`
---
-ALTER TABLE `visits`
-  ADD CONSTRAINT `visits_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`id`),
-  ADD CONSTRAINT `visits_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

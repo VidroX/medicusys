@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\ArrayUtil;
 use App\Utils\Database;
 
 class User {
@@ -26,6 +27,7 @@ class User {
     private $activated;
     private $userLevel;
     private $fcmRegToken;
+    private $telegramChatId;
 
     /**
      * User constructor.
@@ -42,8 +44,9 @@ class User {
      * @param int $userLevel
      * @param string $fcmRegToken
      * @param string $userToken
+     * @param string $telegramChatId
      */
-    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $fcmRegToken = null, $userToken = null)
+    public function __construct($id = null, $firstName = null, $lastName = null, $patronymic = null, $birthDate = null, $gender = 1, $mobilePhone = null, $email = null, $homeAddress = null, $activated = false, $userLevel = self::USER_UNSPECIFIED, $fcmRegToken = null, $userToken = null, $telegramChatId = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -58,6 +61,7 @@ class User {
         $this->userToken = $userToken;
         $this->gender = $gender;
         $this->fcmRegToken = $fcmRegToken;
+        $this->telegramChatId = $telegramChatId;
     }
 
     /**
@@ -97,6 +101,7 @@ class User {
             $this->setHomeAddress($row['home_address']);
             $this->setUserToken(null);
             $this->setFcmRegToken($row['fcm_reg_token']);
+            $this->setTelegramChatId($row['telegram_chat_id']);
             $this->setActivated($row['activated'] == 1);
 
             if($row['user_recorder'] != -1){
@@ -170,10 +175,11 @@ class User {
      * @param string $pass User's password
      * @param bool $api if function is being used in the API
      * @param string $fcmRegToken Firebase Cloud Messaging Registration Token
+     * @param string $tChatId Telegram chat id (for bot)
      *
      * @return mixed
      */
-    public function auth($login, $pass, $api = false, $fcmRegToken = null) {
+    public function auth($login, $pass, $api = false, $fcmRegToken = null, $tChatId = null) {
         if($login == null || $pass == null) return null;
 
         $db = new Database();
@@ -208,6 +214,15 @@ class User {
                     ':login2' => $login
                 ]);
             }
+        }
+
+        if($tChatId != null) {
+            $updateQuery = $dbh->prepare("UPDATE users SET telegram_chat_id = :tChatId WHERE email = :login1 OR mobilephone = :login2");
+            $updateQuery->execute([
+                ':tChatId' => $tChatId,
+                ':login1' => $login,
+                ':login2' => $login
+            ]);
         }
 
         if($type === 0) {
@@ -264,6 +279,7 @@ class User {
                 $this->setActivated($row['activated'] == 1);
                 $this->setUserToken($row['token']);
                 $this->setFcmRegToken($row['fcm_reg_token']);
+                $this->setTelegramChatId($row['telegram_chat_id']);
 
                 if($row['user_recorder'] != -1){
                     $this->setUserLevel(self::USER_RECORDER);
@@ -366,6 +382,7 @@ class User {
             $this->setActivated($row['activated'] == 1);
             $this->setUserToken($row['token']);
             $this->setFcmRegToken($row['fcm_reg_token']);
+            $this->setTelegramChatId($row['telegram_chat_id']);
 
             if($row['user_recorder'] != -1){
                 $this->setUserLevel(self::USER_RECORDER);
@@ -425,7 +442,9 @@ class User {
                 $row['home_address'],
                 $row['activated'],
                 self::USER_RECORDER,
-                $row['fcm_reg_token']
+                $row['fcm_reg_token'],
+                null,
+                $row['telegram_chat_id']
             );
         }
 
@@ -456,7 +475,9 @@ class User {
                 $row['home_address'],
                 $row['activated'],
                 self::USER_DOCTOR,
-                $row['fcm_reg_token']
+                $row['fcm_reg_token'],
+                null,
+                $row['telegram_chat_id']
             );
         }
 
@@ -493,7 +514,9 @@ class User {
                     $row['home_address'],
                     $row['activated'],
                     self::USER_PATIENT,
-                    $row['fcm_reg_token']
+                    $row['fcm_reg_token'],
+                    null,
+                    $row['telegram_chat_id']
                 );
             }
 
@@ -517,7 +540,9 @@ class User {
                     $row['home_address'],
                     $row['activated'],
                     self::USER_PATIENT,
-                    $row['fcm_reg_token']
+                    $row['fcm_reg_token'],
+                    null,
+                    $row['telegram_chat_id']
                 );
             }
 
@@ -555,7 +580,8 @@ class User {
                         $row['activated'],
                         self::USER_PATIENT,
                         $row['fcm_reg_token'],
-                        $row['token']
+                        $row['token'],
+                        $row['telegram_chat_id']
                     );
                 }
             }
@@ -587,7 +613,8 @@ class User {
                 'homeAddress' => $this->getHomeAddress(),
                 'activated' => $this->isActivated(),
                 'userLevel' => $this->getUserLevel(),
-                'fcmRegToken' => $this->getFcmRegToken()
+                'fcmRegToken' => $this->getFcmRegToken(),
+                'telegramChatId' => $this->getTelegramChatId()
             ];
         }else{
             return [
@@ -603,7 +630,8 @@ class User {
                 'userToken' => $this->getUserToken(),
                 'activated' => $this->isActivated(),
                 'userLevel' => $this->getUserLevel(),
-                'fcmRegToken' => $this->getFcmRegToken()
+                'fcmRegToken' => $this->getFcmRegToken(),
+                'telegramChatId' => $this->getTelegramChatId()
             ];
         }
     }
@@ -632,7 +660,7 @@ class User {
 
                 $page++;
 
-                $limit = 5;
+                $limit = 10;
                 if($page == 1){
                     $start = 0;
                 }else{
@@ -770,7 +798,7 @@ class User {
 
                 $db = new Database();
 
-                $limit = 5;
+                $limit = 10;
                 if($page == 1){
                     $start = 0;
                 }else{
@@ -893,7 +921,8 @@ class User {
                         $row['activated'],
                         self::USER_PATIENT,
                         $row['fcm_reg_token'],
-                        $row['token']
+                        $row['token'],
+                        $row['telegram_chat_id']
                     );
 
                     $latestDate = $row['latest_date'];
@@ -2095,11 +2124,14 @@ class User {
     /**
      * Get patient's diagnoses (for patient)
      *
+     * @param bool $api used in API
+     * @param bool $arrayVariant response with array
+     *
      * @return array
      */
-    public function getPatientDiagnoses()
+    public function getPatientDiagnoses($api = false, $arrayVariant = false)
     {
-        if ($this->isUserLoggedIn(true)) {
+        if ($this->isUserLoggedIn($api)) {
             if ($this->getUserLevel() == self::USER_PATIENT) {
                 $patientInternalId = $this->getUserInternalId($this->getId())['id'];
 
@@ -2122,28 +2154,40 @@ class User {
                 $diagnoses = [];
 
                 while($row = $query->fetch()) {
-                    if(array_key_exists($row['id'], $diagnoses)) {
-                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
-                            if($diagnoses[$row['id']]['symptoms'] != null) {
-                                array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
-                            } else {
-                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
+                    if($arrayVariant) {
+                        $key = ArrayUtil::searchForDiagnosis($row['id'], $diagnoses);
+                        if (array_key_exists($key, $diagnoses)) {
+                            if ($row['symptom_id'] != null && $row['symptom_name'] != null) {
+                                array_push($diagnoses[$key]['symptoms'], $row['symptom_name']);
                             }
+                        }else{
+                            $diagnoses[] = [
+                                'data' => [
+                                    'id' => $row['id'],
+                                    'name' => $row['name'],
+                                    'detection_date' => $row['detection_date']
+                                ],
+                                'symptoms' => $row['symptom_name'] != null ? [
+                                    $row['symptom_name']
+                                ] : null
+                            ];
                         }
-                    }else{
-                        $diagnoses[$row['id']]['data'] = [
-                            'id' => $row['id'],
-                            'name' => $row['name'],
-                            'detection_date' => $row['detection_date']
-                        ];
-                        $diagnoses[$row['id']]['symptoms'] = null;
-
-                        if($row['symptom_id'] != null && $row['symptom_name'] != null) {
-                            if($diagnoses[$row['id']]['symptoms'] != null) {
+                    } else {
+                        if (array_key_exists($row['id'], $diagnoses)) {
+                            if ($row['symptom_id'] != null && $row['symptom_name'] != null) {
                                 array_push($diagnoses[$row['id']]['symptoms'], $row['symptom_name']);
-                            } else {
-                                $diagnoses[$row['id']]['symptoms'] = [$row['symptom_name']];
                             }
+                        } else {
+                            $diagnoses[$row['id']] = [
+                                'data' => [
+                                    'id' => $row['id'],
+                                    'name' => $row['name'],
+                                    'detection_date' => $row['detection_date']
+                                ],
+                                'symptoms' => $row['symptom_name'] != null ? [
+                                    $row['symptom_name']
+                                ] : null
+                            ];
                         }
                     }
                 }
@@ -2277,6 +2321,188 @@ class User {
             }
         }
         return null;
+    }
+
+    /**
+     * Get patient's doctor
+     *
+     * @return int
+     */
+    public function getPatientDoctor() {
+        if ($this->isUserLoggedIn(true)) {
+            if ($this->getUserLevel() == self::USER_PATIENT) {
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT p.doctor_id FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    WHERE users.id = :patientId
+                    LIMIT 1
+                "
+                );
+                $query->execute([
+                    ':patientId' => $this->getId()
+                ]);
+
+                $doctorId = null;
+
+                if($query->rowCount() > 0) {
+                    if ($row = $query->fetch()) {
+                        $doctorId = $row['doctor_id'];
+                    }
+                }
+
+                return $doctorId;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get patient's appointments
+     *
+     * @return array
+     */
+    public function getPatientAppointments() {
+        if ($this->isUserLoggedIn(true)) {
+            if ($this->getUserLevel() == self::USER_PATIENT) {
+                $db = new Database();
+
+                $query = $db->getDatabase()->prepare(
+                    "
+                    SELECT v.* FROM users
+                    INNER JOIN patients p on users.id = p.user_id
+                    INNER JOIN visits v ON v.patient_id = p.id
+                    WHERE users.id = :patientId AND v.visited = 0 AND visit_date >= DATE(NOW())
+                "
+                );
+                $query->execute([
+                    ':patientId' => $this->getId()
+                ]);
+
+                $visits = [];
+
+                while ($row = $query->fetch()) {
+                    $visits[] = [
+                        'id' => $row['id'],
+                        'doctor_id' => $row['doctor_id'],
+                        'patient_id' => $row['patient_id'],
+                        'visit_date' => $row['visit_date']
+                    ];
+                }
+
+                return $visits;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get doctor's appointments
+     *
+     * @param int $doctorId
+     *
+     * @return array
+     */
+    public function getDoctorAppointments($doctorId) {
+        if ($this->isUserLoggedIn(true)) {
+            if($doctorId == null) {
+                return null;
+            }
+
+            $db = new Database();
+
+            $query = $db->getDatabase()->prepare(
+                "
+                    SELECT v.* FROM users
+                    INNER JOIN doctors d on users.id = d.user_id
+                    INNER JOIN visits v ON v.doctor_id = d.id
+                    WHERE users.id = :doctorId AND v.visited = 0 AND visit_date >= DATE(NOW())
+                "
+            );
+            $query->execute([
+                ':doctorId' => $doctorId
+            ]);
+
+            $visits = [];
+
+            while ($row = $query->fetch()) {
+                $visits[] = [
+                    'id' => $row['id'],
+                    'doctor_id' => $row['doctor_id'],
+                    'patient_id' => $row['patient_id'],
+                    'visit_date' => $row['visit_date']
+                ];
+            }
+
+            return $visits;
+        }
+        return null;
+    }
+
+    /**
+     * Make an appointment with a doctor
+     *
+     * @param string $date
+     *
+     * @return bool
+     */
+    public function createAppointment($date) {
+        if ($this->isUserLoggedIn(true)) {
+            if ($this->getUserLevel() == self::USER_PATIENT) {
+                if($date == null) {
+                    return false;
+                }
+
+                $doctorId = $this->getPatientDoctor();
+                if($doctorId == null) {
+                    return false;
+                }
+                $dAppointments = $this->getDoctorAppointments($doctorId);
+                if($dAppointments != null) {
+                    if(ArrayUtil::searchForAppointment($doctorId, $date, $dAppointments)) {
+                        return false;
+                    }
+                }
+
+                $patientInternalId = $this->getUserInternalId($this->getId())['id'];
+                if($patientInternalId == null) {
+                    return false;
+                }
+
+                $db = new Database();
+                $dbh = $db->getDatabase();
+
+                $query = $dbh->prepare(
+                    "
+                    INSERT INTO visits (doctor_id, patient_id, visit_date) VALUES (:doctorId, :patientId, :visitDate)
+                "
+                );
+
+                if($date == null) {
+                    return false;
+                }
+
+                try {
+                    $dbh->beginTransaction();
+
+                    $query->execute([
+                        ':doctorId' => $doctorId,
+                        ':patientId' => $patientInternalId,
+                        ':visitDate' => $date
+                    ]);
+
+                    $dbh->commit();
+
+                    return true;
+                }catch (\PDOException $ex) {
+                    $dbh->rollBack();
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -2639,5 +2865,21 @@ class User {
     public function setFcmRegToken($fcmRegToken)
     {
         $this->fcmRegToken = $fcmRegToken;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getTelegramChatId()
+    {
+        return $this->telegramChatId;
+    }
+
+    /**
+     * @param null|string $telegramChatId
+     */
+    public function setTelegramChatId($telegramChatId)
+    {
+        $this->telegramChatId = $telegramChatId;
     }
 }
