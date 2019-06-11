@@ -660,7 +660,7 @@ class User {
 
                 $page++;
 
-                $limit = 5;
+                $limit = 10;
                 if($page == 1){
                     $start = 0;
                 }else{
@@ -798,7 +798,7 @@ class User {
 
                 $db = new Database();
 
-                $limit = 5;
+                $limit = 10;
                 if($page == 1){
                     $start = 0;
                 }else{

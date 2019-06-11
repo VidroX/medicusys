@@ -23,7 +23,7 @@ let header = {
 
 function insertRows(rowObject) {
     let size = rowObject.length;
-    let maxLength = 5;
+    let maxLength = 10;
     $.each(rowObject, function( key, value ) {
         let user = value.user;
         let lastVisit = value.latestVisit == null ? "..." : value.latestVisit;
@@ -59,7 +59,6 @@ function insertRows(rowObject) {
         for (let i = 1; i <= computedLength; i++) {
             let row =
                 "<tr>" +
-                "<th scope=\"row\"></th>" +
                 "<td></td>" +
                 "<td></td>" +
                 "<td></td>" +
@@ -268,6 +267,43 @@ function sortTable(column, type) {
     }).appendTo('.table tbody');
 }
 
+function doSearch(obj) {
+    let value = $(obj).val();
+
+    let params = window.location.search;
+    let newParams = params;
+    if (params.length > 0 && params.indexOf("search") < 0) {
+        newParams = params + "&search=" + encodeURIComponent(value);
+    } else if (params.length <= 0) {
+        newParams = "?search=" + encodeURIComponent(value);
+    }
+    if (params.indexOf("search") >= 0) {
+        newParams = replaceUrlParam(newParams, 'search', encodeURIComponent(value));
+    }
+
+    window.history.replaceState(null, null, newParams);
+
+    if (value == null || (value != null && value.length <= 0)) {
+        searchParam = null;
+        firstSearch = true;
+    } else {
+        searchParam = value;
+    }
+
+    if (allowSearch) {
+        allowSearch = false;
+        setTimeout(function () {
+            allowSearch = true;
+            if (searchParam != null && searchParam.length > 0) {
+                loadData(globalPage, searchParam)
+            } else {
+                globalPage = 1;
+                loadData(globalPage)
+            }
+        }, 1500)
+    }
+}
+
 $(document).ready(function () {
     error.hide(150);
 
@@ -277,40 +313,9 @@ $(document).ready(function () {
         searchInput.val(searchParam);
     }
 
-    searchInput.on('paste keyup', function () {
-        let value = $(this).val();
-
-        let params = window.location.search;
-        let newParams = params;
-        if(params.length > 0 && params.indexOf("search") < 0){
-            newParams = params+"&search="+encodeURIComponent(value);
-        }else if(params.length <= 0){
-            newParams = "?search="+encodeURIComponent(value);
-        }
-        if(params.indexOf("search") >= 0){
-            newParams = replaceUrlParam(newParams, 'search', encodeURIComponent(value));
-        }
-
-        window.history.replaceState(null, null, newParams);
-
-        if(value == null || (value != null && value.length <= 0)){
-            searchParam = null;
-            firstSearch = true;
-        }else{
-            searchParam = value;
-        }
-
-        if(allowSearch) {
-            allowSearch = false;
-            setTimeout(function () {
-                allowSearch = true;
-                if(searchParam != null && searchParam.length > 0){
-                    loadData(globalPage, searchParam)
-                }else{
-                    globalPage = 1;
-                    loadData(globalPage)
-                }
-            }, 1500)
+    searchInput.on('paste keyup', function (e) {
+        if (e.which <= 90 && e.which >= 48 || e.which >= 96 && e.which <= 105 || e.which === 8) {
+            doSearch(this);
         }
     });
 
