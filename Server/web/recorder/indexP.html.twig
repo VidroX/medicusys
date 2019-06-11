@@ -1,0 +1,184 @@
+{% extends 'recorder/base.html.twig' %}
+{% block title %}{{ i18n.recorderPanel }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-md-2 admin-container">
+                <a class="btn  btn-block btn-outline-medicus" href="{{ urlPrefix }}/recorder/doctors">Doctors</a>
+                <br>
+                <a class="btn  btn-block btn-outline-medicus  active" href="{{ urlPrefix }}/recorder/patients" >Patients</a>
+                <br>
+                <br>
+                <a class="btn  btn-block btn-outline-success" href="/register">Register new</a>
+            </div>
+            <div class="col-md-9 offset-md-1 admin-container">
+                <div class="admin-top flex-container flex-column">
+{#                    <h5>{{ i18n.doctorCabinet }}</h5>#}
+                    <div class="admin-search row">
+                        <input id="searchInput" class="form-control admin-search-input ml-2 mr-4" type="text"
+                               placeholder="Patients search">
+                    </div>
+                </div>
+                <div class="table-responsive admin-table">
+                    <table id="patientsTable" class="table table-striped table-hover admin-table">
+                        <div class="card mb-2">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="../../champis/images/no-photo.webp" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;PatientName
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                </h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="../../champis/images/no-photo.webp" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;PatientName
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                </h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="../../champis/images/no-photo.webp" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;PatientName
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                </h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-2">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src="../../champis/images/no-photo.webp" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;PatientName
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                </h5>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                </h5>
+                                                <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </table>
+                    <div id="error" class="box-center" style="display: none">
+                        {{ i18n.nothingFound }}
+                    </div>
+                    <div id="loadingSpinner" class="box-center spinner sp-medicus" style="display: none">
+                        <div class="double-bounce1"></div>
+                        <div class="double-bounce2"></div>
+                    </div>
+                </div>
+                <div class="row ml-2">
+                    <div class="admin-bottom flex-container flex-items-center">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button id="prevPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
+                            <button id="nextPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+{#                    <div class="admin-bottom flex-container flex-items-center ">#}
+{#                        <div class="btn-group" role="group" aria-label="Basic example">#}
+{#                            <button id="prevPage" type="button"#}
+{#                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i#}
+{#                                        class="fas fa-chevron-left"></i></button>#}
+{#                            <button type="button" class="btn btn-outline-medicus ">1</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">2</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">3</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">4</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">5</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">6</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">7</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">8</button>#}
+
+{#                            <button id="nextPage" aria-label="First group" type="button"#}
+{#                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i#}
+{#                                        class="fas fa-chevron-right"></i></button>#}
+
+
+{#                        </div>#}
+{#                        </div>#}
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        const app_csrf_name = '{{ csrf.csrf_name }}';
+        const app_csrf_value = '{{ csrf.csrf_value }}';
+        const app_generate_report = '{{ i18n.generateReport }}';
+        const app_url_prefix = '{{ urlPrefix }}';
+        const app_language_code = '{{ languageCode }}';
+        const app_page_param = ({{ tablePage }}) == null ? 1 : {{ tablePage }};
+        const app_send_message = '{{ i18n.sendMessage }}';
+    </script>
+    <script type="text/javascript" src="/assets/js/doctor-table.js" async></script>
+{% endblock %}

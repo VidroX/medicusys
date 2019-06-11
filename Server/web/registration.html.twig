@@ -1,7 +1,15 @@
 {% extends 'auth.html.twig' %}
-{% block title %}{{ i18n.registerTitle }}{% endblock %}
+{% block title %} {{ i18n.registerTitle }}{% endblock %}
 {% block head %}{% endblock %}
 {% block body %}
-    Register page
+    <div class="auth-container">
+        <div class="auth-row">
+            <h4 class="text-center auth-logo">{{ i18n.medicusSystem }}</h4>
+        </div>
+        <div class="auth-row auth-row-container">
+            <h5 class="text-center auth-title">Регистрация </h5>
+
+        </div>
+    </div>
 {% endblock %}
 {% block js %}{% endblock %}

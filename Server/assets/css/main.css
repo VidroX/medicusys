@@ -17,16 +17,16 @@ button:focus {
 }
 
 .navbar-toggler {
-    border: none!important;
-    margin-right: 1rem!important;
+    border: none !important;
+    margin-right: 1rem !important;
 }
 
 .navbar {
-    justify-content: normal!important;
+    justify-content: normal !important;
 }
 
 .navbar-nav {
-    padding: .25rem .75rem!important;
+    padding: .25rem .75rem !important;
 }
 
 .nav-link {
@@ -37,7 +37,7 @@ button:focus {
     background-color: #ffffff;
 }
 
-.flex-column{
+.flex-column {
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
@@ -54,7 +54,7 @@ button:focus {
     margin: 0 auto;
 }
 
-.flex-center{
+.flex-center {
     align-self: center;
 }
 
@@ -84,6 +84,7 @@ button:focus {
     justify-content: center;
     flex-direction: column;
 }
+
 .auth-row {
     min-width: 400px;
     margin: 5px;
@@ -127,23 +128,25 @@ button:focus {
 }
 
 .medicus-bg-color {
-    color: #fff!important;
-    background-color: #7986e1!important;
+    color: #fff !important;
+    background-color: #7986e1 !important;
 }
 
 .medicus-bg-color-hover:hover {
-    color: #fff!important;
-    background-color: #7986e1!important;
+    color: #fff !important;
+    background-color: #7986e1 !important;
 }
 
-a.medicus-color{
+a.medicus-color {
     text-decoration: none;
 }
+
 .medicus-color {
-    color: rgba(0,0,0,.5)!important;
+    color: rgba(0, 0, 0, .5) !important;
 }
+
 .medicus-color:hover {
-    color: rgba(0,0,0,1)!important;
+    color: rgba(0, 0, 0, 1) !important;
 }
 
 /* Medicus Button and Form Control for Bootstrap */
@@ -159,12 +162,12 @@ a.medicus-color{
 }
 
 .btn-medicus.btn-medicus-login {
-    width: auto!important;
+    width: auto !important;
     min-width: 50%;
 }
 
 .btn-medicus.btn-medicus-control {
-    width: auto!important;
+    width: auto !important;
     min-width: 50px;
 }
 
@@ -178,7 +181,7 @@ a.medicus-color{
     border-color: #6a74cd;
 }
 
-.btn-medicus.focus,.btn-medicus:focus {
+.btn-medicus.focus, .btn-medicus:focus {
     box-shadow: 0 0 0 .2rem rgba(106, 116, 205, 0.5);
 }
 
@@ -221,50 +224,52 @@ a.medicus-color{
 .btn-medicus.btn-medicus-shaded:focus {
     box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
 }
+
 .btn-medicus.btn-medicus-shaded:active {
     box-shadow: none;
 }
 
-.btn-medicus.disabled,.btn-medicus:disabled {
+.btn-medicus.disabled, .btn-medicus:disabled {
     color: #fff;
     background-color: #6a74cd;
     border-color: #6a74cd;
 }
 
-.btn-medicus:not(:disabled):not(.disabled).active,.btn-medicus:not(:disabled):not(.disabled):active,.show>.btn-medicus.dropdown-toggle {
+.btn-medicus:not(:disabled):not(.disabled).active, .btn-medicus:not(:disabled):not(.disabled):active, .show > .btn-medicus.dropdown-toggle {
     color: #fff;
     background-color: #7986e1;
     border-color: #7986e1;
 }
 
 .medicus-no-min-width {
-    min-width: auto!important;
-    width: auto!important;
+    min-width: auto !important;
+    width: auto !important;
 }
 
-.btn-medicus:not(:disabled):not(.disabled).active:focus,.btn-medicus:not(:disabled):not(.disabled):active:focus,.show>.btn-medicus.dropdown-toggle:focus {
+.btn-medicus:not(:disabled):not(.disabled).active:focus, .btn-medicus:not(:disabled):not(.disabled):active:focus, .show > .btn-medicus.dropdown-toggle:focus {
     box-shadow: 0 0 0 .2rem rgba(121, 134, 225, 0.5);
 }
 
 .dropdown-item.active,
 .dropdown-item:active {
-    background-color: #7986e1!important;
+    background-color: #7986e1 !important;
 }
 
 .modal-content {
-    border: none!important;
+    border: none !important;
     border-radius: .3rem;
     box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
 }
 
-.btn-block-md{
+.btn-block-md {
     margin-bottom: 10px;
 }
+
 .btn-block-md:not(:first-child) {
     margin-left: 8px;
 }
 
-.medicus-bottom-buttons{
+.medicus-bottom-buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -279,7 +284,7 @@ a.medicus-color{
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #7986e1!important;
+    border-color: #7986e1 !important;
     outline: 0;
     box-shadow: 0 0 0 .2rem rgba(121, 134, 225, 0.25) !important;
 }
@@ -347,27 +352,33 @@ button .spinner.sp-inline {
 }
 
 @-webkit-keyframes sk-bounce {
-    0%, 100% { -webkit-transform: scale(0.0) }
-    50% { -webkit-transform: scale(1.0) }
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    50% {
+        -webkit-transform: scale(1.0)
+    }
 }
 
 @keyframes sk-bounce {
     0%, 100% {
         transform: scale(0.0);
         -webkit-transform: scale(0.0);
-    } 50% {
-          transform: scale(1.0);
-          -webkit-transform: scale(1.0);
-      }
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
 }
 
-.auth-logo{
+.auth-logo {
     margin: 20px 0;
 }
 
 .admin-drop-nav-outer {
     padding: .25rem .75rem;
 }
+
 .admin-drop-nav-inner {
     margin: .25rem .75rem;
 }
@@ -376,7 +387,7 @@ button .spinner.sp-inline {
     min-height: 580px;
 }
 
-table.admin-table{
+table.admin-table {
     min-width: 509px;
     min-height: auto;
 }
@@ -474,7 +485,7 @@ input.admin-search-input {
 }
 
 label.no-margin {
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 .flex-left {
@@ -506,7 +517,7 @@ td, th {
     text-align: center;
 }
 
-.input-group>.twitter-typeahead {
+.input-group > .twitter-typeahead {
     position: relative;
     -ms-flex: 1 1 auto;
     -webkit-box-flex: 1;
@@ -514,14 +525,17 @@ td, th {
     width: 1%;
     margin-bottom: 0;
 }
-.input-group>.twitter-typeahead:not(:last-child) {
+
+.input-group > .twitter-typeahead:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
-.input-group>.twitter-typeahead>.tt-input {
+
+.input-group > .twitter-typeahead > .tt-input {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
 .form-control.tt-input:focus {
     z-index: 3
 }
@@ -541,22 +555,24 @@ td, th {
         flex-basis: 31%;
     }
 
-    .admin-table{
+    .admin-table {
         min-height: 455px;
     }
 
-    table.admin-table{
+    table.admin-table {
         min-height: auto;
     }
 }
 
 @media (max-width: 991px) {
-    .navbar>.container, .navbar>.container-fluid {
-        justify-content: normal!important;
+    .navbar > .container, .navbar > .container-fluid {
+        justify-content: normal !important;
     }
+
     input.admin-search-input {
         width: 100%;
     }
+
     .flex-left, .flex-right {
         display: block;
     }
@@ -570,7 +586,7 @@ td, th {
     }
 
     .flex-patient-info {
-        display: block!important;
+        display: block !important;
     }
 
     .admin-top {
@@ -580,6 +596,7 @@ td, th {
     .admin-table {
         min-height: 780px;
     }
+
     table.admin-table {
         min-height: auto;
     }
@@ -591,6 +608,7 @@ td, th {
         border-radius: 10px;
         margin-top: 20px;
     }
+
     .admin-container:first-child {
         margin: 0;
         background-color: #fff;
@@ -598,7 +616,8 @@ td, th {
         box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
         border-radius: 0 0 10px 10px;
     }
-    .medicus-bottom-buttons{
+
+    .medicus-bottom-buttons {
         justify-content: center;
     }
 }
@@ -607,14 +626,17 @@ td, th {
     .admin-drop-nav-outer {
         padding: .5rem 0;
     }
+
     .admin-drop-nav-inner {
         margin: 0;
     }
+
     .admin-container:not(first-child) {
         box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
         border-radius: 0;
         margin-top: 20px;
     }
+
     .admin-container:first-child {
         margin: 0;
         background-color: #fff;
@@ -622,67 +644,110 @@ td, th {
         box-shadow: 0 6px 6px -4px rgba(32, 33, 36, 0.28);
         border-radius: 0 0 10px 10px;
     }
-    .navbar-brand{
+
+    .navbar-brand {
         margin: 0 auto;
     }
+
     .auth {
         height: auto;
     }
-    .auth-container{
+
+    .auth-container {
         justify-content: start;
         align-items: center;
     }
+
     .auth-row {
         min-width: auto;
         width: 100%;
         border-radius: 0;
     }
-    .btn-medicus{
+
+    .btn-medicus {
         min-width: auto;
     }
-    .btn-medicus.btn-medicus-login{
+
+    .btn-medicus.btn-medicus-login {
         min-width: auto;
-        width: 100%!important;
+        width: 100% !important;
     }
-    .auth-row-container{
+
+    .auth-row-container {
         padding: 10px;
     }
-    .auth-logo{
+
+    .auth-logo {
         margin-top: 50px;
     }
+
     .navbar-toggler {
-        padding: 0!important;
+        padding: 0 !important;
     }
+
     .navbar-nav {
-        padding: 0!important;
+        padding: 0 !important;
     }
+
     .shaded-container {
         border-radius: 0;
     }
+
     .btn-medicus.btn-block-md {
         display: block;
-        min-width: auto!important;
+        min-width: auto !important;
         width: 100%;
         margin-left: 0;
     }
+
     .btn-medicus.btn-block-md-normal {
         display: block;
-        min-width: auto!important;
+        min-width: auto !important;
         width: 100%;
     }
-    .medicus-bottom-buttons{
+
+    .medicus-bottom-buttons {
         justify-content: normal;
         flex-direction: column-reverse;
     }
+
     .flex-card {
         flex-direction: column;
     }
+
     ul.typeahead.dropdown-menu {
         display: block;
-        min-width: auto!important;
+        min-width: auto !important;
         width: 100%;
     }
 }
-.nav-link.active{
+
+.nav-link.active {
     color: #007bff !important;
 }
+
+
+/*Profile images near dropdown menu */
+.img-profile-circle {
+    border-radius: 50%;
+    border-bottom-color: #1b1e21;
+    border-top-color: #1b1e21;
+}
+
+.img-profile-rounded {
+    border-radius: 25%;
+    border-bottom-color: #1b1e21;
+    border-top-color: #1b1e21;
+}
+
+
+/*Profile borders*/
+
+
+.profile-bordered {
+    border-color: #1b1e21;
+    border-style: solid;
+    border-radius: 15px;
+    border-width: thin
+}
+

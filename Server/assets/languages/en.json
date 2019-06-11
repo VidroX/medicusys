@@ -141,5 +141,8 @@
   "sendMessage": "Send message",
   "send": "Send",
   "title": "Title",
-  "messageSent": "Message sent successfully"
+  "messageSent": "Message sent successfully",
+
+  "patientCabinet" : "Patient Cabinet"
+
 }

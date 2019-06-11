@@ -24,3 +24,4 @@ Server/vendor/*
 Server/config/*.json
 
 *.lock
+*/vendor/*

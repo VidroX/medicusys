@@ -48,7 +48,10 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
 
     //RecorderController
     $app->group('/recorder', function () use ($app) {
-        $app->get("[/]", 'App\Controllers\RecorderController:index');
+        $app->get("[/]", 'App\Controllers\RecorderController:doctors');
+        $app->get("/doctors[/]", 'App\Controllers\RecorderController:doctors');
+        $app->get("/patients[/]", 'App\Controllers\RecorderController:patients');
+        $app->get("/about[/]", 'App\Controllers\RecorderController:about');
     });
 
     /*\

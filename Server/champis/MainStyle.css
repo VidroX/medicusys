@@ -45,3 +45,13 @@
     max-width: 60% !important;
     margin: 13% auto!important;
 }
+
+.mont{
+    font-family: "Montserrat","Quicksand",sans-serif !important;
+
+}
+
+.mont-bold{
+    font-family: "Montserrat","Quicksand",sans-serif !important;
+    font-weight: 800;
+}

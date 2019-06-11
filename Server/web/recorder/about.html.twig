@@ -1,0 +1,67 @@
+{% extends 'recorder/base.html.twig' %}
+{% block title %}{{ i18n.recorderPanel }}{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="col-md-9 offset-md-1 admin-container">
+            <div class="admin-top flex-container flex-column">
+                {#                    <h5>{{ i18n.doctorCabinet }}</h5>#}
+            </div>
+            <div class="table-responsive admin-table">
+                <table id="patientsTable" class="table table-striped table-hover admin-table">
+                    <div class="card mb-2">
+                        <div class="row no-gutters">
+                            <div class="col-6">
+                                <img src="../../champis/images/no-photo.webp" width="450" class="card-img profile-bordered" alt="...">
+                            </div>
+                            <div class="col-6">
+                                <div class="card-body" style="padding-top: 0;">
+                                    <div class="row">
+                                        <div class="col-md-12 pt-2 mb-2 profile-bordered" >
+                                            <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;DoctorName
+                                            </h5>
+                                            <h5 class="card-title"><span
+                                                        class="badge badge-dark">Date of birth:</span>&ensp;16.06.1993
+                                            </h5>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 pt-2 mb-2 profile-bordered">
+                                            <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                            </h5>
+                                            <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                            </h5>
+                                            <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 pt-2 pb-2 mb-2 profile-bordered">
+                                            <a href="/logout" class="btn btn-outline-medicus">Log out</a>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        const app_csrf_name = '{{ csrf.csrf_name }}';
+        const app_csrf_value = '{{ csrf.csrf_value }}';
+        const app_generate_report = '{{ i18n.generateReport }}';
+        const app_url_prefix = '{{ urlPrefix }}';
+        const app_language_code = '{{ languageCode }}';
+        const app_page_param = ({{ tablePage }}) == null ? 1 : {{ tablePage }};
+        const app_send_message = '{{ i18n.sendMessage }}';
+    </script>
+    <script type="text/javascript" src="/assets/js/doctor-table.js" async></script>
+{% endblock %}
