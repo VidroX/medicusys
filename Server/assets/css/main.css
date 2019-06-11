@@ -686,3 +686,17 @@ td, th {
 .nav-link.active{
     color: #007bff !important;
 }
+
+
+/*Profile images near dropdown menu */
+.img-profile-circle{
+    border-radius: 50%;
+    border-bottom-color: #1b1e21;
+    border-top-color: #1b1e21;
+}
+.img-profile-rounded{
+    border-radius: 25%;
+    border-bottom-color: #1b1e21;
+    border-top-color: #1b1e21;
+}
+
