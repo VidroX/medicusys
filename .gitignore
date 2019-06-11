@@ -21,3 +21,5 @@ Server/.idea/*
 Server/vendor
 Server/vendor/*
 Server/config/*.json
+
+*.lock

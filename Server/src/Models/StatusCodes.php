@@ -66,6 +66,11 @@ interface StatusCodes {
         59 => 'Invalid FCM registration token',
         60 => 'Firebase error occurred',
         61 => 'FCM registration token updated successfully',
-        62 => 'There was an error while updating FCM registration token'
+        62 => 'There was an error while updating FCM registration token',
+        63 => 'Invalid action',
+        64 => 'Invalid date',
+        65 => 'Unable to make an appointment',
+        66 => 'Appointment record created successfully',
+        67 => 'Invalid doctor id'
     ];
 }
