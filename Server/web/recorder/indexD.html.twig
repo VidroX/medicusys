@@ -5,19 +5,19 @@
     <div class="container">
         <div class="row align-items-start">
             <div class="col-md-2 admin-container">
-                <button type="button" class="btn  btn-block btn-outline-medicus active">Doctors</button>
+                <a class="btn  btn-block btn-outline-medicus active" href="{{ urlPrefix }}/recorder/doctors">Doctors</a>
                 <br>
-                <button type="button" class="btn  btn-block btn-outline-medicus">Patients</button>
+                <a class="btn  btn-block btn-outline-medicus" href="{{ urlPrefix }}/recorder/patients" >Patients</a>
                 <br>
                 <br>
-                <a class="btn  btn-block btn-outline-success" href="/register" type="">Register new</a>
+                <a class="btn  btn-block btn-outline-success" href="/register">Register new</a>
 
 
 
             </div>
             <div class="col-md-9 offset-md-1 admin-container">
                 <div class="admin-top flex-container flex-column">
-                    <h5>{{ i18n.doctorCabinet }}</h5>
+{#                    <h5>{{ i18n.doctorCabinet }}</h5>#}
                     <div class="admin-search row">
                         <input id="searchInput" class="form-control admin-search-input ml-2 mr-4" type="text"
                                placeholder="Doctor search">
@@ -162,32 +162,33 @@
                     </div>
                 </div>
                 <div class="row ml-2">
-                    <div class="admin-bottom flex-container flex-items-center ">
+                    <div class="admin-bottom flex-container flex-items-center">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                            <button id="prevPage" type="button"
-                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i
-                                        class="fas fa-chevron-left"></i></button>
-                            <button type="button" class="btn btn-outline-medicus ">1</button>
-                            <button type="button" class="btn btn-outline-medicus">2</button>
-                            <button type="button" class="btn btn-outline-medicus">3</button>
-                            <button type="button" class="btn btn-outline-medicus">4</button>
-                            <button type="button" class="btn btn-outline-medicus">5</button>
-                            <button type="button" class="btn btn-outline-medicus">6</button>
-                            <button type="button" class="btn btn-outline-medicus">7</button>
-                            <button type="button" class="btn btn-outline-medicus">8</button>
-
-                            <button id="nextPage" aria-label="First group" type="button"
-                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i
-                                        class="fas fa-chevron-right"></i></button>
-
-
+                            <button id="prevPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
+                            <button id="nextPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
                         </div>
-                        <div class="admin-bottom flex-container flex-items-center">
-                            <div class="btn-group pl-md-5 " role="group" aria-label="Second example">
-                        </div>
+                    </div>
+{#                    <div class="admin-bottom flex-container flex-items-center ">#}
+{#                        <div class="btn-group" role="group" aria-label="Basic example">#}
+{#                            <button id="prevPage" type="button"#}
+{#                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i#}
+{#                                        class="fas fa-chevron-left"></i></button>#}
+{#                            <button type="button" class="btn btn-outline-medicus ">1</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">2</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">3</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">4</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">5</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">6</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">7</button>#}
+{#                            <button type="button" class="btn btn-outline-medicus">8</button>#}
+
+{#                            <button id="nextPage" aria-label="First group" type="button"#}
+{#                                    class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i#}
+{#                                        class="fas fa-chevron-right"></i></button>#}
 
 
-                        </div>
+{#                        </div>#}
+{#                        </div>#}
                     </div>
 
                 </div>

@@ -35,11 +35,13 @@
                 </ul>
                 <div class="mr-auto"></div>
                 <div class="dropdown admin-drop-nav-outer">
+                    <img src="../../champis/images/no-photo.png" class="img-thumbnail img-profile-rounded" width="45" >
                     <a href="javascript:void(0)" class="dropdown-toggle medicus-color" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ user.lastName }} {{ user.firstName }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-md-right admin-drop-nav-inner" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item disabled" href="#">{{ user.email }}</a>
+                        <a class="dropdown-item" href="#">Profile Info</a>
                         <a class="dropdown-item medicus-bg-color-hover" href="{{ urlPrefix }}/logout">{{ i18n.logout }}</a>
                     </div>
                 </div>
