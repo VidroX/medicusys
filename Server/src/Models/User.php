@@ -2466,6 +2466,11 @@ class User {
                     }
                 }
 
+                $patientInternalId = $this->getUserInternalId($this->getId())['id'];
+                if($patientInternalId == null) {
+                    return false;
+                }
+
                 $db = new Database();
                 $dbh = $db->getDatabase();
 
@@ -2484,7 +2489,7 @@ class User {
 
                     $query->execute([
                         ':doctorId' => $doctorId,
-                        ':patientId' => $this->getId(),
+                        ':patientId' => $patientInternalId,
                         ':visitDate' => $date
                     ]);
 
