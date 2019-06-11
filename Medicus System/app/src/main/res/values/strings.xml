@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Medicus System</string>
-    <string name="title_activity_cabinet">CabinetActivity</string>
+    <string name="title_activity_cabinet">Cabinet Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -17,4 +17,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_healing">Hello healing!</string>
+    <string name="title_activity_diagnose">Diagnose Activity</string>
 </resources>

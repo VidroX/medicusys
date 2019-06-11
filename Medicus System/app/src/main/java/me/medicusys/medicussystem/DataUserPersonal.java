@@ -9,11 +9,9 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class SystemData {
-    public static String fcm_reg_token;
-    public static int userID;
+public class DataUserPersonal {
+    public static long userID;
     public static String userToken;
-
     public static String firstName;
     public static String lastName;
     public static String patronymic;
@@ -22,9 +20,8 @@ public class SystemData {
     public static String phone;
     public static String email;
     public static String address;
-    public static NotificationForm notificationForm;
 
-    public static LoginActivity loginActivity;
+    public static ActivityLogin loginActivity;
 
     public static void logIn(JSONObject loginData) {
         try {
@@ -32,20 +29,20 @@ public class SystemData {
             firstName = loginData.getString("firstName");
             lastName = loginData.getString("lastName");
             patronymic = loginData.getString("patronymic");
-            String[] dateParts = loginData.getString("birthDate").split("-");
-            birthDate = new Date(Integer.parseInt(dateParts[0]), Integer.parseInt(dateParts[1]), Integer.parseInt(dateParts[2]));
+            birthDate = DataSystem.parseDate(loginData.getString("birthDate"));
             isMan = (loginData.getInt("gender") == 1 ? true : false);
             phone = loginData.getString("mobilePhone");
             email = loginData.getString("email");
             address = loginData.getString("homeAddress");
             userToken = loginData.getString("userToken");
-            loginActivity.startActivity(new Intent(loginActivity, CabinetActivity.class));
+            loginActivity.startActivity(new Intent(loginActivity, ActivityCabinet.class));
+            loginActivity.finish();
 //            notificationForm = new NotificationForm(loginActivity);
 //            notificationForm.showNotification("Authorization", "Successful login, \n" + firstName + " " + patronymic + " " + lastName);
 
-            SharedPreferences sharedPreferences = loginActivity.getSharedPreferences("Login", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE);
             SharedPreferences.Editor preferencesEditor = sharedPreferences.edit();
-            preferencesEditor.putString("id", Integer.toString(userID));
+            preferencesEditor.putLong("id", userID);
             preferencesEditor.putString("firstName", firstName);
             preferencesEditor.putString("lastName", lastName);
             preferencesEditor.putString("patronymic", patronymic);
@@ -60,5 +57,37 @@ public class SystemData {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean logIn() {
+        SharedPreferences sharedPreferences = loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE);
+        userID = sharedPreferences.getLong("id", -1);
+        firstName = sharedPreferences.getString("firstName", null);
+        lastName = sharedPreferences.getString("lastName", null);
+        patronymic = sharedPreferences.getString("patronymic", null);
+        birthDate = new Date(sharedPreferences.getLong("birthDate", Long.MIN_VALUE));
+        isMan = sharedPreferences.getBoolean("gender", false);
+        phone = sharedPreferences.getString("mobilePhone", null);
+        email = sharedPreferences.getString("email", null);
+        address = sharedPreferences.getString("address", null);
+        userToken = sharedPreferences.getString("userToken", null);
+
+        if (userID >= 0 &&
+                firstName != null &&
+                lastName != null &&
+                patronymic != null &&
+                birthDate.getTime() != Long.MIN_VALUE &&
+                phone != null &&
+                email != null &&
+                address != null &&
+                userToken != null) {
+            loginActivity.startActivity(new Intent(loginActivity, ActivityCabinet.class));
+            loginActivity.finish();
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 }

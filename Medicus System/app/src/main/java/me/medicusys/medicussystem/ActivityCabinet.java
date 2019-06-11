@@ -9,24 +9,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-public class CabinetActivity extends AppCompatActivity
+public class ActivityCabinet extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FragmentHealth healthFragment;
+    FragmentHealing healingFragment;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cabinet);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        healthFragment = new FragmentHealth();
+        healingFragment = new FragmentHealing();
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, healthFragment).commit();
+        toolbar.setTitle(R.string.menu_health);
     }
 
     @Override
@@ -41,19 +52,13 @@ public class CabinetActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.cabinet, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -64,12 +69,13 @@ public class CabinetActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_health) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HealthFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, healthFragment).commit();
+            toolbar.setTitle(R.string.menu_health);
         } else if (id == R.id.nav_healing) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HealingFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, healingFragment).commit();
+            toolbar.setTitle(R.string.menu_healing);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

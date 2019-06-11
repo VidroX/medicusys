@@ -3,12 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HealthFragment">
+    tools:context=".FragmentHealth">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/healthMessageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/hello_health"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_health" />
+        android:id="@+id/recycler"/>
 
 </FrameLayout>
