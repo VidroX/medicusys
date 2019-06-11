@@ -1,5 +1,6 @@
 package me.medicusys.medicussystem;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,8 +21,6 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
     TextView symptomsText;
     ArrayList<RecipeRecord> recipeRecords = new ArrayList<>();
 
-    TextView recipesView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +30,13 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
         detectionDateText = findViewById(R.id.detectionDateText);
         detectionDateView = findViewById(R.id.detectionDateView);
         symptomsText = findViewById(R.id.symptomsText);
-        recipesView = findViewById(R.id.recipesView);
 
         setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         toolbar.setTitle(DataUserMedical.diagnosisRecords.get(DataSystem.currentDiagnose).name);
 
         detectionDateView.setText(DataSystem.dateToString(DataUserMedical.diagnosisRecords.get(DataSystem.currentDiagnose).detectionDate));
@@ -86,11 +89,16 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
                 e.printStackTrace();
             }
         }
-//        recipesView.setText(responseData.toString());
     }
 
     @Override
     public void printError(String errorMessage) {
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

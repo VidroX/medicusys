@@ -1,6 +1,7 @@
 package me.medicusys.medicussystem;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +66,7 @@ public class FragmentHealth extends Fragment implements JSONReceiver {
     public void setResponse(JSONObject responseData) {
         try {
             if (responseData != null) {
-                if (responseData.getInt("status") == 27) {
+                if (StatusCodeManager.isGoodResponse(responseData, getActivity())) {
                     JSONArray diagnosis = responseData.getJSONArray("data");
                     DataUserMedical.diagnosisRecords.clear();
                     for (int i = 0; i < diagnosis.length(); i++) {
@@ -85,19 +87,29 @@ public class FragmentHealth extends Fragment implements JSONReceiver {
                     }
                     initRecycler();
                 }
-            }
-            else {
+            } else {
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 request();
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        messageView.setText(responseData.toString());
     }
 
     @Override
-    public void printError(String errorMessage) {
-        messageView.setText(errorMessage);
+    public void printError(final String errorMessage) {
+        getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                messageView.setText(errorMessage);
+            }
+        });
     }
 
     private void initRecycler() {

@@ -60,7 +60,12 @@ public class FragmentHealing extends Fragment implements JSONReceiver {
     }
 
     @Override
-    public void printError(String errorMessage) {
-        messageView.setText(errorMessage);
+    public void printError(final String errorMessage) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                messageView.setText(errorMessage);
+            }
+        });
     }
 }

@@ -1,5 +1,6 @@
 package me.medicusys.medicussystem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class ActivityCabinet extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +41,21 @@ public class ActivityCabinet extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, healthFragment).commit();
         toolbar.setTitle(R.string.menu_health);
+
+        View navigationHeader = navigationView.getHeaderView(0);
+        navigationHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ActivityPersonal.class);
+                v.getContext().startActivity(intent);
+            }
+        });
+        TextView personalNameView = navigationHeader.findViewById(R.id.personalName);
+        personalNameView.setText(DataUserPersonal.firstName + " " + DataUserPersonal.patronymic + " " + DataUserPersonal.lastName);
+        TextView personalPhoneView = navigationHeader.findViewById(R.id.personalPhone);
+        personalPhoneView.setText(DataUserPersonal.phone);
+        TextView personalEmailView = navigationHeader.findViewById(R.id.personalEmail);
+        personalEmailView.setText(DataUserPersonal.email);
     }
 
     @Override
@@ -81,5 +99,10 @@ public class ActivityCabinet extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void LogOut(View view) {
+        DataUserPersonal.logOut(this);
+        finish();
     }
 }

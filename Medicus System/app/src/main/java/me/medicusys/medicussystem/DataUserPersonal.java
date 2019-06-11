@@ -1,8 +1,10 @@
 package me.medicusys.medicussystem;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,22 +39,20 @@ public class DataUserPersonal {
             userToken = loginData.getString("userToken");
             loginActivity.startActivity(new Intent(loginActivity, ActivityCabinet.class));
             loginActivity.finish();
-//            notificationForm = new NotificationForm(loginActivity);
-//            notificationForm.showNotification("Authorization", "Successful login, \n" + firstName + " " + patronymic + " " + lastName);
 
-            SharedPreferences sharedPreferences = loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE);
-            SharedPreferences.Editor preferencesEditor = sharedPreferences.edit();
-            preferencesEditor.putLong("id", userID);
-            preferencesEditor.putString("firstName", firstName);
-            preferencesEditor.putString("lastName", lastName);
-            preferencesEditor.putString("patronymic", patronymic);
-            preferencesEditor.putLong("birthDate", birthDate.getTime());
-            preferencesEditor.putBoolean("gender", isMan);
-            preferencesEditor.putString("mobilePhone", phone);
-            preferencesEditor.putString("email", email);
-            preferencesEditor.putString("address", address);
-            preferencesEditor.putString("userToken", userToken);
-            preferencesEditor.commit();
+            loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE)
+                    .edit()
+                    .putLong("id", userID)
+                    .putString("firstName", firstName)
+                    .putString("lastName", lastName)
+                    .putString("patronymic", patronymic)
+                    .putLong("birthDate", birthDate.getTime())
+                    .putBoolean("gender", isMan)
+                    .putString("mobilePhone", phone)
+                    .putString("email", email)
+                    .putString("address", address)
+                    .putString("userToken", userToken)
+                    .commit();
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -89,5 +89,15 @@ public class DataUserPersonal {
             return false;
         }
 
+    }
+
+    public static void logOut(Activity activity) {
+        loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE)
+                .edit()
+                .putLong("id", -1)
+                .commit();
+        Intent intent = new Intent(activity, ActivityLogin.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 }

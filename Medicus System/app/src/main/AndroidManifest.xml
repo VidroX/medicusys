@@ -12,12 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ActivityPersonal"
+            android:label="@string/title_activity_personal"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".ActivityDiagnose"
             android:label="@string/title_activity_diagnose"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ActivityCabinet"
             android:label="@string/title_activity_cabinet"
