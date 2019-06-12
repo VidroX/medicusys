@@ -20,7 +20,7 @@
 {#                    <h5>{{ i18n.doctorCabinet }}</h5>#}
                     <div class="admin-search row">
                         <input id="searchInput" class="form-control admin-search-input ml-2 mr-4" type="text"
-                               placeholder="Doctor search">
+                               placeholder="{{ i18n.Doctor_search }}">
 
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                                                 </h5>
                                                 <h5 class="card-title"><span class="badge  badge-dark">{{ i18n.Phone }}:</span>&ensp;+123123123
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.еmail }}:</span>&ensp;asdasdas@xcasd.com
+                                                <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
                                                 </h5>
                                             </div>
                                         </div>
@@ -66,19 +66,19 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;DoctorName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Name }}: </span>&ensp;DoctorName
                                                 </h5>
                                                 <h5 class="card-title"><span
-                                                            class="badge badge-dark">Specialization:</span>&ensp;Doctor
+                                                            class="badge badge-dark">{{ i18n.Specialization }}:</span>&ensp;Doctor
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge badge-dark">Expirience:</span>&ensp;5+
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Expirience }}:</span>&ensp;5+
                                                     years
                                                 </h5>
                                             </div>
                                             <div class="col-md-6">
-                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.City }}: </span>&ensp;CityName
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                <h5 class="card-title"><span class="badge  badge-dark">{{ i18n.Phone }}:</span>&ensp;+123123123
                                                 </h5>
                                                 <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
                                                 </h5>
@@ -97,19 +97,19 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;DoctorName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Name }}: </span>&ensp;DoctorName
                                                 </h5>
                                                 <h5 class="card-title"><span
-                                                            class="badge badge-dark">Specialization:</span>&ensp;Doctor
+                                                            class="badge badge-dark">{{ i18n.Specialization }}:</span>&ensp;Doctor
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge badge-dark">Expirience:</span>&ensp;5+
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Expirience }}:</span>&ensp;5+
                                                     years
                                                 </h5>
                                             </div>
                                             <div class="col-md-6">
-                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.City }}: </span>&ensp;CityName
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                <h5 class="card-title"><span class="badge  badge-dark">{{ i18n.Phone }}:</span>&ensp;+123123123
                                                 </h5>
                                                 <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
                                                 </h5>
@@ -128,19 +128,19 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4">
-                                                <h5 class="card-title"><span class="badge badge-dark">Name: </span>&ensp;DoctorName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Name }}: </span>&ensp;DoctorName
                                                 </h5>
                                                 <h5 class="card-title"><span
-                                                            class="badge badge-dark">Specialization:</span>&ensp;Doctor
+                                                            class="badge badge-dark">{{ i18n.Specialization }}:</span>&ensp;Doctor
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge badge-dark">Expirience:</span>&ensp;5+
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.Expirience }}:</span>&ensp;5+
                                                     years
                                                 </h5>
                                             </div>
                                             <div class="col-md-6">
-                                                <h5 class="card-title"><span class="badge badge-dark">City: </span>&ensp;CityName
+                                                <h5 class="card-title"><span class="badge badge-dark">{{ i18n.City }}: </span>&ensp;CityName
                                                 </h5>
-                                                <h5 class="card-title"><span class="badge  badge-dark">Phone:</span>&ensp;+123123123
+                                                <h5 class="card-title"><span class="badge  badge-dark">{{ i18n.Phone }}:</span>&ensp;+123123123
                                                 </h5>
                                                 <h5 class="card-title"><span class="badge badge-dark">Email:</span>&ensp;asdasdas@xcasd.com
                                                 </h5>
@@ -150,8 +150,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </table>
                     <div id="error" class="box-center" style="display: none">
                         {{ i18n.nothingFound }}
