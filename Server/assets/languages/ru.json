@@ -163,6 +163,9 @@
   "Register_new": "Зарегистрировать нового",
   "Expirience": "Опыт",
   "Doctor_search": "Поиск докторов",
-  "Patients_search": "Поиск пациентов"
+  "Patients_search": "Поиск пациентов",
+  "NName": "Имя",
+  "Surname": "Фимилия",
+  "Patronymic": "Отчество"
 
 }

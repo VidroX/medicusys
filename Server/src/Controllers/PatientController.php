@@ -56,7 +56,8 @@ class PatientController {
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
             "urlPrefix"=>$urlPrefix,
-            "user" => $user
+            "user" => $user,
+            "diagnoses" => $user->getPatientDiagnoses()
         ]);
     }
     public function personal(Request $request, Response $response, $args = []){
