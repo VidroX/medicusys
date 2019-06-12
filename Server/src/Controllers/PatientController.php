@@ -55,7 +55,41 @@ class PatientController {
             "page"=>"patient_index",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
+        ]);
+    }
+    public function personal(Request $request, Response $response, $args = []){
+        $user = new User();
+        $status = $user->isUserLoggedIn();
+        $urlPrefix = empty($this->i18n->getLanguageCodeForUrl()) ? "" : "/".$this->i18n->getLanguageCodeForUrl();
+
+        if(!$status) {
+            return $response->withRedirect($urlPrefix."/login");
+        }else{
+            $user = $user->getCurrentUser();
+            switch ($user->getUserLevel()) {
+                case User::USER_RECORDER:
+                    return $response->withRedirect($urlPrefix."/recorder");
+                    break;
+                case User::USER_DOCTOR:
+                    return $response->withRedirect($urlPrefix."/doctor");
+                    break;
+                case User::USER_UNSPECIFIED:
+                    return $response->withRedirect($urlPrefix."/");
+                    break;
+            }
+        }
+
+        $csrf = json_decode($response->getHeader('X-CSRF-Token')[0], true);
+        return $this->view->render($response, 'patient/personal.html.twig', [
+            "languageCode"=>$this->i18n->getLanguageCode(),
+            "appName"=>$this->config['main']['appName'],
+            "page"=>"patient_profile",
+            "i18n"=>$this->i18n->getTranslations(),
+            "csrf"=>$csrf,
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
         ]);
     }
 

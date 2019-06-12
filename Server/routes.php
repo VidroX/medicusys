@@ -44,6 +44,7 @@ $routes = $app->group('/{lang:[a-z]{2}}', function () use ($app) {
     //PatientController
     $app->group('/patient', function () use ($app) {
         $app->get("[/]", 'App\Controllers\PatientController:index');
+        $app->get("/personal[/]", 'App\Controllers\PatientController:personal');
     });
 
     //RecorderController

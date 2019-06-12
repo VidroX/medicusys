@@ -143,6 +143,17 @@
   "title": "Title",
   "messageSent": "Message sent successfully",
 
-  "patientCabinet" : "Patient Cabinet"
-
+  "date_detecton": "Date of detection",
+  "your_medical_info": "Your medical info",
+  "your_threatment": "Your treatment",
+  "medicals": "Medication",
+  "doze": "Number of dozes",
+  "doze_at_day": "Dozes by day",
+  "termin_in_days": "Duration of treatment",
+  "patiensCabinet": "Patient cabinet",
+  "patientCabinet" : "Patient Cabinet",
+  "back_to_main": "Back to main",
+  "Profile_Info": "Profile Info",
+  "Logout": "Logout",
+  "Date_of_birth": "Date of birth"
 }

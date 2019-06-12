@@ -55,7 +55,8 @@ class RecorderController {
             "page"=>"recorder_index",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
         ]);
     }
 
@@ -88,7 +89,8 @@ class RecorderController {
             "page"=>"recorder_doctors",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
         ]);
     }
 
@@ -121,7 +123,8 @@ class RecorderController {
             "page"=>"recorder_patients",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
         ]);
     }
 
@@ -154,7 +157,8 @@ class RecorderController {
             "page"=>"recorder_about",
             "i18n"=>$this->i18n->getTranslations(),
             "csrf"=>$csrf,
-            "urlPrefix"=>$urlPrefix
+            "urlPrefix"=>$urlPrefix,
+            "user" => $user
         ]);
     }
 

@@ -21,12 +21,22 @@
             <i class="fas fa-bars"></i>
         </button>
         <a class="navbar-brand" href="javascript:void(0);">{{ appName }}</a>
+        <a class="navbar-brand" href="/">&bull; {{ i18n.back_to_main }} </a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <div class="mr-auto"></div>
             <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ urlPrefix }}/patient">{{ i18n.home }} <span class="sr-only">(current)</span></a>
-                </li>
+                <div class="dropdown">
+                    <img src="../../champis/images/no-photo.webp" class="img-thumbnail img-profile-rounded" width="45" >
+                    <a class="btn btn-medicus-shaded dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.lastName }} {{ user.firstName }}
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <h6 class="dropdown-header">{{ user.email }}</h6>
+                        <a class="dropdown-item" href="/patient/personal">{{ i18n.Profile_Info }}</a>
+                        <a class="dropdown-item" href="/logout">{{ i18n.Logout }}</a>
+                    </div>
+                </div>
             </ul>
         </div>
     </div>

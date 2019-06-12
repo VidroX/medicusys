@@ -141,5 +141,21 @@
   "sendMessage": "Отправить сообщение",
   "send": "Отправить",
   "title": "Название",
-  "messageSent": "Сообщение успешно отправлено"
+  "messageSent": "Сообщение успешно отправлено",
+
+  "date_detecton": "Дата определения",
+  "threatment": "Лечение",
+  "your_medical_info": "Ваша медицинская информация",
+  "your_threatment": "Ваши лечебные процедуры",
+  "medicals": "Лекарства",
+  "doze": "Кол-во в дозах",
+  "doze_at_day": "Доз в день",
+  "termin_in_days": "Продожительность лечения, в днях",
+  "patiensCabinet": "Кабинет пациента",
+  "patientCabinet" : "Patient Cabinet",
+  "back_to_main": "На главную",
+  "Profile_Info": "Информация о профиле",
+  "Logout": "Выйти",
+  "Date_of_birth": "Дата рождения"
+
 }

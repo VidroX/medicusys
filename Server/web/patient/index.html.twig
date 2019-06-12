@@ -3,9 +3,68 @@
 {% block head %}{% endblock %}
 {% block body %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                Patient
+        <div class="col-md-12 admin-container" >
+            <div class="admin-top flex-container flex-column">
+                <h5>{{ i18n.patiensCabinet }}</h5>
+            </div>
+            <div class="table-responsive admin-table">
+                <table id="patientsTable" class="table table-striped table-hover admin-table">
+                    <thead>
+                    <tr>
+                        <th id="colLFP" scope="col">{{ i18n.diagnosis }}</th>
+                        <th id="colLastVisit" scope="col">{{ i18n.date_detecton }}</th>
+                        <th id="colUpcomingVisit" scope="col">{{ i18n.symptoms }}</th>
+                        <th id="colGenerateReport" scope="col">{{ i18n.threatment }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="error" class="box-center" style="display: none">
+                    {{ i18n.nothingFound }}
+                </div>
+                <div id="loadingSpinner" class="box-center spinner sp-medicus" style="display: none">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+            <div class="admin-bottom flex-container flex-items-center">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="prevPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
+                    <button id="nextPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 admin-container" style="max-height: 600px">
+            <div class="admin-top flex-container flex-column">
+                <h5>{{ i18n.your_threatment }}</h5>
+            </div>
+            <div class="table-responsive admin-table">
+                <table id="patientsTable" class="table table-striped table-hover admin-table">
+                    <thead>
+                    <tr>
+                        <th id="colLFP" scope="col">{{ i18n.medicals }}</th>
+                        <th id="colLastVisit" scope="col">{{ i18n.doze }}</th>
+                        <th id="colUpcomingVisit" scope="col">{{ i18n.doze_at_day }}</th>
+                        <th id="colGenerateReport" scope="col">{{ i18n.termin_in_days }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="error" class="box-center" style="display: none">
+                    {{ i18n.nothingFound }}
+                </div>
+                <div id="loadingSpinner" class="box-center spinner sp-medicus" style="display: none">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+            <div class="admin-bottom flex-container flex-items-center">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="prevPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.prevPage }}"><i class="fas fa-chevron-left"></i></button>
+                    <button id="nextPage" type="button" class="btn btn-medicus btn-medicus-control" title="{{ i18n.nextPage }}"><i class="fas fa-chevron-right"></i></button>
+                </div>
             </div>
         </div>
     </div>
