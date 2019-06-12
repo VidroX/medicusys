@@ -155,5 +155,11 @@
   "back_to_main": "На головну",
   "Profile_Info": "Інформація про профіль",
   "Logout": "Вийти",
-  "Date_of_birth": "Дата народження"
+  "Date_of_birth": "Дата народження",
+
+  "Doctors": "Доктора",
+  "Patients": "Паціенты",
+  "Register_new": "Зарегиструвати нового",
+  "Expirience": "Досвід",
+  "Doctor_search": "Пошук докторів"
 }

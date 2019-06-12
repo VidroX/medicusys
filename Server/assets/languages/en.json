@@ -155,5 +155,11 @@
   "back_to_main": "Back to main",
   "Profile_Info": "Profile Info",
   "Logout": "Logout",
-  "Date_of_birth": "Date of birth"
+  "Date_of_birth": "Date of birth",
+
+  "Doctors": "Doctors",
+  "Patients": "Patients",
+  "Register_new": "Register new",
+  "Expirience": "Expirience",
+  "Doctor_search": "Doctor search"
 }
