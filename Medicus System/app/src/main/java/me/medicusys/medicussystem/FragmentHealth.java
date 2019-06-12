@@ -1,7 +1,6 @@
 package me.medicusys.medicussystem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,14 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Date;
 
 public class FragmentHealth extends Fragment implements JSONReceiver {
     View fragmentView;
@@ -67,24 +61,7 @@ public class FragmentHealth extends Fragment implements JSONReceiver {
         try {
             if (responseData != null) {
                 if (StatusCodeManager.isGoodResponse(responseData, getActivity())) {
-                    JSONArray diagnosis = responseData.getJSONArray("data");
-                    DataUserMedical.diagnosisRecords.clear();
-                    for (int i = 0; i < diagnosis.length(); i++) {
-                        JSONObject diagnose = diagnosis.getJSONObject(i);
-
-                        JSONArray symptoms = diagnose.getJSONArray("symptoms");
-                        JSONObject diagnoseData = diagnose.getJSONObject("data");
-                        ArrayList<String> symptomsSet = new ArrayList<>();
-                        for (int j = 0; j < symptoms.length(); j++) {
-                            symptomsSet.add(symptoms.getString(j));
-                        }
-
-                        long diagnoseId = diagnoseData.getLong("id");
-                        String diagnoseName = diagnoseData.getString("name");
-                        Date detectionDate = DataSystem.parseDate(diagnoseData.getString("detection_date"));
-                        DiagnosisRecord diagnosisRecord = new DiagnosisRecord(diagnoseId, diagnoseName, detectionDate, symptomsSet);
-                        DataUserMedical.diagnosisRecords.add(diagnosisRecord);
-                    }
+                    DataUserMedical.LoadDiagnoses(responseData);
                     initRecycler();
                 }
             } else {
@@ -113,9 +90,10 @@ public class FragmentHealth extends Fragment implements JSONReceiver {
     }
 
     private void initRecycler() {
-        RecyclerView recyclerView = fragmentView.findViewById(R.id.recycler);
+        RecyclerView recyclerView = fragmentView.findViewById(R.id.recyclerView);
         RecyclerAdapterDiagnoses recyclerAdapter = new RecyclerAdapterDiagnoses(fragmentView.getContext());
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(fragmentView.getContext()));
+        System.out.println(recyclerView.getAdapter());
     }
 }

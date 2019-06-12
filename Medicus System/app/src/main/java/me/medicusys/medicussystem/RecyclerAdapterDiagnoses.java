@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 public class RecyclerAdapterDiagnoses extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
 
@@ -29,7 +31,8 @@ public class RecyclerAdapterDiagnoses extends RecyclerView.Adapter<RecyclerView.
         final RecyclerAdapterDiagnoses.ViewHolder holder = (RecyclerAdapterDiagnoses.ViewHolder)viewHolder;
         final DiagnosisRecord record = DataUserMedical.diagnosisRecords.get(position);
         holder.diagnoseNameText.setText(record.name);
-        holder.diagnosePeriodText.setText(DataSystem.dateToString(record.detectionDate));
+        long time = (new Date().getTime() - record.detectionDate.getTime()) / 86400000L;
+        holder.diagnosePeriodText.setText("З " + DataSystem.dateToString(record.detectionDate) + " (" + (time == 0 ? "сьогодні)" : time + (time > 4 ? " днів)" : (time == 1 ? " день)" : " дні)"))));
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +57,7 @@ public class RecyclerAdapterDiagnoses extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
             diagnoseNameText = itemView.findViewById(R.id.diagnoseNameText);
             diagnosePeriodText = itemView.findViewById(R.id.diagnosePeriodText);
-            parentLayout = itemView.findViewById(R.id.diagnose_parent_layout);
+            parentLayout = itemView.findViewById(R.id.alarmSetTimeLayout);
         }
     }
 }

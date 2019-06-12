@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,6 +27,7 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
+        DataUserMedical.activityDiagnose = this;
 
         toolbar = findViewById(R.id.toolbar);
         detectionDateText = findViewById(R.id.detectionDateText);
@@ -83,6 +86,7 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
                         String signa = recipe.getString("signa");
                         recipeRecords.add(new RecipeRecord(id, rp, dtdn, signa));
                     }
+                    DataUserMedical.diagnoseRecipesRecords = recipeRecords;
                     viewRecipesRecycler();
                 }
             } catch (JSONException e) {
@@ -94,6 +98,15 @@ public class ActivityDiagnose extends AppCompatActivity implements JSONReceiver 
     @Override
     public void printError(String errorMessage) {
 
+    }
+
+    public void cancelAlarmSet(View view) {
+        ((View)view.getParent().getParent()).setVisibility(View.INVISIBLE);
+    }
+
+    public void setAlarmSet(View view) {
+        ((View)view.getParent().getParent()).setVisibility(View.INVISIBLE);
+        Toast.makeText(this, "Нагадування успішно додано", Toast.LENGTH_LONG);
     }
 
     @Override

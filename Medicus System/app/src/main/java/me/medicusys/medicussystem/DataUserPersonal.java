@@ -94,7 +94,7 @@ public class DataUserPersonal {
     public static void logOut(Activity activity) {
         loginActivity.getSharedPreferences("Authorization", Context.MODE_PRIVATE)
                 .edit()
-                .putLong("id", -1)
+                .clear()
                 .commit();
         Intent intent = new Intent(activity, ActivityLogin.class);
         activity.startActivity(intent);

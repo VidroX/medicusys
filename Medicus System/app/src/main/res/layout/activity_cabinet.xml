@@ -47,5 +47,4 @@
         app:headerLayout="@layout/nav_header_cabinet"
         app:menu="@menu/activity_cabinet_drawer" />
 
-
 </android.support.v4.widget.DrawerLayout>
