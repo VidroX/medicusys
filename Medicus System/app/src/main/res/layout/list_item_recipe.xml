@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/parentLayout">
+
+    <TextView
+        android:id="@+id/rpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="rp:" />
+
+    <TextView
+        android:id="@+id/rpView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/rpText"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="8dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/dtdnText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rpText"
+        android:layout_marginTop="5dp"
+        android:text="dtdn:" />
+
+    <TextView
+        android:id="@+id/dtdnView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/dtdnText"
+        android:layout_below="@+id/rpView"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/signaText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dtdnText"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:text="signa:" />
+
+    <TextView
+        android:id="@+id/signaView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/signaText"
+        android:layout_below="@+id/dtdnView"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="3dp"
+        android:text="TextView" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/signaText"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>

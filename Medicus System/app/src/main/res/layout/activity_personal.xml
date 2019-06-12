@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityPersonal">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/app_name" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:id="@+id/personalFirstNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="8dp"
+            android:text="Ім'я:" />
+
+        <TextView
+            android:id="@+id/personalFirstNameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/personalFirstNameText"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="8dp"
+            android:text="Ім'я:" />
+
+        <TextView
+            android:id="@+id/personalPatronymicText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalFirstNameText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="По-батькові:" />
+
+        <TextView
+            android:id="@+id/personalPatronymicView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalFirstNameText"
+            android:layout_toRightOf="@+id/personalPatronymicText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="По-батькові:" />
+
+        <TextView
+            android:id="@+id/personalLastNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalPatronymicText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Прізвище:" />
+
+        <TextView
+            android:id="@+id/personalLastNameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalPatronymicText"
+            android:layout_toRightOf="@+id/personalLastNameText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Прізвище:" />
+
+        <TextView
+            android:id="@+id/personalBirthDateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalLastNameText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Дата народження:" />
+
+        <TextView
+            android:id="@+id/personalBirthDateView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalLastNameText"
+            android:layout_toRightOf="@+id/personalBirthDateText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Дата народження:" />
+
+        <TextView
+            android:id="@+id/personalGenderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalBirthDateText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Стать:" />
+
+        <TextView
+            android:id="@+id/personalGenderView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalBirthDateText"
+            android:layout_toRightOf="@+id/personalGenderText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Стать:" />
+
+        <TextView
+            android:id="@+id/personalPhoneText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalGenderText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Телефон:" />
+
+        <TextView
+            android:id="@+id/personalPhoneView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalGenderText"
+            android:layout_toRightOf="@+id/personalPhoneText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Телефон:" />
+
+        <TextView
+            android:id="@+id/personalEmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalPhoneText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Email:" />
+
+        <TextView
+            android:id="@+id/personalEmailView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalPhoneView"
+            android:layout_toRightOf="@+id/personalEmailText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Email:" />
+
+        <TextView
+            android:id="@+id/personaHomeAddressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalEmailText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Домашня адреса:" />
+
+        <TextView
+            android:id="@+id/personaHomeAddressView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/personalEmailView"
+            android:layout_toRightOf="@+id/personaHomeAddressText"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Домашня адреса:" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
