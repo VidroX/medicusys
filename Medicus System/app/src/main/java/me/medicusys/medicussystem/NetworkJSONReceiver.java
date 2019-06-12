@@ -1,8 +1,6 @@
 package me.medicusys.medicussystem;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,16 +16,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-class Network extends AsyncTask<String, Void, String> {
-    TextView textView;
-    String encoding;
+class NetworkJSONReceiver extends AsyncTask<String, Void, String> {
     JSONObject response;
+    JSONReceiver jsonReceiver;
 
-    Network(TextView textView, String encoding)
+    NetworkJSONReceiver(JSONReceiver jsonReceiver)
     {
         super();
-        this.textView = textView;
-        this.encoding = encoding;
+        this.jsonReceiver = jsonReceiver;
     }
 
     @Override
@@ -63,13 +59,14 @@ class Network extends AsyncTask<String, Void, String> {
             response = new JSONObject(stringBuilder.toString());
 
         } catch (MalformedURLException e) {
-            System.out.println("Bad URL: " + urlName);
+            jsonReceiver.printError("Bad URL: " + urlName);
         } catch (UnsupportedEncodingException e) {
-            System.out.println("Unsupported encoding: " + encoding);
+            jsonReceiver.printError("Unsupported encoding: UTF-8");
         } catch (IOException e) {
-            System.out.println("Bad internet connection: " + e.getMessage());
+            jsonReceiver.printError("Bad internet connection: " + e.getMessage());
             e.printStackTrace();
         } catch (JSONException e) {
+            jsonReceiver.printError("Bad response.");
             e.printStackTrace();
         } finally {
             if (urlConnection != null) {
@@ -81,18 +78,7 @@ class Network extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (response != null) {
-            textView.setText(response.toString());
-            System.out.println("Response was \"" + response + "\"");
-            try {
-                if ("18".equals(response.getString("status"))) {
-                    JSONObject userData = response.getJSONObject("data");
-                    SystemData.logIn(userData);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        jsonReceiver.setResponse(response);
         super.onPostExecute(result);
     }
 }

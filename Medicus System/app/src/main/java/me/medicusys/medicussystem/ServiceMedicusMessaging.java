@@ -3,10 +3,10 @@ package me.medicusys.medicussystem;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class MedicusMessagingService extends FirebaseMessagingService {
+public class ServiceMedicusMessaging extends FirebaseMessagingService {
     @Override
     public void onNewToken(String token) {
-        SystemData.fcm_reg_token = token;
+        DataSystem.fcm_reg_token = token;
     }
 
     @Override
